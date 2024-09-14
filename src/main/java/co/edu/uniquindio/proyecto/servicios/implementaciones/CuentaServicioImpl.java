@@ -26,7 +26,7 @@ import java.util.Optional;
 public class CuentaServicioImpl implements CuentaServicio {
 
     private final CuentaRepo cuentaRepo;
-    private final FutureOrPresentValidatorForLocalDateTime futureOrPresentValidatorForLocalDateTime;
+    //private final FutureOrPresentValidatorForLocalDateTime futureOrPresentValidatorForLocalDateTime;
 
 
     @Override
