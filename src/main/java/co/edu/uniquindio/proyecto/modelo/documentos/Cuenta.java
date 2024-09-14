@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Cuenta {
 
+
     @Id
     @EqualsAndHashCode.Exclude
     private String id;
