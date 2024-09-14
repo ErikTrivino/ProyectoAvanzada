@@ -10,6 +10,7 @@ import co.edu.uniquindio.proyecto.repositorios.CuentaRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CuentaServicio;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.internal.constraintvalidators.bv.time.futureorpresent.FutureOrPresentValidatorForLocalDateTime;
@@ -26,7 +27,7 @@ import java.util.Optional;
 public class CuentaServicioImpl implements CuentaServicio {
 
     private final CuentaRepo cuentaRepo;
-    private final FutureOrPresentValidatorForLocalDateTime futureOrPresentValidatorForLocalDateTime;
+    //private final FutureOrPresentValidatorForLocalDateTime futureOrPresentValidatorForLocalDateTime;
 
 
     @Override
