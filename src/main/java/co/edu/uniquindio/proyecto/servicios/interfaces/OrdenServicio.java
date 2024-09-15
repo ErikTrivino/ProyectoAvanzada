@@ -1,4 +1,25 @@
 package co.edu.uniquindio.proyecto.servicios.interfaces;
 
+import co.edu.uniquindio.proyecto.modelo.documentos.Orden;
+import co.edu.uniquindio.proyecto.modelo.dto.orden.CrearOrdenDTO;
+import co.edu.uniquindio.proyecto.modelo.dto.orden.EditarOrdenDTO;
+import co.edu.uniquindio.proyecto.modelo.dto.orden.InformacionOrdenDTO;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 public interface OrdenServicio {
+    String crearOrden(CrearOrdenDTO crearOrdenDTO) throws Exception;
+    String actualizarOrden(EditarOrdenDTO editarOrdenDTO) throws Exception;
+    String eliminarOrden(String idOrden) throws Exception;
+
+    List<Orden> buscarOrdenesPorCliente(String idCliente) throws Exception;
+
+    List<Orden> buscarOrdenesPorRangoDeFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) throws Exception;
+
+    InformacionOrdenDTO obtenerInformacionOrden(String idOrden) throws Exception;
+    List<InformacionOrdenDTO> listarTodasLasOrdenes() throws Exception;
+
+    List<InformacionOrdenDTO> listarOrdenesPorCliente(String idCliente) throws Exception;
+
 }
