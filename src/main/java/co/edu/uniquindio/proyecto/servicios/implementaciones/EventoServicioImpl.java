@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -51,33 +53,101 @@ public class EventoServicioImpl implements EventoServicio {
     @Override
     public String editarEvento(EditarEventoDTO editarEventoDTO) throws Exception {
 
-        
-        return "Los cambios se han guardado correctamente.";
+        Evento eventoModificado = obtenerEvento(editarEventoDTO.id());
+
+        if(editarEventoDTO.fechaEvento().isBefore(LocalDateTime.now())){
+            throw new Exception("La nueva fecha ingresada para el evento debe ser mayor a la fecha actual");
+        }
+
+        eventoModificado.setImagenPortada(editarEventoDTO.imagenPortada());
+        eventoModificado.setEstado(editarEventoDTO.estado());
+        eventoModificado.setDescripcion(editarEventoDTO.descripcion());
+        eventoModificado.setImagenLocalidades(editarEventoDTO.imagenLocalidades());
+        eventoModificado.setFechaEvento(editarEventoDTO.fechaEvento());
+
+        eventoRepo.save(eventoModificado);
+        return eventoModificado.getId();
     }
 
+    //Preguntar si se deben hacer más validaciones para eliminar un evento
+    //por ejemplo, si ya hay ordenes asociadas al evento que se va a eliminar
     @Override
     public String eliminarEvento(String id) throws Exception {
-        return "";
+
+        Evento evento = obtenerEvento(id);
+
+        evento.setEstado(EstadoEvento.ELIMINADO);
+
+        eventoRepo.save(evento);
+
+        return "El evento ha sido eliminado.";
     }
 
     @Override
     public InformacionEventoDTO obtenerInformacionEvento(String id) throws Exception {
-        return null;
+
+        Evento evento = obtenerEvento(id);
+
+        return new InformacionEventoDTO(
+                id,
+                evento.getEstado(),
+                evento.getNombre(),
+                evento.getDescripcion(),
+                evento.getTipo(),
+                evento.getFechaEvento(),
+                evento.getCiudad(),
+                evento.getImagenPortada(),
+                evento.getImagenLocalidades(),
+                evento.getLocalidades()
+        );
     }
 
     @Override
     public List<ItemEventoDTO> listarEventos() throws Exception {
-        return List.of();
+
+        List<Evento> eventos = eventoRepo.findAll();
+
+        return eventos.stream()
+                .map(evento -> new ItemEventoDTO(
+
+                        evento.getImagenPortada(),
+                        evento.getNombre(),
+                        evento.getFechaEvento(),
+                        evento.getCiudad()
+                        ))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<ItemEventoDTO> filtrarEventos(FiltroEventoDTO filtroEventoDTO) throws Exception {
-        return List.of();
+
+        List<Evento> eventos = eventoRepo.filtrarEventos(filtroEventoDTO.nombre(), filtroEventoDTO.tipo(), filtroEventoDTO.ciudad());
+
+        return eventos.stream()
+                .map(evento -> new ItemEventoDTO(
+                        evento.getImagenPortada(),
+                        evento.getNombre(),
+                        evento.getFechaEvento(),
+                        evento.getCiudad()))
+                .collect(Collectors.toList());
     }
 
+    //Método para validar si el evento ya existe y no se duplique un mismo evento cuando se esta creando
     private boolean existeEvento(LocalDateTime fechaEvento, String nombre, String ciudad) {
 
         return eventoRepo.buscarEvento(nombre, fechaEvento, ciudad).isPresent();
+
+    }
+
+    private Evento obtenerEvento(String id) throws Exception {
+
+        Optional<Evento> eventoOptional = eventoRepo.findById(id);
+
+        if(eventoOptional.isEmpty()){
+            throw new Exception("No existe un evento registrado con el id " + id + ".");
+        }
+
+        return eventoOptional.get();
 
     }
 }
