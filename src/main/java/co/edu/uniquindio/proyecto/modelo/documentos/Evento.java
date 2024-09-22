@@ -30,12 +30,4 @@ public class Evento {
     private String ciudad;
     private List<Localidad> localidades;
 
-    public Localidad obtenerLocalidad(String nombreLocalidad) throws Exception {
-        // Busca la localidad dentro de la lista de localidades
-        return localidades.stream()
-                .filter(localidad -> localidad.getNombre().equalsIgnoreCase(nombreLocalidad))
-                .findFirst()
-                .orElseThrow(() -> new Exception("No se encontró la localidad con el nombre: " + nombreLocalidad));
-    }
-
 }
