@@ -1,5 +1,6 @@
 package co.edu.uniquindio.proyecto.servicios.interfaces;
 
+import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.TokenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.*;
 
 public interface CuentaServicio {
@@ -16,7 +17,7 @@ public interface CuentaServicio {
 
     String cambiarPassword(CambiarPasswordDTO cambiarPasswordDTO ) throws Exception;
 
-    String iniciarSesion(LoginDTO loginDTO) throws Exception;
+    TokenDTO iniciarSesion(LoginDTO loginDTO) throws Exception;
 
     String activarCuenta(LoginDTO loginDTO) throws Exception;
 }

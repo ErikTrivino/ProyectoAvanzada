@@ -3,6 +3,7 @@ package co.edu.uniquindio.proyecto.servicios.implementaciones;
 import co.edu.uniquindio.proyecto.modelo.documentos.Evento;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.*;
 import co.edu.uniquindio.proyecto.modelo.enums.EstadoEvento;
+import co.edu.uniquindio.proyecto.modelo.vo.Localidad;
 import co.edu.uniquindio.proyecto.repositorios.EventoRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EventoServicio;
 import lombok.RequiredArgsConstructor;
@@ -132,14 +133,8 @@ public class EventoServicioImpl implements EventoServicio {
                 .collect(Collectors.toList());
     }
 
-    //Método para validar si el evento ya existe y no se duplique un mismo evento cuando se esta creando
-    private boolean existeEvento(LocalDateTime fechaEvento, String nombre, String ciudad) {
-
-        return eventoRepo.buscarEvento(nombre, fechaEvento, ciudad).isPresent();
-
-    }
-
-    private Evento obtenerEvento(String id) throws Exception {
+    @Override
+    public Evento obtenerEvento(String id) throws Exception {
 
         Optional<Evento> eventoOptional = eventoRepo.findById(id);
 
@@ -150,4 +145,13 @@ public class EventoServicioImpl implements EventoServicio {
         return eventoOptional.get();
 
     }
+
+    //Método para validar si el evento ya existe y no se duplique un mismo evento cuando se esta creando
+    private boolean existeEvento(LocalDateTime fechaEvento, String nombre, String ciudad) {
+
+        return eventoRepo.buscarEvento(nombre, fechaEvento, ciudad).isPresent();
+
+    }
+
+
 }
