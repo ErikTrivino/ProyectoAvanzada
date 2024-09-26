@@ -19,5 +19,5 @@ public interface CuentaServicio {
 
     TokenDTO iniciarSesion(LoginDTO loginDTO) throws Exception;
 
-    String activarCuenta(LoginDTO loginDTO) throws Exception;
+    String activarCuenta(ActivarCuentaDTO activarCuentaDTO) throws Exception;
 }

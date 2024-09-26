@@ -167,7 +167,7 @@ public class CuentaServicioImpl implements CuentaServicio {
 
 
     @Override
-    public String activarCuenta(LoginDTO loginDTO) throws Exception {
+    public String activarCuenta(ActivarCuentaDTO activarCuentaDTO) throws Exception {
         return "";
     }
 
