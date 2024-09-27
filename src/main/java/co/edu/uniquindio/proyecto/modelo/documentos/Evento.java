@@ -30,16 +30,12 @@ public class Evento {
     private String ciudad;
     private List<Localidad> localidades;
 
-    public Evento(String imagenPortada, String id, EstadoEvento estado, String nombre, String descripcion, String imagenLocalidades, TipoEvento tipo, LocalDateTime fechaEvento, String ciudad, List<Localidad> localidades) {
-        this.imagenPortada = imagenPortada;
-        this.id = id;
-        this.estado = estado;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.imagenLocalidades = imagenLocalidades;
-        this.tipo = tipo;
-        this.fechaEvento = fechaEvento;
-        this.ciudad = ciudad;
-        this.localidades = localidades;
+    public Localidad obtenerLocalidad(String nombreLocalidad) throws Exception {
+        // Busca la localidad dentro de la lista de localidades
+        return localidades.stream()
+                .filter(localidad -> localidad.getNombre().equalsIgnoreCase(nombreLocalidad))
+                .findFirst()
+                .orElseThrow(() -> new Exception("No se encontró la localidad con el nombre: " + nombreLocalidad));
     }
+
 }

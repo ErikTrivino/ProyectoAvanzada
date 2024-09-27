@@ -20,4 +20,7 @@ public interface CuentaRepo extends MongoRepository<Cuenta, String> {
 
     @Query("{email: correo, password: password }")
     Optional<Cuenta> validarDatosAutenticacion(String correo, String password);
+
+    @Query("{email: email}")
+    Optional<Cuenta> buscarPorEmail(String email);
 }
