@@ -4,8 +4,10 @@ import org.bson.types.ObjectId;
 
 public class DetalleCarrito {
 
+    private ObjectId idEvento;
     private int cantidad;
     private String nombreLocalidad;
-    private ObjectId idEvento;
+    private float precio;
 
 }
+
