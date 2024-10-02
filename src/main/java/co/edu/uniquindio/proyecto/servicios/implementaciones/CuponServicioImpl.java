@@ -24,7 +24,6 @@ public class CuponServicioImpl implements CuponServicio {
 
     private final CuponRepo cuponRepo;
 
-
     @Override
     public List<Cupon> listarCuponesPorTipo(TipoCupon tipo) throws Exception {
         return cuponRepo.buscarCuponesPorTipo(tipo);
@@ -71,7 +70,7 @@ public class CuponServicioImpl implements CuponServicio {
 
     @Override
     @Transactional(readOnly = true)
-    public InformacionCuponDTO obtenerInformacionCuenta(String id) throws Exception {
+    public InformacionCuponDTO obtenerInformacionCupon(String id) throws Exception {
         Cupon cupon = obtenerCupon(id);
 
         return new InformacionCuponDTO(
