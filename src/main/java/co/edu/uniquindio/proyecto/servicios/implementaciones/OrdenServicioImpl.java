@@ -24,11 +24,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +38,9 @@ public class OrdenServicioImpl  implements OrdenServicio {
     private final OrdenRepo ordenRepo;
     private final EventoServicio eventoServicio;
 
+    public void recibirNotificacionMercadoPago(){
+
+    }
     @Override
     public String crearOrden(CrearOrdenDTO crearOrdenDTO) throws Exception {
         Orden nuevaOrden = new Orden();
@@ -75,8 +77,24 @@ public class OrdenServicioImpl  implements OrdenServicio {
     }
 
     @Override
-    public List<Orden> buscarOrdenesPorRangoDeFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) throws Exception {
-        return ordenRepo.buscarOrdenesPorRangoDeFechas(fechaInicio, fechaFin);
+    public List<Orden> buscarOrdenesPorRangoDeFechas(String fechaInicio, String fechaFin) throws Exception {
+
+        SimpleDateFormat parser=new SimpleDateFormat("yyyy-MM-dd");
+        Date dateOne=new Date();
+        Date dateTwo=new Date();
+        try {
+            dateOne=parser.parse(fechaInicio);
+            dateTwo=parser.parse(fechaFin);
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(dateOne.before(dateTwo)){
+            return ordenRepo.buscarOrdenesPorRangoDeFechas(dateOne, dateTwo);
+        }else{
+            List<Orden> ordenList = new ArrayList<>();
+            return ordenList;
+        }
+
     }
 
     @Override
@@ -106,18 +124,18 @@ public class OrdenServicioImpl  implements OrdenServicio {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<InformacionOrdenDTO> listarOrdenesPorCliente(String idCliente) throws Exception {
-        List<Orden> ordenes = ordenRepo.buscarOrdenesPorCliente(idCliente);
-        return ordenes.stream()
-                .map(orden -> new InformacionOrdenDTO(
-                        orden.getId(),
-                        orden.getIdCliente(),
-                        orden.getFecha(),
-                        orden.getTotal(),
-                        orden.getItems()))
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<InformacionOrdenDTO> listarOrdenesPorCliente(String idCliente) throws Exception {
+//        List<Orden> ordenes = ordenRepo.buscarOrdenesPorCliente(idCliente);
+//        return ordenes.stream()
+//                .map(orden -> new InformacionOrdenDTO(
+//                        orden.getId(),
+//                        orden.getIdCliente(),
+//                        orden.getFecha(),
+//                        orden.getTotal(),
+//                        orden.getItems()))
+//                .collect(Collectors.toList());
+//    }
 
     @Override
     public Preference realizarPago(String idOrden) throws Exception {
