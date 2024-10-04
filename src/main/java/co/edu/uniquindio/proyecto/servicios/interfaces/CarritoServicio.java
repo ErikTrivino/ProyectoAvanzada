@@ -1,5 +1,6 @@
 package co.edu.uniquindio.proyecto.servicios.interfaces;
 
+import co.edu.uniquindio.proyecto.modelo.documentos.Carrito;
 import co.edu.uniquindio.proyecto.modelo.vo.DetalleCarrito;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface CarritoServicio {
     void agregarItem(String idCarrito, DetalleCarrito item) throws Exception;
 
     float calcularTotal(String idCarrito) throws Exception;
+
+    List<Carrito> findAll();
 }
