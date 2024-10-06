@@ -2,9 +2,7 @@ package co.edu.uniquindio.proyecto.servicios.interfaces;
 
 import co.edu.uniquindio.proyecto.modelo.documentos.Cupon;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.InformacionCuentaDTO;
-import co.edu.uniquindio.proyecto.modelo.dto.cupon.CrearCuponDTO;
-import co.edu.uniquindio.proyecto.modelo.dto.cupon.EditarCuponDTO;
-import co.edu.uniquindio.proyecto.modelo.dto.cupon.InformacionCuponDTO;
+import co.edu.uniquindio.proyecto.modelo.dto.cupon.*;
 import co.edu.uniquindio.proyecto.modelo.enums.TipoCupon;
 import org.springframework.transaction.annotation.Transactional;
 

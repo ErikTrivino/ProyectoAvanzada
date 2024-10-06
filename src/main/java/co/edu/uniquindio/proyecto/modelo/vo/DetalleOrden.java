@@ -13,7 +13,7 @@ import org.bson.types.ObjectId;
 public class DetalleOrden {
 
     private String id;
-    private ObjectId idEvento;
+    private String idEvento;
     private float precio;
     private String nombreLocalidad;
     private int cantidad;

@@ -12,26 +12,26 @@ import java.io.IOException;
 public class FirebaseConfig {
 
 
-    @Bean
-    public FirebaseApp intializeFirebase() throws IOException {
-        FileInputStream serviceAccount = new FileInputStream(
-                "src/main/resources/unieventos-fd028-firebase-adminsdk-abiff-edb3c2e0da.json"
-        );
-
-
-        FirebaseOptions options = FirebaseOptions.builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .setStorageBucket("unieventos-fd028.appspot.com")
-                .build();
-
-
-        if(FirebaseApp.getApps().isEmpty()) {
-            return FirebaseApp.initializeApp(options);
-        }
-
-
-        return null;
-    }
+//    @Bean
+//    public FirebaseApp intializeFirebase() throws IOException {
+//        FileInputStream serviceAccount = new FileInputStream(
+//                "src/main/resources/unieventos-fd028-firebase-adminsdk-abiff-edb3c2e0da.json"
+//        );
+//
+//
+//        FirebaseOptions options = FirebaseOptions.builder()
+//                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+//                .setStorageBucket("unieventos-fd028.appspot.com")
+//                .build();
+//
+//
+//        if(FirebaseApp.getApps().isEmpty()) {
+//            return FirebaseApp.initializeApp(options);
+//        }
+//
+//
+//        return null;
+//    }
 
 
 }

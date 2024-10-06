@@ -14,6 +14,7 @@ public record CrearOrdenDTO(
         @NotBlank @Length(max = 50) String idCliente,
         @NotBlank @Length(max = 50) String idEvento,
         @NotNull LocalDateTime fechaCreacion,
+        @NotBlank String  codigoPasarela,
         @Positive float total,
 
         @NotNull List<DetalleOrden> items

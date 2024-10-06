@@ -46,6 +46,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
         Orden nuevaOrden = new Orden();
         nuevaOrden.setIdCliente(crearOrdenDTO.idCliente());
         nuevaOrden.setFecha(LocalDateTime.now());
+        nuevaOrden.setCodigoPasarela(crearOrdenDTO.codigoPasarela());
         nuevaOrden.setItems(crearOrdenDTO.items());
         nuevaOrden.setTotal(crearOrdenDTO.total());
 
@@ -61,7 +62,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
         orden.setTotal(editarOrdenDTO.total());
 
         ordenRepo.save(orden);
-        return "La orden ha sido actualizada con éxito";
+        return "La orden ha sido actualizada con éxito.";
     }
 
     @Override

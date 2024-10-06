@@ -11,7 +11,7 @@ import java.util.*;
 @Repository
 public interface CuponRepo extends MongoRepository<Cupon, String> {
 
-    @Query("{codigo : codigo}")
+    @Query("{codigo : ?0 }")
     Optional<Cupon> buscarPorCodigo(String codigo);
 
     @Query("{estado : ACTIVO}")

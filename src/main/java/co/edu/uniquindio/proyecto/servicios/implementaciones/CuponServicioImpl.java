@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -115,6 +116,7 @@ public class CuponServicioImpl implements CuponServicio {
     // Métodos privados de utilidad
 
     private boolean existeCodigo(String codigo) {
+       // System.out.println(codigo);
         return cuponRepo.buscarPorCodigo(codigo).isPresent();
     }
 
@@ -130,7 +132,7 @@ public class CuponServicioImpl implements CuponServicio {
 
     private Cupon obtenerPorCodigo(String codigo) throws Exception {
         Optional<Cupon> cuponOptional = cuponRepo.buscarPorCodigo(codigo);
-
+        //System.out.println(codigo);
         if (cuponOptional.isEmpty()) {
             throw new Exception("No existe un cupón con el código " + codigo);
         }
