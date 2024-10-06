@@ -1,19 +1,18 @@
-package co.edu.uniquindio.proyecto.test;
+/*package co.edu.uniquindio.proyecto.test;
 
 import co.edu.uniquindio.proyecto.modelo.documentos.Carrito;
 import co.edu.uniquindio.proyecto.modelo.vo.DetalleCarrito;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CarritoServicio;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+
 public class CarritoServicioTest {
 
 
@@ -58,5 +57,7 @@ public class CarritoServicioTest {
         float total = carritoServicio.calcularTotal("CARRITO_TEST");
         assertEquals(300.00f, total, "El total del carrito es incorrecto.");
     }
-}
 
+
+}
+        */

@@ -1,3 +1,79 @@
+//detalleCarrito
+db.carrito.insertMany([
+    {
+        "fecha": ISODate("2023-10-01T10:00:00Z"),
+        "items": [
+            {
+                "idEvento": ObjectId("651f4a8d6f1b2b3c4f5d1b1c"),
+                "cantidad": 2,
+                "nombreLocalidad": "Platea"
+            },
+            {
+                "idEvento": ObjectId("651f4a8d6f1b2b3c4f5d1b2c"),
+                "cantidad": 1,
+                "nombreLocalidad": "Palco VIP"
+            }
+        ],
+        "id": "carrito001",
+        "idUsuario": ObjectId("651f3a9d6f1b2b3c4f5d1b1c"),
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    },
+    {
+        "fecha": ISODate("2023-10-02T11:00:00Z"),
+        "items": [
+            {
+                "idEvento": ObjectId("651f4a8d6f1b2b3c4f5d1b3c"),
+                "cantidad": 3,
+                "nombreLocalidad": "General"
+            }
+        ],
+        "id": "carrito002",
+        "idUsuario": ObjectId("651f3a9d6f1b2b3c4f5d1b1c"),
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    },
+    {
+        "fecha": ISODate("2023-10-03T12:30:00Z"),
+        "items": [
+            {
+                "idEvento": ObjectId("651f4a8d6f1b2b3c4f5d1b4c"),
+                "cantidad": 1,
+                "nombreLocalidad": "Preferencial"
+            }
+        ],
+        "id": "carrito003",
+        "idUsuario": ObjectId("651f3a9d6f1b2b3c4f5d1b2c"),
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    },
+    {
+        "fecha": ISODate("2023-10-04T13:00:00Z"),
+        "items": [
+            {
+                "idEvento": ObjectId("651f4a8d6f1b2b3c4f5d1b5c"),
+                "cantidad": 5,
+                "nombreLocalidad": "Platea"
+            }
+        ],
+        "id": "carrito004",
+        "idUsuario": ObjectId("651f3a9d6f1b2b3c4f5d1b3c"),
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    },
+    {
+        "fecha": ISODate("2023-10-05T14:30:00Z"),
+        "items": [
+            {
+                "idEvento": ObjectId("651f4a8d6f1b2b3c4f5d1b6c"),
+                "cantidad": 4,
+                "nombreLocalidad": "General"
+            }
+        ],
+        "id": "carrito005",
+        "idUsuario": ObjectId("651f3a9d6f1b2b3c4f5d1b4c"),
+
+
+    _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    }
+]);
+
 // Datos de Cuenta
 db.cuenta.insertMany([
     {

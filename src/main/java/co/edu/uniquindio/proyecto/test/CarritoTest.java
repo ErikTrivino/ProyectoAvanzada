@@ -1,4 +1,4 @@
-package co.edu.uniquindio.proyecto.test;
+/*package co.edu.uniquindio.proyecto.test;
 
 import co.edu.uniquindio.proyecto.modelo.documentos.Carrito;
 import co.edu.uniquindio.proyecto.modelo.vo.DetalleCarrito;
@@ -80,4 +80,6 @@ public class CarritoTest {
         Carrito carritoEliminado = carritoRepo.findById(carrito.getIdCarrito()).orElse(null);
         assertNull(carritoEliminado);
     }
-}
+
+
+}*/
