@@ -45,5 +45,10 @@ public class CarritoServicioImpl implements CarritoServicio {
         return 0;
     }
 
+    @Override
+    public List<Carrito> findAll() {
+        return List.of();
+    }
+
 
 }

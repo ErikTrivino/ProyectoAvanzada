@@ -1,5 +1,6 @@
 package co.edu.uniquindio.proyecto.excepciones;
 
+import co.edu.uniquindio.proyecto.modelo.dto.ValidacionDTO.ValidacionDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.MensajeDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -22,7 +23,7 @@ public class ExcepcionesGlobales {
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<MensajeDTO<List<ValidacionDTO>>> validationException( MethodArgumentNotValidException ex ) {
+    public ResponseEntity<MensajeDTO<List<ValidacionDTO>>> validationException(MethodArgumentNotValidException ex ) {
         List<ValidacionDTO> errores = new ArrayList<>();
         BindingResult results = ex.getBindingResult();
 
