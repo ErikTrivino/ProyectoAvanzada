@@ -4,20 +4,23 @@ import co.edu.uniquindio.proyecto.modelo.documentos.Carrito;
 import co.edu.uniquindio.proyecto.modelo.vo.DetalleCarrito;
 import co.edu.uniquindio.proyecto.repositorios.CarritoRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CarritoServicio;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class CarritoServicioImpl implements CarritoServicio {
+
+
+
 
     @Autowired
     private final CarritoRepo carritoRepo;
-
-    public CarritoServicioImpl(CarritoRepo carritoRepo) {
-        this.carritoRepo = carritoRepo;
-    }
 
     @Override
     public String tablaCarrito(List<DetalleCarrito> listaCarrito) {
@@ -27,7 +30,7 @@ public class CarritoServicioImpl implements CarritoServicio {
     }
 
     @Override
-    public String eliminarItem(String idCarrito) throws Exception {
+    public String eliminarItem(String idCarrito, String idEvento) throws Exception {
         Carrito carrito = carritoRepo.findById(idCarrito).orElseThrow(() -> new Exception("Carrito no encontrado"));
         carritoRepo.delete(carrito);
         return "Item eliminado correctamente";
@@ -35,9 +38,16 @@ public class CarritoServicioImpl implements CarritoServicio {
 
     @Override
     public void agregarItem(String idCarrito, DetalleCarrito item) throws Exception {
-        Carrito carrito = carritoRepo.findById(idCarrito).orElseThrow(() -> new Exception("Carrito no encontrado"));
+        Carrito carrito = carritoRepo.findById(idCarrito)
+                .orElseThrow(() -> new Exception("Carrito no encontrado"));
+
+        // Agregar el item al carrito
+        carrito.getItems().add(item);
+
+        // Guardar el carrito actualizado en la base de datos
         carritoRepo.save(carrito);
     }
+
 
 
     @Override
@@ -45,10 +55,12 @@ public class CarritoServicioImpl implements CarritoServicio {
         return 0;
     }
 
+
     @Override
     public List<Carrito> findAll() {
-        return List.of();
+        return carritoRepo.findAll();
     }
+
 
 
 }

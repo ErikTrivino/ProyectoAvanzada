@@ -1,8 +1,11 @@
 package co.edu.uniquindio.proyecto.controladores;
 
 import co.edu.uniquindio.proyecto.modelo.documentos.Carrito;
+import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.MensajeDTO;
 import co.edu.uniquindio.proyecto.modelo.vo.DetalleCarrito;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CarritoServicio;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,16 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+
+@RequiredArgsConstructor
 @RequestMapping("/api/carrito")
 public class CarritoControlador {
 
     @Autowired
     private final CarritoServicio carritoServicio;
 
-
-    public CarritoControlador(CarritoServicio carritoServicio) {
-        this.carritoServicio = carritoServicio;
-    }
 
     @GetMapping("/listarCarrito")
     public ResponseEntity<List<Carrito>> obtenerCarrito() {
@@ -30,19 +31,19 @@ public class CarritoControlador {
 
 
     @PostMapping("/agregarItem/{id}")
-    public ResponseEntity<String> agregarItem(@RequestBody DetalleCarrito item) throws Exception {
+    public ResponseEntity<MensajeDTO<String>> agregarItem(@RequestBody DetalleCarrito item) throws Exception {
         carritoServicio.agregarItem("ID_CARRITO", item);
-        return ResponseEntity.ok("Item agregado correctamente");
+        return ResponseEntity.ok(new MensajeDTO<>(false,"Item agregado correctamente"));
     }
 
     @DeleteMapping("/eliminarItem/{id}")
-    public ResponseEntity<String> eliminarItem(@PathVariable String id) throws Exception {
-        carritoServicio.eliminarItem(id);
-        return ResponseEntity.ok("Item eliminado correctamente");
+    public ResponseEntity<MensajeDTO<String>> eliminarItem(@PathVariable String id) throws Exception {
+        carritoServicio.eliminarItem(id, "ID_EVENTO");
+        return ResponseEntity.ok(new MensajeDTO<>(false,"Item eliminado correctamente"));
     }
 
     @GetMapping("/obtenerTablaCarrito")
-    public ResponseEntity<String> obtenerTablaCarrito(@RequestParam List<DetalleCarrito> listaCarrito) throws Exception {
-        return ResponseEntity.ok(carritoServicio.tablaCarrito(listaCarrito));
+    public ResponseEntity<MensajeDTO<String>> obtenerTablaCarrito(@RequestParam List<DetalleCarrito> listaCarrito) throws Exception {
+        return ResponseEntity.ok(new MensajeDTO<>(false,carritoServicio.tablaCarrito(listaCarrito)));
     }
 }

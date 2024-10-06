@@ -9,7 +9,13 @@ public class DetalleCarrito {
     private String nombreLocalidad;
     private float precio;
 
-    public DetalleCarrito(int i, String conciertoDeMúsica, double v) {
+    public DetalleCarrito(Object o, int i, String conciertoDeMúsica, double v) {
     }
+
+    public int getCantidad() {
+        return 0;
+    }
+
+
 }
 
