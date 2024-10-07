@@ -19,5 +19,5 @@ public interface EventoServicio {
 
     List<ItemEventoDTO> filtrarEventos(FiltroEventoDTO filtroEventoDTO) throws Exception;
 
-    Evento obtenerEvento(String string) throws Exception;
+    Evento obtenerEvento(String id) throws Exception;
 }

@@ -3,6 +3,7 @@ package co.edu.uniquindio.proyecto.servicios.implementaciones;
 import co.edu.uniquindio.proyecto.modelo.documentos.Evento;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.*;
 import co.edu.uniquindio.proyecto.modelo.enums.EstadoEvento;
+import co.edu.uniquindio.proyecto.modelo.vo.Localidad;
 import co.edu.uniquindio.proyecto.repositorios.EventoRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EventoServicio;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +30,18 @@ public class EventoServicioImpl implements EventoServicio {
         }
 
         if( existeEvento(crearEventoDTO.fechaEvento(), crearEventoDTO.nombre(), crearEventoDTO.ciudad())){
-
             throw new Exception("Ya existe un evento registrado con el nombre " +
                     crearEventoDTO.nombre() + " para la fecha " + crearEventoDTO.fechaEvento());
-
         }
+
+        List<Localidad> localidades = crearEventoDTO.localidades()
+                .stream()
+                .map(localidadDTO -> new Localidad(
+                        localidadDTO.precio(),
+                        localidadDTO.nombre(),
+                        localidadDTO.capacidadMaxima())
+                )
+                .collect(Collectors.toList());
 
         Evento nuevoEvento = new Evento();
         nuevoEvento.setFechaEvento(crearEventoDTO.fechaEvento());
@@ -42,8 +50,7 @@ public class EventoServicioImpl implements EventoServicio {
         nuevoEvento.setEstado(EstadoEvento.ACTIVO);
         nuevoEvento.setTipo(crearEventoDTO.tipo());
         nuevoEvento.setCiudad(crearEventoDTO.ciudad());
-        nuevoEvento.setLocalidades(crearEventoDTO.localidades()
-        );
+        nuevoEvento.setLocalidades(localidades);
 
         eventoRepo.save(nuevoEvento);
 
@@ -141,7 +148,14 @@ public class EventoServicioImpl implements EventoServicio {
             throw new Exception("No existe un evento registrado con el id " + id + ".");
         }
 
-        return eventoOptional.get();
+        Evento evento = eventoOptional.get();
+
+        // Validar el estado del evento
+        if (evento.getEstado() != EstadoEvento.ACTIVO) {  // Asume que el estado que buscas es "ACTIVO"
+            throw new Exception("El evento con id " + id + " no está activo. Estado actual: " + evento.getEstado());
+        }
+
+        return evento;
 
     }
 

@@ -1,7 +1,10 @@
 package co.edu.uniquindio.proyecto.servicios.interfaces;
 
+import co.edu.uniquindio.proyecto.modelo.documentos.Cuenta;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.TokenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.*;
+
+import java.util.List;
 
 public interface CuentaServicio {
 
@@ -20,4 +23,10 @@ public interface CuentaServicio {
     TokenDTO iniciarSesion(LoginDTO loginDTO) throws Exception;
 
     String activarCuenta(ActivarCuentaDTO activarCuentaDTO) throws Exception;
+
+    List<ItemCuentaDTO> listarCuentas() throws Exception;
+
+    Cuenta obtenerPorEmail(String email) throws Exception;
+
+    String enviarCodigoActivacionCuenta(String correo) throws Exception;
 }
