@@ -12,8 +12,8 @@ import java.util.List;
 public record CrearOrdenDTO(
 
         @NotBlank @Length(max = 50) String idCliente,
-        @NotBlank @Length(max = 50) String idEvento,
-        @NotNull LocalDateTime fechaCreacion,
+
+        @NotNull LocalDateTime fecha,
         @NotBlank String  codigoPasarela,
         @Positive float total,
 

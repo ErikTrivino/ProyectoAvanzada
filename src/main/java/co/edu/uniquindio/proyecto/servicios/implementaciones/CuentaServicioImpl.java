@@ -1,10 +1,13 @@
 package co.edu.uniquindio.proyecto.servicios.implementaciones;
 
 import co.edu.uniquindio.proyecto.config.JWTUtils;
+import co.edu.uniquindio.proyecto.modelo.enums.TipoEvento;
+import co.edu.uniquindio.proyecto.modelo.vo.Boleta;
 import co.edu.uniquindio.proyecto.modelo.documentos.Cuenta;
 import co.edu.uniquindio.proyecto.modelo.documentos.Usuario;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.TokenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.*;
+import co.edu.uniquindio.proyecto.modelo.enums.EstadoBoleta;
 import co.edu.uniquindio.proyecto.modelo.enums.EstadoCuenta;
 import co.edu.uniquindio.proyecto.modelo.enums.Rol;
 import co.edu.uniquindio.proyecto.modelo.vo.CodigoValidacion;
@@ -16,8 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -241,6 +246,99 @@ public class CuentaServicioImpl implements CuentaServicio {
                 "id", cuenta.getId()
         );
     }
+
+    ///NUEVA FUNCIONALIDAD
+    @Override
+    public List<Boleta> buscarBoletasPorPropietario(String idPropietario) throws Exception {
+        Cuenta cuenta = obtenerCuentaPorIdPropietario(idPropietario);
+        return cuenta.getBoletas().stream()
+                .filter(boleta -> boleta.getIdClientepropietario().equals(idPropietario))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Boleta obtenerDetalleBoleta(String idBoleta) throws Exception {
+        return buscarBoletaPorId(idBoleta);
+    }
+
+    @Override
+    public List<Boleta> listarBoletasEnviadas(String idPropietario) throws Exception {
+        Cuenta cuenta = obtenerCuentaPorIdPropietario(idPropietario);
+        return cuenta.getBoletas().stream()
+                .filter(boleta -> boleta.getIdPropietarioOriginal().equals(idPropietario) && boleta.getEstado()== EstadoBoleta.ENVIADA)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Boleta> listarBoletasPendientes(String idPropietario) throws Exception {
+        Cuenta cuenta = obtenerCuentaPorIdPropietario(idPropietario);
+        return cuenta.getBoletas().stream()
+                .filter(boleta -> boleta.getIdClientepropietario().equals(idPropietario) && boleta.getEstado() == EstadoBoleta.PENDIENTE)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void transferirBoleta(String idBoleta, String nuevoPropietario, String correo) throws Exception {
+        Boleta boleta = buscarBoletaPorId(idBoleta);
+        if (boleta == null) throw new Exception("Boleta no encontrada");
+
+        boleta.setIdClientepropietario(nuevoPropietario);
+        boleta.setEstado(EstadoBoleta.PENDIENTE);
+        // Guardar cambios en la cuenta o boleta
+    }
+
+    @Override
+    public void aceptarBoleta(String idBoleta) throws Exception {
+        Boleta boleta = buscarBoletaPorId(idBoleta);
+        if (boleta == null) throw new Exception("Boleta no encontrada");
+
+        boleta.setEstado(EstadoBoleta.ACEPTADA);
+        // Guardar cambios en la cuenta o boleta
+    }
+
+
+
+    private Boleta buscarBoletaPorId(String idBoleta) throws Exception {
+        // Lógica para buscar la boleta en las cuentas
+        Optional<Cuenta> cuentaOptional = cuentaRepo.findAll().stream()
+                .filter(cuenta -> cuenta.getBoletas().stream().anyMatch(boleta -> boleta.getId().equals(idBoleta)))
+                .findFirst();
+
+        if (cuentaOptional.isPresent()) {
+            return cuentaOptional.get().getBoletas().stream()
+                    .filter(boleta -> boleta.getId().equals(idBoleta))
+                    .findFirst()
+                    .orElse(null);
+        }
+        return null;
+    }
+
+    private Cuenta obtenerCuentaPorIdPropietario(String idPropietario) throws Exception {
+        Optional<Cuenta> cuentaOptional = cuentaRepo.findById(idPropietario);
+        if (cuentaOptional.isEmpty()) {
+            throw new Exception("No existe una cuenta con el propietario " + idPropietario);
+        }
+        return cuentaOptional.get();
+    }
+
+    //FUNCIONALIDAD DOS
+    @Override
+    public List<TipoEvento> obtenerPreferencias() throws Exception {
+        return List.of(TipoEvento.values());
+    }
+
+    @Override
+    public void agregarPreferenciasUsuario(String idUsuario, List<TipoEvento> tipoPreferencias) throws Exception {
+        Optional<Cuenta> cuenta = cuentaRepo.findById(idUsuario);
+
+        if(!cuenta.isPresent()){
+            throw new Exception("No se encontro la cuenta");
+        }
+
+        cuenta.get().getPreferencias().addAll(tipoPreferencias);
+    }
+
+
 
 
 }

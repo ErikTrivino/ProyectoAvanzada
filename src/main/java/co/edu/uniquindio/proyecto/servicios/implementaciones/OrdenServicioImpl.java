@@ -38,9 +38,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
     private final OrdenRepo ordenRepo;
     private final EventoServicio eventoServicio;
 
-    public void recibirNotificacionMercadoPago(){
 
-    }
     @Override
     public String crearOrden(CrearOrdenDTO crearOrdenDTO) throws Exception {
         Orden nuevaOrden = new Orden();
@@ -190,7 +188,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
                 .backUrls(backUrls)
                 .items(itemsPasarela)
                 .metadata(Map.of("id_orden", ordenGuardada.getId()))
-                .notificationUrl("URL NOTIFICACION")
+                .notificationUrl("https://a92d-2800-e2-6f80-309-847-6fa2-3ec-4bba.ngrok-free.app")//URL TOMADA DEL NGROK
                 .build();
 
 
