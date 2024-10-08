@@ -37,3 +37,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+src/main/java/co/edu/uniquindio/proyecto/test/CarritoServicioTest.java
+src/test/resources/dataset.js
