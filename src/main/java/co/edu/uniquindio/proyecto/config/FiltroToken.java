@@ -25,8 +25,6 @@ public class FiltroToken extends OncePerRequestFilter {
 
     private final JWTUtils jwtUtils;
 
-
-
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -59,19 +57,11 @@ public class FiltroToken extends OncePerRequestFilter {
                 //Si la petición es para la ruta /api/cliente se verifica que el token exista y que el rol sea CLIENTE
                 if (requestURI.startsWith("/api/cliente")) {
                     error = validarToken(token, Rol.CLIENTE);
-                }else {
-                    error = false;
-                }
-
-                if (requestURI.startsWith("/api/admin")) {
+                }else if (requestURI.startsWith("/api/admin")){
                     error = validarToken(token, Rol.ADMINISTRADOR);
-                }else {
-                    error = false;
-                }
-
-                if (requestURI.startsWith("/api/imagenes")) {
+                }else if (requestURI.startsWith("/api/imagenes")){
                     error = validarToken(token, Rol.ADMINISTRADOR);
-                }else {
+                }else{
                     error = false;
                 }
 

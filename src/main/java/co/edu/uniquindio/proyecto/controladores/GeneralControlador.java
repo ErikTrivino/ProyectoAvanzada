@@ -2,9 +2,7 @@ package co.edu.uniquindio.proyecto.controladores;
 
 import co.edu.uniquindio.proyecto.modelo.documentos.Evento;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.MensajeDTO;
-import co.edu.uniquindio.proyecto.modelo.dto.cuenta.EditarCuentaDTO;
-import co.edu.uniquindio.proyecto.modelo.dto.cuenta.InformacionCuentaDTO;
-import co.edu.uniquindio.proyecto.modelo.dto.cuenta.ItemCuentaDTO;
+import co.edu.uniquindio.proyecto.modelo.dto.cuenta.*;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.CrearEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.FiltroEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.InformacionEventoDTO;
@@ -73,4 +71,24 @@ public class GeneralControlador {
         List<ItemCuentaDTO> lista = cuentaServicio.listarCuentas();
         return ResponseEntity.ok(new MensajeDTO<>(false, lista));
     }
+
+    @GetMapping("/enviar-codigo-password/{correo}")
+    public ResponseEntity<MensajeDTO<String>> enviarCodigoRecuperacionPassword(@PathVariable String correo) throws Exception {
+        cuentaServicio.enviarCodigoRecuperacionPassword(correo);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Se ha enviado un correo con el código de recuperación de contraseña"));
+    }
+
+    @GetMapping("/enviar-codigo-auth/{correo}")
+    public ResponseEntity<MensajeDTO<String>> enviarCodigoActivacionCuenta(@PathVariable String correo) throws Exception {
+        cuentaServicio.enviarCodigoActivacionCuenta(correo);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Se ha enviado un correo con el código de activación de su cuenta"));
+    }
+
+    @PutMapping("/cambiar-password")
+    public ResponseEntity<MensajeDTO<String>> cambiarPassword(@RequestBody CambiarPasswordDTO cambiarPasswordDTO) throws Exception {
+        cuentaServicio.cambiarPassword(cambiarPasswordDTO);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Su contraseña ha sido cambiada."));
+    }
+
+
 }
