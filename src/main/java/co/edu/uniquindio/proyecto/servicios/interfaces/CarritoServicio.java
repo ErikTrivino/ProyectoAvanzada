@@ -17,5 +17,5 @@ public interface CarritoServicio {
 
     float calcularTotal(String idCarrito) throws Exception;
 
-    List<Carrito> findAll();
+    List<Carrito> listarCarritos();
 }

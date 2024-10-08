@@ -57,7 +57,7 @@ public class CarritoServicioImpl implements CarritoServicio {
 
 
     @Override
-    public List<Carrito> findAll() {
+    public List<Carrito> listarCarritos() {
         return carritoRepo.findAll();
     }
 

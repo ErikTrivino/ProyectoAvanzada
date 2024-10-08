@@ -24,7 +24,7 @@ public class CarritoControlador {
 
     @GetMapping("/listarCarrito")
     public ResponseEntity<List<Carrito>> obtenerCarrito() {
-        List<Carrito> carrito = carritoServicio.findAll();
+        List<Carrito> carrito = carritoServicio.listarCarritos();
         return ResponseEntity.ok(carrito);
     }
 
