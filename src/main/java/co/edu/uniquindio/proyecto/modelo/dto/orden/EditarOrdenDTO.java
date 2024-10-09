@@ -21,8 +21,8 @@ public record EditarOrdenDTO (
 
         @Positive float total,
 
-        @NotNull Pago pago,
-        @NotNull String idCupon,
+        //@NotNull Pago pago,
+       // @NotNull String idCupon,
         @NotNull List<DetalleOrden> items
 ){
 }

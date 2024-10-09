@@ -16,7 +16,6 @@ public record CrearOrdenDTO(
         @NotNull LocalDateTime fecha,
         @NotBlank String  codigoPasarela,
         @Positive float total,
-
         @NotNull List<DetalleOrden> items
 
 

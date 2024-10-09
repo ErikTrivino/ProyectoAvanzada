@@ -36,9 +36,9 @@ public class OrdenServicioTest {
 
         CrearOrdenDTO crearOrdenDTO = new CrearOrdenDTO(
                 "652c95c6f0b56723d4638913",
-                "evento001",
                 LocalDateTime.now(),
                 "CodigoPasarela1",
+//                "evento001",
                 100f,
                 items
         );
@@ -63,8 +63,9 @@ public class OrdenServicioTest {
         EditarOrdenDTO editarOrdenDTO = new EditarOrdenDTO(
                 "6701fcf0bdb88d4aa14f6547",
                 "652c95c6f0b56723d4638913",
-                "evento001",
+                //"evento001",
                 LocalDateTime.now(),
+                "CODIGO_PASARELA_202",
                 150f,
                 items
         );
