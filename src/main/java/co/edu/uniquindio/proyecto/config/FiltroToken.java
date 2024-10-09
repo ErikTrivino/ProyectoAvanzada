@@ -24,6 +24,7 @@ public class FiltroToken extends OncePerRequestFilter {
 
     private final JWTUtils jwtUtils;
 
+
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,

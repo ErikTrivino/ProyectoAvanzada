@@ -11,6 +11,8 @@ public interface CarritoServicio {
 
     String tablaCarrito(List<DetalleCarrito> listaCarrito) throws Exception;
 
+    public String crearCarrito(String idUsuario) throws Exception ;
+
     String eliminarItem(String idCarrito, String idEvento) throws Exception;
 
     void agregarItem(String idCarrito, DetalleCarrito item) throws Exception;

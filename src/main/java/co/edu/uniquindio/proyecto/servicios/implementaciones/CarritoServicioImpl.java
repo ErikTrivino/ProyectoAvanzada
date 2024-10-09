@@ -5,10 +5,13 @@ import co.edu.uniquindio.proyecto.modelo.vo.DetalleCarrito;
 import co.edu.uniquindio.proyecto.repositorios.CarritoRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CarritoServicio;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,10 +27,31 @@ public class CarritoServicioImpl implements CarritoServicio {
 
     @Override
     public String tablaCarrito(List<DetalleCarrito> listaCarrito) {
-        // Generar la tabla en formato texto o HTML
-        // Dependiendo de la lógica, aquí puedes construir una tabla visual.
+
         return listaCarrito.toString(); // O un formato adecuado.
     }
+
+    @Override
+    public String crearCarrito(String idUsuario) throws Exception {
+        if (idUsuario == null || idUsuario.trim().isEmpty()) {
+            throw new IllegalArgumentException("El ID del usuario no puede ser nulo o vacío.");
+        }
+
+        Carrito carrito = new Carrito();
+        carrito.setIdUsuario(new ObjectId(idUsuario));
+        carrito.setFecha(LocalDateTime.now());
+        List<DetalleCarrito> detalles = new ArrayList<>();
+        carrito.setItems(detalles);
+
+        try {
+            carritoRepo.save(carrito);
+        } catch (Exception e) {
+            throw new Exception("Error al crear el carrito: " + e.getMessage());
+        }
+
+        return carrito.getIdCarrito(); // O devuelve el carrito como DTO si es necesario
+    }
+
 
     @Override
     public String eliminarItem(String idCarrito, String idEvento) throws Exception {
@@ -60,6 +84,7 @@ public class CarritoServicioImpl implements CarritoServicio {
     public List<Carrito> listarCarritos() {
         return carritoRepo.findAll();
     }
+
 
 
 

@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Document("carritos")
+@Document("carrito")
 @Getter
 @Setter
 @ToString
@@ -17,14 +17,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Carrito {
 
+
     private LocalDateTime fecha;
     private List<DetalleCarrito> items;
     @Id
     private String idCarrito;
     private ObjectId idUsuario;
 
-    @Builder
-    public Carrito(String idCarrito, String nombre, double v) {
 
-    }
 }
