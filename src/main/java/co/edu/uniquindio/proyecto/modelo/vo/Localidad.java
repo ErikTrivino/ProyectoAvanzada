@@ -2,6 +2,9 @@ package co.edu.uniquindio.proyecto.modelo.vo;
 
 import lombok.*;
 
+import java.util.List;
+import java.util.stream.Collector;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -9,8 +12,12 @@ import lombok.*;
 @Setter
 public class Localidad {
 
-    private float precio;
+    private double precio;
     private String nombre;
     private int entradasVendidas;
     private int capacidadMaxima;
+
+
+    public Localidad(double precio, String nombre, int capacidadMaxima) {
+    }
 }

@@ -5,6 +5,7 @@ import co.edu.uniquindio.proyecto.modelo.enums.Rol;
 import co.edu.uniquindio.proyecto.modelo.enums.TipoEvento;
 import co.edu.uniquindio.proyecto.modelo.vo.Boleta;
 import co.edu.uniquindio.proyecto.modelo.vo.CodigoValidacion;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
@@ -36,5 +37,16 @@ public class Cuenta {
 
 
 
+    @Builder
+    public Cuenta(String email, String password, Rol rol, LocalDateTime fechaRegistro, Usuario usuario, EstadoCuenta estado, CodigoValidacion codigoValidacionRegistro, CodigoValidacion codigoValidacionPassword) {
+        this.email = email;
+        this.password = password;
+        this.rol = rol;
+        this.fechaRegistro = fechaRegistro;
+        this.usuario = usuario;
+        this.estado = estado;
+        this.codigoValidacionRegistro = codigoValidacionRegistro;
+        this.codigoValidacionPassword = codigoValidacionPassword;
+    }
 
 }

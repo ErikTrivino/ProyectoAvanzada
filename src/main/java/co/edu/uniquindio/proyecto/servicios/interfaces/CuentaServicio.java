@@ -2,6 +2,7 @@ package co.edu.uniquindio.proyecto.servicios.interfaces;
 
 import co.edu.uniquindio.proyecto.modelo.enums.TipoEvento;
 import co.edu.uniquindio.proyecto.modelo.vo.Boleta;
+import co.edu.uniquindio.proyecto.modelo.documentos.Cuenta;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.TokenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.*;
 
@@ -40,4 +41,9 @@ public interface CuentaServicio {
 
     List<TipoEvento> obtenerPreferenciasUsuario(String idUsuario) throws Exception;
 
+    List<ItemCuentaDTO> listarCuentas() throws Exception;
+
+    Cuenta obtenerPorEmail(String email) throws Exception;
+
+    String enviarCodigoActivacionCuenta(String correo) throws Exception;
 }
