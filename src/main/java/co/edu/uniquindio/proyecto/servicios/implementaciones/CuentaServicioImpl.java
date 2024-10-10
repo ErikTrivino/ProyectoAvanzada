@@ -5,17 +5,21 @@ import co.edu.uniquindio.proyecto.modelo.documentos.Cuenta;
 import co.edu.uniquindio.proyecto.modelo.documentos.Usuario;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.TokenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.*;
+import co.edu.uniquindio.proyecto.modelo.dto.email.EmailDTO;
 import co.edu.uniquindio.proyecto.modelo.enums.EstadoCuenta;
 import co.edu.uniquindio.proyecto.modelo.enums.Rol;
 import co.edu.uniquindio.proyecto.modelo.vo.CodigoValidacion;
 import co.edu.uniquindio.proyecto.repositorios.CuentaRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CuentaServicio;
+import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,24 +30,25 @@ public class CuentaServicioImpl implements CuentaServicio {
 
     private final CuentaRepo cuentaRepo;
     private final JWTUtils jwtUtils;
+    private final EmailServicio emailServicio;
     //private final FutureOrPresentValidatorForLocalDateTime futureOrPresentValidatorForLocalDateTime;
 
 
     @Override
     public String crearCuenta(CrearCuentaDTO cuenta) throws Exception {
-        //en este metodo se debe validar todo lo que puede fallar, por ejemplo que no se repitan cedulas o correos
 
-        if( existeCorreo(cuenta.correo())){
+
+       if( existeEmail(cuenta.correo())){
 
             throw new Exception("Ya existe un usuario registrado con el correo "+cuenta.correo());
 
-        }
+       }
 
-        if( existeCedula(cuenta.cedula())){
+       if( existeCedula(cuenta.cedula())){
 
-            throw new Exception("La cédula " + cuenta.cedula() + " ya se encuentra registrada.");
+           throw new Exception("La cédula " + cuenta.cedula() + " ya se encuentra registrada.");
 
-        }
+       }
 
         String codigoAleatorio = generarCodigo();
 
@@ -62,7 +67,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         nuevaCuenta.setEstado(EstadoCuenta.INACTIVO);
         nuevaCuenta.setCodigoValidacionRegistro(
                 new CodigoValidacion(
-                        LocalDateTime.now(), "HHJ77" //EL CODIGO DEBE SER UNA CADENA GENERADA ALEATORIAMENTE
+                        LocalDateTime.now(), codigoAleatorio
                 ));
 
         cuentaRepo.save(nuevaCuenta);
@@ -73,19 +78,28 @@ public class CuentaServicioImpl implements CuentaServicio {
     @Override
     public String editarCuenta(EditarCuentaDTO cuenta) throws Exception {
 
-        Cuenta cuentaModificada = obtenerCuenta(cuenta.id());
+        //Si no se encontró la cuenta del usuario, lanzamos una excepción
+        if(!existeCuenta(cuenta.id())){
+            throw new Exception("No se encontró una cuenta con el id "+cuenta.id());
+        }
 
+
+        Cuenta cuentaModificada = obtenerCuenta(cuenta.id());
         cuentaModificada.getUsuario().setNombre( cuenta.nombre());
         cuentaModificada.getUsuario().setDireccion( cuenta.direccion());
         cuentaModificada.getUsuario().setTelefono( cuenta.telefono());
-        cuentaModificada.setPassword(encriptarPassword(cuenta.password()));
 
         cuentaRepo.save(cuentaModificada);
         return cuentaModificada.getId();
     }
 
+
     @Override
     public String eliminarCuenta(String id) throws Exception {
+
+        if(!existeCuenta(id)){
+            throw new Exception("No se encontró una cuenta con el id " + id);
+        }
 
         Cuenta cuenta = obtenerCuenta(id);
 
@@ -126,7 +140,9 @@ public class CuentaServicioImpl implements CuentaServicio {
 
         cuentaRepo.save(cuenta);
 
-        return "Se ha enviado un correo con el código de validación";
+        emailServicio.enviarCorreo( new EmailDTO("CODIGO DE RECUPERACION DE CONTRASEÑA", codigoValidacion, correo) );
+
+        return "Se ha enviado un correo con el código de recuperación de contraseña";
 
     }
 
@@ -138,7 +154,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         CodigoValidacion codigoValidacion = cuentaOptional.getCodigoValidacionPassword();
 
         if(codigoValidacion.getCodigo().equals(cambiarPasswordDTO.codigoVerificacion())){
-            if(codigoValidacion.getFechaCreacion().plusMinutes(15).isBefore(LocalDateTime.now())){
+            if(codigoValidacion.getFechaCreacion().plusMinutes(15).isAfter(LocalDateTime.now())){
                 cuentaOptional.setPassword(encriptarPassword(cambiarPasswordDTO.passwordNueva()));
                 cuentaRepo.save(cuentaOptional);
             }else{
@@ -168,7 +184,89 @@ public class CuentaServicioImpl implements CuentaServicio {
 
     @Override
     public String activarCuenta(ActivarCuentaDTO activarCuentaDTO) throws Exception {
-        return "";
+        // Buscar la cuenta por el token de validación de registro
+        Optional<Cuenta> cuentaOpt = cuentaRepo.buscarPorCodigoValidacion(activarCuentaDTO.token());
+
+        // Verificar si la cuenta existe
+        if (!cuentaOpt.isPresent()) {
+            throw new Exception("El token de activación es inválido.");
+        }
+
+        Cuenta cuenta = cuentaOpt.get();
+        // Verificar si el tiempo desde la creación del token ha superado los 15 minutos
+        LocalDateTime fechaCreacionToken = cuenta.getCodigoValidacionRegistro().getFechaCreacion();
+        if (fechaCreacionToken.plusMinutes(15).isBefore(LocalDateTime.now())) {
+            throw new Exception("El token de activación ha expirado.");
+        }
+
+        // Activar la cuenta si el token es válido y no ha expirado
+        cuenta.setEstado(EstadoCuenta.ACTIVO);
+        cuentaRepo.save(cuenta); // Guardar el cambio en la base de datos
+
+        return "Cuenta activada exitosamente.";
+    }
+
+    @Override
+    public List<ItemCuentaDTO> listarCuentas() {
+
+
+        //Obtenemos todas las cuentas de los usuarios de la base de datos
+        List<Cuenta> cuentas = cuentaRepo.findAll();
+
+        //Creamos una lista de DTOs
+        List<ItemCuentaDTO> items = new ArrayList<>();
+
+
+        //Recorremos la lista de cuentas y por cada uno creamos un DTO y lo agregamos a la lista
+        for (Cuenta cuenta : cuentas) {
+            items.add( new ItemCuentaDTO(
+                    cuenta.getId(),
+                    cuenta.getUsuario().getNombre(),
+                    cuenta.getEmail(),
+                    cuenta.getUsuario().getTelefono()
+            ));
+        }
+
+
+        return items;
+    }
+
+    @Override
+    public Cuenta obtenerPorEmail(String email) throws Exception {
+
+        Optional<Cuenta> cuentaOptional = cuentaRepo.buscarPorEmail(email);
+
+        if(cuentaOptional.isEmpty()){
+            throw new Exception("No existe una cuenta registrada con el email " + email + ".");
+        }
+
+        Cuenta cuenta = cuentaOptional.get();
+
+        if(cuenta.getEstado().equals(EstadoCuenta.ELIMINADO)){
+            throw new Exception("La cuenta registrada con el email " + email + " esta ELIMINADA.");
+        }
+
+        return cuenta;
+
+    }
+
+    @Override
+    public String enviarCodigoActivacionCuenta(String correo) throws Exception {
+
+        Cuenta cuenta = obtenerEmail(correo);
+        String codigoValidacion = generarCodigo();
+
+        cuenta.setCodigoValidacionRegistro(new CodigoValidacion(
+                LocalDateTime.now(),
+                codigoValidacion
+        ));
+
+        cuentaRepo.save(cuenta);
+
+        emailServicio.enviarCorreo( new EmailDTO("CODIGO DE ACTIVACIÓN CUENTA", codigoValidacion, correo) );
+
+        return "Se ha enviado un correo con el código de activación de su cuenta";
+
     }
 
     private Cuenta obtenerEmail(String correo) throws Exception {
@@ -179,8 +277,13 @@ public class CuentaServicioImpl implements CuentaServicio {
             throw new Exception("El correo dado no está registrado.");
         }
 
-        return cuentaOptional.get();
+        Cuenta cuenta = cuentaOptional.get();
 
+        if(cuenta.getEstado().equals(EstadoCuenta.ELIMINADO)){
+            throw new Exception("La cuenta registrada con el email " + correo + " esta ELIMINADA.");
+        }
+
+        return cuenta;
     }
 
     private Cuenta obtenerCuenta(String id) throws Exception {
@@ -191,19 +294,25 @@ public class CuentaServicioImpl implements CuentaServicio {
             throw new Exception("No existe una cuenta registrada con el id " + id + ".");
         }
 
-        return cuentaOptional.get();
+        Cuenta cuenta = cuentaOptional.get();
 
-    }
-
-    private Cuenta obtenerPorEmail(String email) throws Exception {
-
-        Optional<Cuenta> cuentaOptional = cuentaRepo.buscarPorEmail(email);
-
-        if(cuentaOptional.isEmpty()){
-            throw new Exception("No existe una cuenta registrada con el email " + email + ".");
+        if(cuenta.getEstado().equals(EstadoCuenta.ELIMINADO)){
+            throw new Exception("La cuenta registrada con el email " + id + " esta ELIMINADA.");
         }
 
-        return cuentaOptional.get();
+        return cuenta;
+    }
+
+
+    private boolean existeCuenta(String cuenta) {
+
+        Optional<Cuenta> optionalCuenta = cuentaRepo.findById(cuenta);
+
+        if (optionalCuenta.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
 
     }
 
@@ -215,6 +324,10 @@ public class CuentaServicioImpl implements CuentaServicio {
 
         return cuentaRepo.buscaremail(correo).isPresent();
 
+    }
+
+    private boolean existeEmail(String email) {
+        return cuentaRepo.buscaremail(email).isPresent();
     }
 
     private String generarCodigo() {

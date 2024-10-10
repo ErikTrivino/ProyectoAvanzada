@@ -21,15 +21,17 @@ public class EmailServicioImpl implements EmailServicio {
 
 
         Email email = EmailBuilder.startingBlank()
-                .from("SMTP_USERNAME")
+                .from("unieventosfae@gmail.com")
                 .to(emailDTO.destinatario())
                 .withSubject(emailDTO.asunto())
                 .withPlainText(emailDTO.cuerpo())
                 .buildEmail();
 
-
+        //unieventosfae@gmail.com
+        //fae12345
+        //clave de aplicación: yygy ngcd lulw oxjk
         try (Mailer mailer = MailerBuilder
-                .withSMTPServer("SMTP_HOST", 587, "SMTP_USERNAME", "SMTP_PASSWORD")
+                .withSMTPServer("smtp.gmail.com", 587, "unieventosfae@gmail.com", "yygy ngcd lulw oxjk")
                 .withTransportStrategy(TransportStrategy.SMTP_TLS)
                 .withDebugLogging(true)
                 .buildMailer()) {
