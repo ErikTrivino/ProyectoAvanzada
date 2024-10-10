@@ -21,7 +21,9 @@ public class Carrito {
     private LocalDateTime fecha;
     private List<DetalleCarrito> items;
     @Id
+    @EqualsAndHashCode.Exclude
     private String idCarrito;
+
     private ObjectId idUsuario;
 
 
