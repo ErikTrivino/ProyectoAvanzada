@@ -67,6 +67,17 @@ public class OrdenControlador {
         List<Orden> ordenesCliente = ordenServicio.buscarOrdenesPorCliente(id);
         return ResponseEntity.ok(new MensajeDTO<>(false, ordenesCliente));
     }
+    @GetMapping("/obtener-ordenes-rango-fecha-orden/{dateOne}/{dateTwo}")
+    public ResponseEntity<MensajeDTO<List<Orden>>> buscarOrdenesPorRangoDeFechas(@PathVariable("dateOne")String d1, @PathVariable("dateTwo")String d2) throws Exception {
+        List<Orden> ordenesClientes = ordenServicio.buscarOrdenesPorRangoDeFechas(d1,d2);
+        return ResponseEntity.ok(new MensajeDTO<>(false, ordenesClientes));
+    }
 
+
+    @GetMapping("/obtener-ordenes-orden")
+    public ResponseEntity<MensajeDTO<List<InformacionOrdenDTO>>> buscarOrdenes() throws Exception {
+        List<InformacionOrdenDTO> ordenesCliente = ordenServicio.listarTodasLasOrdenes();
+        return ResponseEntity.ok(new MensajeDTO<>(false, ordenesCliente));
+    }
 
 }
