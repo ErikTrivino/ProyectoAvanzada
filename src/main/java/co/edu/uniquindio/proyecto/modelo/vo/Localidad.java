@@ -19,5 +19,8 @@ public class Localidad {
 
 
     public Localidad(double precio, String nombre, int capacidadMaxima) {
+        this.precio = precio;
+        this.nombre = nombre;
+        this.capacidadMaxima = capacidadMaxima;
     }
 }

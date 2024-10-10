@@ -6,8 +6,11 @@ import co.edu.uniquindio.proyecto.modelo.vo.CodigoValidacion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+
+@Document("cuenta")
 @Getter
 @Setter
 @ToString
@@ -17,7 +20,6 @@ public class Cuenta {
 
 
     @Id
-    @EqualsAndHashCode.Exclude
     private String id;
 
     private String email;

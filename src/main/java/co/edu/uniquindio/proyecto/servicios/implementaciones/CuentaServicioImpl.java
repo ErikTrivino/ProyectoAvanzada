@@ -71,7 +71,7 @@ public class CuentaServicioImpl implements CuentaServicio {
                 ));
 
         cuentaRepo.save(nuevaCuenta);
-        //SE DEBE ENVIAR AL CORREO DEL USUARIO EL CODIGO DE VALIDACIÓN
+        emailServicio.enviarCorreo( new EmailDTO("CODIGO DE ACTIVACIÓN CUENTA", nuevaCuenta.getCodigoValidacionRegistro().getCodigo(), nuevaCuenta.getEmail()) );
         return "Su cuenta se ha generado con éxito.";
     }
 
@@ -234,7 +234,11 @@ public class CuentaServicioImpl implements CuentaServicio {
     @Override
     public Cuenta obtenerPorEmail(String email) throws Exception {
 
-        Optional<Cuenta> cuentaOptional = cuentaRepo.buscarPorEmail(email);
+        System.out.println(email);
+
+        Optional<Cuenta> cuentaOptional = cuentaRepo.findByEmail(email);
+
+        System.out.println(cuentaOptional.isEmpty());
 
         if(cuentaOptional.isEmpty()){
             throw new Exception("No existe una cuenta registrada con el email " + email + ".");
@@ -242,7 +246,7 @@ public class CuentaServicioImpl implements CuentaServicio {
 
         Cuenta cuenta = cuentaOptional.get();
 
-        if(cuenta.getEstado().equals(EstadoCuenta.ELIMINADO)){
+        if(cuenta.getEstado() == EstadoCuenta.ELIMINADO){
             throw new Exception("La cuenta registrada con el email " + email + " esta ELIMINADA.");
         }
 

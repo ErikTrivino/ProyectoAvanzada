@@ -90,5 +90,11 @@ public class GeneralControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Su contraseña ha sido cambiada."));
     }
 
+    @PutMapping("/activar-cuenta")
+    public ResponseEntity<MensajeDTO<String>> activarCuenta(@RequestBody ActivarCuentaDTO activarCuentaDTO) throws Exception {
+        cuentaServicio.activarCuenta(activarCuentaDTO);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta activada exitosamente."));
+    }
+
 
 }
