@@ -1,4 +1,5 @@
 import co.edu.uniquindio.proyecto.ProyectoApplication;
+import co.edu.uniquindio.proyecto.modelo.dto.cuenta.InformacionCuentaDTO;
 import co.edu.uniquindio.proyecto.modelo.enums.EstadoBoleta;
 import co.edu.uniquindio.proyecto.modelo.vo.Boleta;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CuentaServicio;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @ContextConfiguration(classes = ProyectoApplication.class)
@@ -116,7 +118,10 @@ public class BoletaServicioTest {
     public void transferirBoletaTest() throws Exception {
 
         // Llamar al método de transferir
-        cuentaServicio.transferirBoleta("boleta5", "nuevoPropietario", "correo@ejemplo.com");
+        cuentaServicio.transferirBoleta("6707e621e96e75a8eb1cb0cd", "6701ed1fa81f609e1a5692fb", "67075cab0623a30f86f70d0d");
+        InformacionCuentaDTO cuenta = cuentaServicio.obtenerInformacionCuenta("67075cab0623a30f86f70d0d");
+        assertTrue(cuenta.boletas().stream().filter(x -> x.getId() == "6707e621e96e75a8eb1cb0cd").findFirst().isPresent());
+        assertEquals(EstadoBoleta.PENDIENTE, cuenta.boletas().stream().filter(x-> x.getId() == "6707e621e96e75a8eb1cb0cd").findFirst().get().getEstado());
 
     }
 
@@ -124,7 +129,7 @@ public class BoletaServicioTest {
     public void aceptarBoletaTest() throws Exception {
 
         // Llamar al método de aceptar boleta
-        cuentaServicio.aceptarBoleta("boleta6", "idnuevoPROPIETARIO");
+        cuentaServicio.aceptarBoleta("6707ec00a26d03698ccbc650", "67075cab0623a30f86f70d0d");
 
     }
 

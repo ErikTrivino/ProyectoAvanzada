@@ -11,14 +11,14 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/boleta")
+@RequestMapping("/api/cliente")
 public class BoletaControlador {
 
     @Autowired
     private CuentaServicio cuentaServicio;
 
     // RF-001: Buscar boletas por nombre o identificación
-    @GetMapping("/buscar")
+    @GetMapping("/buscar-boleta")
     public ResponseEntity<List<Boleta>> buscarBoletasPorNombreOIdentificacion(
             @RequestParam("nombre") String nombreOId) throws Exception {
         List<Boleta> boletas = cuentaServicio.buscarBoletasPorPropietario(nombreOId);
@@ -26,7 +26,7 @@ public class BoletaControlador {
     }
 
     // RF-002: Mostrar todas las boletas en propiedad del usuario
-    @GetMapping("/{idPropietario}")
+    @GetMapping("/listarBoletasPropietario-boleta/{idPropietario}")
     public ResponseEntity<List<Boleta>> listarBoletasPorPropietario(
             @PathVariable String idPropietario) throws Exception {
         List<Boleta> boletas = cuentaServicio.buscarBoletasPorPropietario(idPropietario);
@@ -34,7 +34,7 @@ public class BoletaControlador {
     }
 
     // RF-003: Ver detalle de una boleta
-    @GetMapping("/detalle/{idBoleta}")
+    @GetMapping("/detalle-boleta/{idBoleta}")
     public ResponseEntity<Boleta> obtenerDetalleBoleta(
             @PathVariable String idBoleta,
             @PathVariable String idPropietario) throws Exception {
@@ -43,14 +43,14 @@ public class BoletaControlador {
     }
 
     // RF-004: Ver boletas enviadas y pendientes
-    @GetMapping("/{idPropietario}/envios/enviados")
+    @GetMapping("listarBoletasEnviadas-boleta/{idPropietario}/envios/enviados")
     public ResponseEntity<List<Boleta>> listarBoletasEnviadas(
             @PathVariable String idPropietario) throws Exception {
         List<Boleta> boletasEnviadas = cuentaServicio.listarBoletasEnviadas(idPropietario);
         return ResponseEntity.ok(boletasEnviadas);
     }
 
-    @GetMapping("/{idPropietario}/envios/pendientes")
+    @GetMapping("listarBoletasPendientes-boleta/{idPropietario}/envios/pendientes")
     public ResponseEntity<List<Boleta>> listarBoletasPendientes(
             @PathVariable String idPropietario) throws Exception {
         List<Boleta> boletasPendientes = cuentaServicio.listarBoletasPendientes(idPropietario);
@@ -58,7 +58,7 @@ public class BoletaControlador {
     }
 
     // RF-009: Transferir boleta
-    @PostMapping("/transferir/{idBoleta}/{idPropietario}/{idNuevoPropietario}")
+    @PostMapping("/transferir-boleta/{idBoleta}/{idPropietario}/{idNuevoPropietario}")
     public ResponseEntity<String> transferirBoleta(
             @PathVariable String idBoleta,
             @PathVariable String idPropietario,
@@ -68,7 +68,7 @@ public class BoletaControlador {
     }
 
     // RF-008: Aceptar boleta
-    @PostMapping("/aceptar/{idBoleta}/{idNuevoPropietario}")
+    @PostMapping("/aceptar-boleta/{idBoleta}/{idNuevoPropietario}")
     public ResponseEntity<String> aceptarBoleta(
             @PathVariable String idBoleta,
             @PathVariable String idNuevoPropietario) throws Exception {

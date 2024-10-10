@@ -73,7 +73,7 @@ db.orden.insertMany([
             }
         ],
         pago: {
-            moneda: "USD",
+            moneda: "COP",
             tipoPago: "CREDIT_CARD",
             detalleEstado: "Pago exitoso",
             codigoAutorizacion: "AUTH123",
@@ -206,6 +206,17 @@ db.cuenta.insertMany([
                 estado: "PENDIENTE",
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
             }
+            ,
+            {
+                id: "6707e621e96e75a8eb1cb0cd",
+                idEvento: "6701eec35da1f43a2940c085",
+                idClientePropietario: "6701ed1fa81f609e1a5692fb",
+                nombreEvento: "Desfile de Moda",
+                fechaEvento: ISODate("2024-12-05T20:30:00Z"),
+                nombreLocalidad: "Platea",
+                estado: "ACTIVA",
+                idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
+            }
         ],
 
         preferencias: [
@@ -310,19 +321,27 @@ db.cuenta.insertMany([
             {
                 id: "67075ca665e74b056e674590",
                 idEvento: "6701eea02f877bfc0e9397cf",
-                idClientePropietario: "6701ed1fa81f609e1a5692fb",
+                idClientePropietario: "67075cab0623a30f86f70d0d",
                 nombreEvento: "Concierto Rock",
                 fechaEvento: ISODate("2024-11-01T19:00:00Z"),
                 nombreLocalidad: "General",
                 estado: "ACTIVA",
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
+            },
+            {
+                id: "6707ec00a26d03698ccbc650",
+                idEvento: "6701eea02f877bfc0e9397cf",
+                idClientePropietario: "6701ed1fa81f609e1a5692fb",
+                nombreEvento: "Concierto Rock",
+                fechaEvento: ISODate("2024-11-01T19:00:00Z"),
+                nombreLocalidad: "General",
+                estado: "PENDIENTE",
+                idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
             }
         ],
 
         preferencias: [
-            "DEPORTE",
-            "CONCIERTO",
-            "MODA"
+
         ]
         ,
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
@@ -395,7 +414,7 @@ db.evento.insertMany([
         nombre: "Festival de Jazz",
         descripcion: "El mejor jazz de Colombia",
         imagenLocalidades: "localidades_evento2.jpg",
-        tipo: "FESTIVAL",
+        tipo: "CONCIERTO",
         fechaEvento: ISODate("2024-02-10T17:00:00Z"),
         ciudad: "Medellín",
         localidades: [
@@ -417,8 +436,6 @@ db.carrito.insertMany([
         idUsuario: ObjectId("6701ed1fa81f609e1a5692fb"),  // Usuario relacionado (usuario001)
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
     },
-
-
 
     {
         _id: ObjectId("6701eefb2c4a9b1234567891"),

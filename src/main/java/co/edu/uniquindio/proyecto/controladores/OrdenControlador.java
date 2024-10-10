@@ -21,7 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/orden")
+@RequestMapping("/api/cliente")
 //@SecurityRequirement(name = "bearerAuth")
 public class OrdenControlador {
 
@@ -57,24 +57,24 @@ public class OrdenControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Orden eliminado exitosamente"));
     }
 
-    @GetMapping("/obtener-informacion/{id}")
+    @GetMapping("/obtener-informacion-orden/{id}")
     public ResponseEntity<MensajeDTO<InformacionOrdenDTO>> obtenerInformacionOrden(@PathVariable String id) throws Exception {
         InformacionOrdenDTO cuponInfo = ordenServicio.obtenerInformacionOrden(id);
         return ResponseEntity.ok(new MensajeDTO<>(false, cuponInfo));
     }
-    @GetMapping("/obtener-ordenes-cliente/{id}")
+    @GetMapping("/obtener-ordenes-cliente-orden/{id}")
     public ResponseEntity<MensajeDTO<List<Orden>>> buscarOrdenesPorCliente(@PathVariable String id) throws Exception {
         List<Orden> ordenesCliente = ordenServicio.buscarOrdenesPorCliente(id);
         return ResponseEntity.ok(new MensajeDTO<>(false, ordenesCliente));
     }
-    @GetMapping("/obtener-ordenes-rango-fecha/{dateOne}/{dateTwo}")
+    @GetMapping("/obtener-ordenes-rango-fecha-orden/{dateOne}/{dateTwo}")
     public ResponseEntity<MensajeDTO<List<Orden>>> buscarOrdenesPorRangoDeFechas(@PathVariable("dateOne")String d1, @PathVariable("dateTwo")String d2) throws Exception {
         List<Orden> ordenesClientes = ordenServicio.buscarOrdenesPorRangoDeFechas(d1,d2);
         return ResponseEntity.ok(new MensajeDTO<>(false, ordenesClientes));
     }
 
 
-    @GetMapping("/obtener-ordenes")
+    @GetMapping("/obtener-ordenes-orden")
     public ResponseEntity<MensajeDTO<List<InformacionOrdenDTO>>> buscarOrdenes() throws Exception {
         List<InformacionOrdenDTO> ordenesCliente = ordenServicio.listarTodasLasOrdenes();
         return ResponseEntity.ok(new MensajeDTO<>(false, ordenesCliente));

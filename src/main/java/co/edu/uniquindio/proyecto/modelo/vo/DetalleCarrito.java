@@ -17,5 +17,8 @@ public class DetalleCarrito {
     private int cantidad;
     private String nombreLocalidad;
 
+    public DetalleCarrito() {
+
+    }
 }
 

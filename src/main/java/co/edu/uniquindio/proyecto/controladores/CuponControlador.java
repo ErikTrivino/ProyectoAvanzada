@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/cupon")
+@RequestMapping("/api/cliente")
 //@SecurityRequirement(name = "bearerAuth")
 public class CuponControlador {
     private  final CuponServicioImpl cuponServicio;
@@ -40,13 +40,13 @@ public class CuponControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cupon eliminado exitosamente"));
     }
 
-    @GetMapping("/obtener-informacion/{id}")
+    @GetMapping("/obtener-informacion-cupon/{id}")
     public ResponseEntity<MensajeDTO<InformacionCuponDTO>> obtenerInformacionCupon(@PathVariable String id) throws Exception {
         InformacionCuponDTO cuponInfo = cuponServicio.obtenerInformacionCupon(id);
         return ResponseEntity.ok(new MensajeDTO<>(false, cuponInfo));
     }
 
-    @GetMapping("/listar-cupones-activos")
+    @GetMapping("/listar-cupones-activos-cupon")
     public ResponseEntity<MensajeDTO<List<Cupon>>> listarCuponesActivos() throws Exception {
         List<Cupon> cupones = cuponServicio.listarCuponesActivos();
         return ResponseEntity.ok(new MensajeDTO<>(false, cupones));
@@ -60,7 +60,7 @@ public class CuponControlador {
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MensajeDTO<>(true, "El cupon no pudo ser redimido"));
     }
 
-    @GetMapping("/listar-cupones-por-expirar")
+    @GetMapping("/listar-cupones-por-expirar-cupon")
     public ResponseEntity<MensajeDTO<List<Cupon>>> listarCuponesPorExpirar() throws Exception {
         List<Cupon> cupones = cuponServicio.listarCuponesPorExpirar();
         return ResponseEntity.ok(new MensajeDTO<>(false, cupones));

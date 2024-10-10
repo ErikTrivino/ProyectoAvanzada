@@ -113,7 +113,8 @@ public class CuentaServicioImpl implements CuentaServicio {
                 cuenta.getUsuario().getNombre(),
                 cuenta.getUsuario().getTelefono(),
                 cuenta.getUsuario().getDireccion(),
-                cuenta.getEmail()
+                cuenta.getEmail(),
+                cuenta.getBoletas()
         );
 
     }
@@ -322,7 +323,7 @@ public class CuentaServicioImpl implements CuentaServicio {
 
             }
         }
-        // Guardar cambios en la cuenta o boleta
+
     }
 
 
@@ -365,6 +366,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         }
 
         cuenta.get().getPreferencias().addAll(tipoPreferencias);
+        cuentaRepo.save(cuenta.get());
     }
     @Override
     public List<TipoEvento> obtenerPreferenciasUsuario(String idUsuario) throws Exception {

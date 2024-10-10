@@ -148,6 +148,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
         // Recorrer los items de la orden y crea los ítems de la pasarela
         for(DetalleOrden item : ordenGuardada.getItems()){
 
+            //System.out.println();
 
             // Obtener el evento y la localidad del ítem
             Evento evento = eventoServicio.obtenerEvento(item.getIdEvento().toString());
@@ -172,7 +173,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
 
         // Configurar las credenciales de MercadoPago
-        MercadoPagoConfig.setAccessToken("ACCESS_TOKEN");
+        MercadoPagoConfig.setAccessToken("TEST-588868403287290-100616-0e528ecb48f60cebab6692df2b492cec-1615533331");
 
 
         // Configurar las urls de retorno de la pasarela (Frontend)
@@ -188,7 +189,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
                 .backUrls(backUrls)
                 .items(itemsPasarela)
                 .metadata(Map.of("id_orden", ordenGuardada.getId()))
-                .notificationUrl("https://a92d-2800-e2-6f80-309-847-6fa2-3ec-4bba.ngrok-free.app")//URL TOMADA DEL NGROK
+                .notificationUrl("https://daca-2800-e2-6f80-309-dd7d-3ad2-faeb-4a16.ngrok-free.app")//URL TOMADA DEL NGROK
                 .build();
 
 

@@ -29,8 +29,14 @@ public class CarritoServicioImpl implements CarritoServicio {
     @Override
     public String eliminarItem(String idCarrito, String idEvento) throws Exception {
         Carrito carrito = carritoRepo.findById(idCarrito).orElseThrow(() -> new Exception("Carrito no encontrado"));
-        carritoRepo.delete(carrito);
-        return "Item eliminado correctamente";
+        Optional<DetalleCarrito> detalleCarrito = carrito.getItems().stream().filter(x -> x.getIdEvento() == idEvento).findFirst();
+        if(detalleCarrito.isPresent()){
+            carrito.getItems().remove(detalleCarrito.get());
+            carritoRepo.save(carrito);
+            return "Item eliminado correctamente";
+        }
+        return "Item no ha sido eliminado correctamente";
+
     }
 
     @Override

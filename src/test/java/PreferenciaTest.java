@@ -29,8 +29,7 @@ public class PreferenciaTest {
 
         );
 
-        // Simular el comportamiento del servicio
-        //when(cuentaServicio.obtenerPreferencias()).thenReturn(preferenciasSimuladas);
+
 
         // Llamar al servicio
         List<TipoEvento> preferencias = cuentaServicio.obtenerPreferencias();
@@ -39,49 +38,42 @@ public class PreferenciaTest {
         assertNotNull(preferencias);
 
         // Verificar que se obtienen las preferencias correctas
-        assertEquals(3, preferencias.size());
-        assertEquals("Concierto", preferencias.get(0));
-        assertEquals("Deporte", preferencias.get(1));
-        assertEquals("Teatro", preferencias.get(2));
+        assertEquals(5, preferencias.size());
+        assertEquals(TipoEvento.DEPORTE, preferencias.get(0));
+        assertEquals(TipoEvento.CONCIERTO, preferencias.get(1));
+        assertEquals(TipoEvento.CULTURAL, preferencias.get(2));
     }
 
     @Test
     public void agregarPreferenciasUsuarioTest() throws Exception {
         // Simular el ID del usuario y las preferencias que se agregarán
-        String idUsuario = "usuario001";
+        String idUsuario = "67075cab0623a30f86f70d0d";
         List<TipoEvento> preferenciasSimuladas = List.of(
                 TipoEvento.DEPORTE,
                 TipoEvento.BELLEZA
         );
 
-        // Simular el comportamiento del servicio. Como no devuelve nada, usamos doNothing
-        //doNothing().when(cuentaServicio).agregarPreferenciasUsuario(idUsuario, preferenciasSimuladas);
 
         // Llamar al método de agregar preferencias
         cuentaServicio.agregarPreferenciasUsuario(idUsuario, preferenciasSimuladas);
+        assertEquals(preferenciasSimuladas.get(0), cuentaServicio.obtenerPreferenciasUsuario("67075cab0623a30f86f70d0d").get(0));
 
 
-        // Verificar que el método fue invocado con los parámetros correctos
-        //verify(cuentaServicio, times(1)).agregarPreferenciasUsuario(idUsuario, preferenciasSimuladas);
     }
 
     @Test
     void testObtenerPreferenciasUsuario() throws Exception {
         // Configurar el usuario y sus preferencias de prueba
-        String idUsuario = "usuario001";
+        String idUsuario = "6701ed1fa81f609e1a5692fb";
         List<TipoEvento> preferencias = List.of(TipoEvento.CONCIERTO, TipoEvento.DEPORTE);
 
-        Cuenta usuario = new Cuenta();
-
-        // Simular que el usuario existe en el repositorio
-        //when(usuarioRepo.findById(idUsuario)).thenReturn(Optional.of(usuario));
 
         // Llamar al método y verificar el resultado
         List<TipoEvento> resultado = cuentaServicio.obtenerPreferenciasUsuario(idUsuario);
 
         assertNotNull(resultado);
-        assertEquals(preferencias.size(), resultado.size());
-        assertEquals(preferencias, resultado);
+        assertEquals(4, resultado.size());
+        assertEquals(preferencias.get(1), resultado.get(0));
     }
 
 
