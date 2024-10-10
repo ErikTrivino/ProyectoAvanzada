@@ -59,8 +59,6 @@ public class FiltroToken extends OncePerRequestFilter {
                     error = validarToken(token, Rol.CLIENTE);
                 }else if (requestURI.startsWith("/api/admin")){
                     error = validarToken(token, Rol.ADMINISTRADOR);
-                }else if (requestURI.startsWith("/api/imagenes")){
-                    error = validarToken(token, Rol.ADMINISTRADOR);
                 }else{
                     error = false;
                 }
