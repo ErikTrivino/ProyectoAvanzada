@@ -1,4 +1,4 @@
-package co.edu.uniquindio.proyecto.controladores;
+package co.edu.uniquindio.proyecto.controladoresNoutil;
 
 import co.edu.uniquindio.proyecto.modelo.vo.Boleta;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CuentaServicio;

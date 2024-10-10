@@ -3,10 +3,12 @@ package co.edu.uniquindio.proyecto.controladores;
 import co.edu.uniquindio.proyecto.modelo.documentos.Evento;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.MensajeDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.*;
+import co.edu.uniquindio.proyecto.modelo.dto.cupon.InformacionCuponDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.CrearEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.FiltroEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.InformacionEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.ItemEventoDTO;
+import co.edu.uniquindio.proyecto.servicios.implementaciones.CuponServicioImpl;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CuentaServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EventoServicio;
 import jakarta.validation.Valid;
@@ -23,6 +25,7 @@ public class GeneralControlador {
 
     private final EventoServicio eventoServicio;
     private final CuentaServicio cuentaServicio;
+    private  final CuponServicioImpl cuponServicio;
 
     @GetMapping("/obtener-info-evento/{id}")
     public ResponseEntity<MensajeDTO<InformacionEventoDTO>> obtenerInformacionEvento(@PathVariable String id) throws Exception{
@@ -88,6 +91,13 @@ public class GeneralControlador {
     public ResponseEntity<MensajeDTO<String>> cambiarPassword(@RequestBody CambiarPasswordDTO cambiarPasswordDTO) throws Exception {
         cuentaServicio.cambiarPassword(cambiarPasswordDTO);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Su contraseña ha sido cambiada."));
+    }
+
+    //cupon
+    @GetMapping("/obtener-informacion-cupon/{id}")
+    public ResponseEntity<MensajeDTO<InformacionCuponDTO>> obtenerInformacionCupon(@PathVariable String id) throws Exception {
+        InformacionCuponDTO cuponInfo = cuponServicio.obtenerInformacionCupon(id);
+        return ResponseEntity.ok(new MensajeDTO<>(false, cuponInfo));
     }
 
 
