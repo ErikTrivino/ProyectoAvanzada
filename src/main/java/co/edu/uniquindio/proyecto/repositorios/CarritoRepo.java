@@ -14,7 +14,7 @@ public interface CarritoRepo extends MongoRepository<Carrito, String> {
 
     // Buscar un carrito por el idUsuario
     @Query("{ 'idUsuario' : ?0 }")
-    Optional<Carrito> buscarCarritoPorIdUsuario(ObjectId idUsuario);
+    Optional<Carrito> buscarCarritoPorIdUsuario(String idUsuario);
 
     // Buscar un carrito por el ID del carrito
     @Query("{ '_id' : ?0 }")
@@ -27,5 +27,7 @@ public interface CarritoRepo extends MongoRepository<Carrito, String> {
     // Buscar todos los carritos con más de X cantidad de items
     @Query("{ 'items.cantidad' : { $gt: ?0 } }")
     List<Carrito> buscarCarritosConMasDeXItems(int cantidad);
+
+
 }
 

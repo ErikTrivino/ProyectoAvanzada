@@ -12,12 +12,10 @@ import org.bson.types.ObjectId;
 @Setter
 public class DetalleCarrito {
 
-    private ObjectId idEvento;
+    private String id;
+    private String idEvento;
     private int cantidad;
     private String nombreLocalidad;
-
-
-
 
 }
 

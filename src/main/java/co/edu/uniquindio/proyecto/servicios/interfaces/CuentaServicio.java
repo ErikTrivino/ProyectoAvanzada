@@ -28,13 +28,16 @@ public interface CuentaServicio {
 
     ///NUEVA FUNCIONALIDAD
     List<Boleta> buscarBoletasPorPropietario(String idPropietario) throws Exception;
-    Boleta obtenerDetalleBoleta(String idBoleta) throws Exception;
+    Boleta obtenerDetalleBoleta(String idBoleta, String idPropietario) throws Exception;
     List<Boleta> listarBoletasEnviadas(String idPropietario) throws Exception;
     List<Boleta> listarBoletasPendientes(String idPropietario) throws Exception;
-    void transferirBoleta(String idBoleta, String nuevoPropietario, String correo) throws Exception;
-    void aceptarBoleta(String idBoleta) throws Exception;
+    void transferirBoleta(String idBoleta, String idPropietario, String idNuevoPropietario) throws Exception;
+    void aceptarBoleta(String idBoleta, String idNuevoPropietario) throws Exception;
 
     List<TipoEvento> obtenerPreferencias() throws  Exception;
 
     void agregarPreferenciasUsuario(String idUsuario, List<TipoEvento> tipoPreferencias) throws  Exception;
+
+    List<TipoEvento> obtenerPreferenciasUsuario(String idUsuario) throws Exception;
+
 }

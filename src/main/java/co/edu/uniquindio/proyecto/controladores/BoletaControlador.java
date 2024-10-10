@@ -36,8 +36,9 @@ public class BoletaControlador {
     // RF-003: Ver detalle de una boleta
     @GetMapping("/detalle/{idBoleta}")
     public ResponseEntity<Boleta> obtenerDetalleBoleta(
-            @PathVariable String idBoleta) throws Exception {
-        Boleta boleta = cuentaServicio.obtenerDetalleBoleta(idBoleta);
+            @PathVariable String idBoleta,
+            @PathVariable String idPropietario) throws Exception {
+        Boleta boleta = cuentaServicio.obtenerDetalleBoleta(idBoleta, idPropietario);
         return ResponseEntity.ok(boleta);
     }
 
@@ -57,20 +58,21 @@ public class BoletaControlador {
     }
 
     // RF-009: Transferir boleta
-    @PostMapping("/transferir/{idBoleta}")
+    @PostMapping("/transferir/{idBoleta}/{idPropietario}/{idNuevoPropietario}")
     public ResponseEntity<String> transferirBoleta(
             @PathVariable String idBoleta,
-            @RequestParam("nuevoPropietario") String nuevoPropietario,
-            @RequestParam("correo") String correo) throws Exception {
-        cuentaServicio.transferirBoleta(idBoleta, nuevoPropietario, correo);
+            @PathVariable String idPropietario,
+            @PathVariable String idNuevoPropietario) throws Exception {
+        cuentaServicio.transferirBoleta(idBoleta, idPropietario, idNuevoPropietario);
         return ResponseEntity.ok("Boleta transferida exitosamente.");
     }
 
     // RF-008: Aceptar boleta
-    @PostMapping("/aceptar/{idBoleta}")
+    @PostMapping("/aceptar/{idBoleta}/{idNuevoPropietario}")
     public ResponseEntity<String> aceptarBoleta(
-            @PathVariable String idBoleta) throws Exception {
-        cuentaServicio.aceptarBoleta(idBoleta);
+            @PathVariable String idBoleta,
+            @PathVariable String idNuevoPropietario) throws Exception {
+        cuentaServicio.aceptarBoleta(idBoleta, idNuevoPropietario);
         return ResponseEntity.ok("Boleta aceptada.");
     }
 }

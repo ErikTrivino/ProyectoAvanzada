@@ -3,13 +3,14 @@ package co.edu.uniquindio.proyecto.servicios.implementaciones;
 import co.edu.uniquindio.proyecto.modelo.documentos.Carrito;
 import co.edu.uniquindio.proyecto.modelo.vo.DetalleCarrito;
 import co.edu.uniquindio.proyecto.repositorios.CarritoRepo;
+import co.edu.uniquindio.proyecto.repositorios.CuentaRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CarritoServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,12 +23,8 @@ public class CarritoServicioImpl implements CarritoServicio {
     @Autowired
     private final CarritoRepo carritoRepo;
 
-    @Override
-    public String tablaCarrito(List<DetalleCarrito> listaCarrito) {
-        // Generar la tabla en formato texto o HTML
-        // Dependiendo de la lógica, aquí puedes construir una tabla visual.
-        return listaCarrito.toString(); // O un formato adecuado.
-    }
+    private final CuentaRepo cuentaRepo;
+
 
     @Override
     public String eliminarItem(String idCarrito, String idEvento) throws Exception {
@@ -48,19 +45,16 @@ public class CarritoServicioImpl implements CarritoServicio {
         carritoRepo.save(carrito);
     }
 
-
-
     @Override
-    public float calcularTotal(String idCarrito) throws Exception {
-        return 0;
+    public Carrito traerCarrito(String idCuenta) throws Exception {
+        Optional<Carrito> carrito = carritoRepo.buscarCarritoPorIdUsuario(idCuenta);
+        if(carrito.isPresent()){
+            return carrito.get();
+        }else {
+            return null;
+        }
+
     }
-
-
-    @Override
-    public List<Carrito> listarCarritos() {
-        return carritoRepo.findAll();
-    }
-
 
 
 }

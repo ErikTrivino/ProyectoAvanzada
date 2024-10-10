@@ -257,8 +257,15 @@ public class CuentaServicioImpl implements CuentaServicio {
     }
 
     @Override
-    public Boleta obtenerDetalleBoleta(String idBoleta) throws Exception {
-        return buscarBoletaPorId(idBoleta);
+    public Boleta obtenerDetalleBoleta(String idBoleta, String idPropietario) throws Exception {
+        Optional<Cuenta> cuenta = cuentaRepo.findById(idPropietario);
+        if(cuenta.isPresent()){
+            return cuenta.get().getBoletas().stream()
+                    .filter(boleta -> boleta.getId().equals(idBoleta))
+                    .findFirst()
+                    .orElse(null);
+        }
+        return null;
     }
 
     @Override
@@ -278,21 +285,43 @@ public class CuentaServicioImpl implements CuentaServicio {
     }
 
     @Override
-    public void transferirBoleta(String idBoleta, String nuevoPropietario, String correo) throws Exception {
-        Boleta boleta = buscarBoletaPorId(idBoleta);
-        if (boleta == null) throw new Exception("Boleta no encontrada");
+    public void transferirBoleta(String idBoleta, String idPropietario, String idNuevoPropietario) throws Exception {
 
-        boleta.setIdClientepropietario(nuevoPropietario);
-        boleta.setEstado(EstadoBoleta.PENDIENTE);
-        // Guardar cambios en la cuenta o boleta
+        Optional<Cuenta> cuenta = cuentaRepo.findById(idPropietario);
+        Optional<Cuenta> cuenta2 = cuentaRepo.findById(idNuevoPropietario);
+        if(cuenta.isPresent() && cuenta2.isPresent()){
+            Boleta boletaTra = cuenta.get().getBoletas().stream()
+                    .filter(boleta -> boleta.getId().equals(idBoleta))
+                    .findFirst()
+                    .orElse(null);
+            if(boletaTra != null){
+                boletaTra.setEstado(EstadoBoleta.ENVIADA);
+                cuentaRepo.save(cuenta.get());
+
+                boletaTra.setEstado(EstadoBoleta.PENDIENTE);
+
+                cuenta2.get().getBoletas().add(boletaTra);
+                cuentaRepo.save(cuenta2.get());
+            }
+        }
+
     }
 
     @Override
-    public void aceptarBoleta(String idBoleta) throws Exception {
-        Boleta boleta = buscarBoletaPorId(idBoleta);
-        if (boleta == null) throw new Exception("Boleta no encontrada");
+    public void aceptarBoleta(String idBoleta, String idNuevoPropietario) throws Exception {
 
-        boleta.setEstado(EstadoBoleta.ACEPTADA);
+        Optional<Cuenta> cuenta = cuentaRepo.findById(idNuevoPropietario);
+        if(cuenta.isPresent()){
+            Boleta boletaTra = cuenta.get().getBoletas().stream()
+                    .filter(boleta -> boleta.getId().equals(idBoleta))
+                    .findFirst()
+                    .orElse(null);
+            if(boletaTra != null){
+                boletaTra.setEstado(EstadoBoleta.ACEPTADA);
+                cuentaRepo.save(cuenta.get());
+
+            }
+        }
         // Guardar cambios en la cuenta o boleta
     }
 
@@ -337,6 +366,16 @@ public class CuentaServicioImpl implements CuentaServicio {
 
         cuenta.get().getPreferencias().addAll(tipoPreferencias);
     }
+    @Override
+    public List<TipoEvento> obtenerPreferenciasUsuario(String idUsuario) throws Exception {
+        // Verificar si el usuario existe en la base de datos
+        Cuenta usuario = cuentaRepo.findById(idUsuario)
+                .orElseThrow(() -> new Exception("Usuario no encontrado"));
+
+        // Devolver las preferencias del usuario
+        return usuario.getPreferencias();
+    }
+
 
 
 

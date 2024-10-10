@@ -1,150 +1,7 @@
 
 db = connect( 'mongodb://localhost:27017/proyecto' );
 // Datos de Carrito
-db.carrito.insertMany([
-    {
-        "fecha": ISODate("2023-10-01T10:00:00Z"),
-        "items": [
-            { "productoId": "abc123", "cantidad": 2, "precioUnitario": 15000 },
-            { "productoId": "def456", "cantidad": 1, "precioUnitario": 30000 }
-        ],
-        "id": "carrito001",
-        "idUsuario": ObjectId("651f3a9d6f1b2b3c4f5d1b1c")
-    },
-    {
-        "fecha": ISODate("2023-10-02T11:00:00Z"),
-        "items": [
-            { "productoId": "ghi789", "cantidad": 3, "precioUnitario": 10000 }
-        ],
-        "id": "carrito002",
-        "idUsuario": ObjectId("651f3a9d6f1b2b3c4f5d1b1c")
-    },
-    {
-        "fecha": ISODate("2023-10-03T12:30:00Z"),
-        "items": [
-            { "productoId": "xyz111", "cantidad": 1, "precioUnitario": 50000 }
-        ],
-        "id": "carrito003",
-        "idUsuario": ObjectId("651f3a9d6f1b2b3c4f5d1b2c")
-    },
-    {
-        "fecha": ISODate("2023-10-04T13:00:00Z"),
-        "items": [
-            { "productoId": "opq222", "cantidad": 5, "precioUnitario": 8000 }
-        ],
-        "id": "carrito004",
-        "idUsuario": ObjectId("651f3a9d6f1b2b3c4f5d1b3c")
-    },
-    {
-        "fecha": ISODate("2023-10-05T14:30:00Z"),
-        "items": [
-            { "productoId": "rst333", "cantidad": 4, "precioUnitario": 12000 }
-        ],
-        "id": "carrito005",
-        "idUsuario": ObjectId("651f3a9d6f1b2b3c4f5d1b4c")
-    }
-]);
 
-// Datos de Cuenta
-db.cuenta.insertMany([
-    {
-        "_id": "cuenta001",
-        "email": "usuario1@example.com",
-        "password": "password123",
-        "rol": "ADMIN",
-        "fechaRegistro": ISODate("2023-09-10T08:30:00Z"),
-        "usuario": {
-            "id": "usuario001",
-            "telefono": "123456789",
-            "direccion": "Calle 123",
-            "cedula": "987654321",
-            "nombre": "Juan Perez"
-        },
-        "estado": "ACTIVO",
-        "codigoValidacionRegistro": {
-            "codigo": "VAL001",
-            "fechaCreacion": ISODate("2023-09-10T08:35:00Z"),
-            "fechaExpiracion": ISODate("2023-09-11T08:35:00Z")
-        },
-        "codigoValidacionPassword": null
-    },
-    {
-        "_id": "cuenta002",
-        "email": "usuario2@example.com",
-        "password": "password1234",
-        "rol": "USUARIO",
-        "fechaRegistro": ISODate("2023-09-11T09:00:00Z"),
-        "usuario": {
-            "id": "usuario002",
-            "telefono": "987654321",
-            "direccion": "Calle 456",
-            "cedula": "123456789",
-            "nombre": "Ana Gomez"
-        },
-        "estado": "INACTIVO",
-        "codigoValidacionRegistro": {
-            "codigo": "VAL002",
-            "fechaCreacion": ISODate("2023-09-11T09:05:00Z"),
-            "fechaExpiracion": ISODate("2023-09-12T09:05:00Z")
-        },
-        "codigoValidacionPassword": null
-    },
-    {
-        "_id": "cuenta003",
-        "email": "usuario3@example.com",
-        "password": "password12345",
-        "rol": "ADMIN",
-        "fechaRegistro": ISODate("2023-09-12T10:00:00Z"),
-        "usuario": {
-            "id": "usuario003",
-            "telefono": "345678901",
-            "direccion": "Calle 789",
-            "cedula": "876543210",
-            "nombre": "Carlos Lopez"
-        },
-        "estado": "ACTIVO",
-        "codigoValidacionRegistro": null,
-        "codigoValidacionPassword": null
-    },
-    {
-        "_id": "cuenta004",
-        "email": "usuario4@example.com",
-        "password": "password123456",
-        "rol": "USUARIO",
-        "fechaRegistro": ISODate("2023-09-13T11:30:00Z"),
-        "usuario": {
-            "id": "usuario004",
-            "telefono": "567890123",
-            "direccion": "Calle 321",
-            "cedula": "543216789",
-            "nombre": "Marta Silva"
-        },
-        "estado": "ACTIVO",
-        "codigoValidacionRegistro": null,
-        "codigoValidacionPassword": {
-            "codigo": "VAL003",
-            "fechaCreacion": ISODate("2023-09-13T11:35:00Z"),
-            "fechaExpiracion": ISODate("2023-09-14T11:35:00Z")
-        }
-    },
-    {
-        "_id": "cuenta005",
-        "email": "usuario5@example.com",
-        "password": "password654321",
-        "rol": "USUARIO",
-        "fechaRegistro": ISODate("2023-09-14T12:00:00Z"),
-        "usuario": {
-            "id": "usuario005",
-            "telefono": "789012345",
-            "direccion": "Calle 654",
-            "cedula": "654321987",
-            "nombre": "Laura Rodriguez"
-        },
-        "estado": "INACTIVO",
-        "codigoValidacionRegistro": null,
-        "codigoValidacionPassword": null
-    }
-]);
 
 // Datos de Cupon
 db.cupon.insertMany([
@@ -203,84 +60,7 @@ db.cupon.insertMany([
 ]);
 
 
-// Datos de Evento
-db.evento.insertMany([
-    {
-        "_id": "evento001",
-        "imagenPortada": "portada_evento1.jpg",
-        "estado": "ACTIVO",
-        "nombre": "Concierto Banda XYZ",
-        "descripcion": "Un concierto inolvidable con Banda XYZ",
-        "imagenLocalidades": "localidades_evento1.jpg",
-        "tipo": "CONCIERTO",
-        "fechaEvento": ISODate("2023-11-15T19:00:00Z"),
-        "ciudad": "Bogotá",
-        "localidades": [
-            { "nombre": "General", "precio": 50000, "disponibilidad": 100 },
-            { "nombre": "VIP", "precio": 100000, "disponibilidad": 50 }
-        ]
-    },
-    {
-        "_id": "evento002",
-        "imagenPortada": "portada_evento2.jpg",
-        "estado": "ACTIVO",
-        "nombre": "Festival de Jazz",
-        "descripcion": "Disfruta del mejor jazz en vivo",
-        "imagenLocalidades": "localidades_evento2.jpg",
-        "tipo": "FESTIVAL",
-        "fechaEvento": ISODate("2023-12-20T18:00:00Z"),
-        "ciudad": "Medellín",
-        "localidades": [
-            { "nombre": "General", "precio": 40000, "disponibilidad": 150 },
-            { "nombre": "VIP", "precio": 80000, "disponibilidad": 60 }
-        ]
-    },
-    {
-        "_id": "evento003",
-        "imagenPortada": "portada_evento3.jpg",
-        "estado": "INACTIVO",
-        "nombre": "Teatro Clásico",
-        "descripcion": "Una obra clásica que te emocionará",
-        "imagenLocalidades": "localidades_evento3.jpg",
-        "tipo": "TEATRO",
-        "fechaEvento": ISODate("2023-10-05T17:00:00Z"),
-        "ciudad": "Cali",
-        "localidades": [
-            { "nombre": "Platea", "precio": 60000, "disponibilidad": 80 },
-            { "nombre": "Balcón", "precio": 40000, "disponibilidad": 50 }
-        ]
-    },
-    {
-        "_id": "evento004",
-        "imagenPortada": "portada_evento4.jpg",
-        "estado": "ACTIVO",
-        "nombre": "Feria de Ciencia",
-        "descripcion": "Exposición de los mejores proyectos científicos",
-        "imagenLocalidades": "localidades_evento4.jpg",
-        "tipo": "FERIA",
-        "fechaEvento": ISODate("2023-11-30T09:00:00Z"),
-        "ciudad": "Barranquilla",
-        "localidades": [
-            { "nombre": "General", "precio": 20000, "disponibilidad": 300 },
-            { "nombre": "Estudiantes", "precio": 10000, "disponibilidad": 200 }
-        ]
-    },
-    {
-        "_id": "evento005",
-        "imagenPortada": "portada_evento5.jpg",
-        "estado": "INACTIVO",
-        "nombre": "Exposición de Arte",
-        "descripcion": "Una colección impresionante de arte moderno",
-        "imagenLocalidades": "localidades_evento5.jpg",
-        "tipo": "EXPOSICION",
-        "fechaEvento": ISODate("2024-01-10T10:00:00Z"),
-        "ciudad": "Cartagena",
-        "localidades": [
-            { "nombre": "General", "precio": 70000, "disponibilidad": 120 },
-            { "nombre": "VIP", "precio": 150000, "disponibilidad": 30 }
-        ]
-    }
-]);
+
 
 // Datos de Orden
 db.orden.insertMany([
@@ -456,42 +236,295 @@ db.orden.insertMany([
     }
 ]);
 
+// Datos de Cuenta
+db.cuenta.insertMany([
+    {
+        "_id": ObjectId("6701ec61eb812956e91267d7") ,
+        "email": "usuario1@example.com",
+        "password": "password123",
+        "rol": "ADMIN",
+        "fechaRegistro": ISODate("2023-09-10T08:30:00Z"),
+        "usuario": {
+            "id": "6701ecb5522faa848df6771c",
+            "telefono": "123456789",
+            "direccion": "Calle 123",
+            "cedula": "987654321",
+            "nombre": "Juan Perez"
+        },
+        "estado": "ACTIVO",
+        "codigoValidacionRegistro": {
+            "codigo": "VAL001",
+            "fechaCreacion": ISODate("2023-09-10T08:35:00Z"),
+            "fechaExpiracion": ISODate("2023-09-11T08:35:00Z")
+        },
+        "codigoValidacionPassword": null,
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
+    },
+    {
+        "_id": ObjectId("6701ed1fa81f609e1a5692fb"),
+        "email": "usuario2@example.com",
+        "password": "password1234",
+        "rol": "USUARIO",
+        "fechaRegistro": ISODate("2023-09-11T09:00:00Z"),
+        "usuario": {
+            "id": "6701ed2718dc56dfc847f9c7",
+            "telefono": "987654321",
+            "direccion": "Calle 456",
+            "cedula": "123456789",
+            "nombre": "Ana Gomez"
+        },
+        "estado": "INACTIVO",
+        "codigoValidacionRegistro": {
+            "codigo": "VAL002",
+            "fechaCreacion": ISODate("2023-09-11T09:05:00Z"),
+            "fechaExpiracion": ISODate("2023-09-12T09:05:00Z")
+        },
+        "codigoValidacionPassword": null,
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
+    },
+    {
+        "_id": ObjectId("6701ed2718dc56dfc847f9c7"),
+        "email": "usuario3@example.com",
+        "password": "password12345",
+        "rol": "ADMIN",
+        "fechaRegistro": ISODate("2023-09-12T10:00:00Z"),
+        "usuario": {
+            "id": "6701ed5940fbd4b4320644f1",
+            "telefono": "345678901",
+            "direccion": "Calle 789",
+            "cedula": "876543210",
+            "nombre": "Carlos Lopez"
+        },
+        "estado": "ACTIVO",
+        "codigoValidacionRegistro": null,
+        "codigoValidacionPassword": null,
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
+    },
+    {
+        "_id": ObjectId("6701edd7e490d979c91ccac0"),
+        "email": "usuario4@example.com",
+        "password": "password123456",
+        "rol": "USUARIO",
+        "fechaRegistro": ISODate("2023-09-13T11:30:00Z"),
+        "usuario": {
+            "id": "6701ede133cf27e08dd1e854",
+            "telefono": "567890123",
+            "direccion": "Calle 321",
+            "cedula": "543216789",
+            "nombre": "Marta Silva"
+        },
+        "estado": "ACTIVO",
+        "codigoValidacionRegistro": null,
+        "codigoValidacionPassword": {
+            "codigo": "VAL003",
+            "fechaCreacion": ISODate("2023-09-13T11:35:00Z"),
+            "fechaExpiracion": ISODate("2023-09-14T11:35:00Z")
+        },
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
+    },
+    {
+        "_id": ObjectId("6701ee143c2efcda35bec4e6"),
+        "email": "usuario5@example.com",
+        "password": "password654321",
+        "rol": "USUARIO",
+        "fechaRegistro": ISODate("2023-09-14T12:00:00Z"),
+        "usuario": {
+            "id": "6701ee143c2efcda35bec4e6",
+            "telefono": "789012345",
+            "direccion": "Calle 654",
+            "cedula": "654321987",
+            "nombre": "Laura Rodriguez"
+        },
+        "estado": "INACTIVO",
+        "codigoValidacionRegistro": null,
+        "codigoValidacionPassword": null,
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
+    }
+]);
+
+
+// Datos de Evento
+db.evento.insertMany([
+    {
+        "_id": ObjectId("6701eea02f877bfc0e9397cf"),
+        "imagenPortada": "portada_evento1.jpg",
+        "estado": "ACTIVO",
+        "nombre": "Concierto Banda XYZ",
+        "descripcion": "Un concierto inolvidable con Banda XYZ",
+        "imagenLocalidades": "localidades_evento1.jpg",
+        "tipo": "CONCIERTO",
+        "fechaEvento": ISODate("2023-11-15T19:00:00Z"),
+        "ciudad": "Bogotá",
+        "localidades": [
+            { "nombre": "General", "precio": 50000, "capacidadMaxima": 100 },
+            { "nombre": "VIP", "precio": 100000, "capacidadMaxima": 50 }
+        ],
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Evento'
+    },
+    {
+        "_id": ObjectId("6701eea60f15f5a0bd60922f"),
+        "imagenPortada": "portada_evento2.jpg",
+        "estado": "ACTIVO",
+        "nombre": "Festival de Jazz",
+        "descripcion": "Disfruta del mejor jazz en vivo",
+        "imagenLocalidades": "localidades_evento2.jpg",
+        "tipo": "FESTIVAL",
+        "fechaEvento": ISODate("2023-12-20T18:00:00Z"),
+        "ciudad": "Medellín",
+        "localidades": [
+            { "nombre": "General", "precio": 40000, "capacidadMaxima": 150, "entradasVendidas": 0 },
+            { "nombre": "VIP", "precio": 80000, "capacidadMaxima": 60, "entradasVendidas": 0 }
+        ],
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Evento'
+    },
+    {
+        "_id": ObjectId("6701eeb14d32c9a9e276392f"),
+        "imagenPortada": "portada_evento3.jpg",
+        "estado": "INACTIVO",
+        "nombre": "Teatro Clásico",
+        "descripcion": "Una obra clásica que te emocionará",
+        "imagenLocalidades": "localidades_evento3.jpg",
+        "tipo": "TEATRO",
+        "fechaEvento": ISODate("2023-10-05T17:00:00Z"),
+        "ciudad": "Cali",
+        "localidades": [
+            { "nombre": "Platea", "precio": 60000, "capacidadMaxima": 80, "entradasVendidas": 20 },
+            { "nombre": "Balcón", "precio": 40000, "capacidadMaxima": 50, "entradasVendidas": 8 }
+        ]
+    },
+    {
+        "_id": ObjectId("6701eeb9fbc0310ac379122a"),
+        "imagenPortada": "portada_evento4.jpg",
+        "estado": "ACTIVO",
+        "nombre": "Feria de Ciencia",
+        "descripcion": "Exposición de los mejores proyectos científicos",
+        "imagenLocalidades": "localidades_evento4.jpg",
+        "tipo": "FERIA",
+        "fechaEvento": ISODate("2023-11-30T09:00:00Z"),
+        "ciudad": "Barranquilla",
+        "localidades": [
+            { "nombre": "General", "precio": 20000, "capacidadMaxima": 300, "entradasVendidas": 0 },
+            { "nombre": "Estudiantes", "precio": 10000, "capacidadMaxima": 200, "entradasVendidas": 0 }
+        ],
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Evento'
+    },
+    {
+        "_id": ObjectId("6701eec35da1f43a2940c085"),
+        "imagenPortada": "portada_evento5.jpg",
+        "estado": "INACTIVO",
+        "nombre": "Exposición de Arte",
+        "descripcion": "Una colección impresionante de arte moderno",
+        "imagenLocalidades": "localidades_evento5.jpg",
+        "tipo": "EXPOSICION",
+        "fechaEvento": ISODate("2024-01-10T10:00:00Z"),
+        "ciudad": "Cartagena",
+        "localidades": [
+            { "nombre": "General", "precio": 70000, "capacidadMaxima": 120, "entradasVendidas": 0 },
+            { "nombre": "VIP", "precio": 150000, "capacidadMaxima": 30, "entradasVendidas": 0 }
+        ],
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Evento'
+    }
+]);
+
+
 
 // Datos de Usuario
 db.usuario.insertMany([
     {
-        "_id": "usuario001",
+        "_id": ObjectId("6701ecb5522faa848df6771c"),
         "telefono": "123456789",
         "direccion": "Calle 123",
         "cedula": "987654321",
-        "nombre": "Juan Perez"
+        "nombre": "Juan Perez",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Usuario'
     },
     {
-        "_id": "usuario002",
+        "_id": ObjectId("6701ed2718dc56dfc847f9c7"),
         "telefono": "987654321",
         "direccion": "Calle 456",
         "cedula": "123456789",
-        "nombre": "Ana Gomez"
+        "nombre": "Ana Gomez",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Usuario'
     },
     {
-        "_id": "usuario003",
+        "_id": ObjectId("6701ed5940fbd4b4320644f1"),
         "telefono": "345678901",
         "direccion": "Calle 789",
         "cedula": "876543210",
-        "nombre": "Carlos Lopez"
+        "nombre": "Carlos Lopez",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Usuario'
     },
     {
-        "_id": "usuario004",
+        "_id": ObjectId("6701ede133cf27e08dd1e854"),
         "telefono": "567890123",
         "direccion": "Calle 321",
         "cedula": "543216789",
-        "nombre": "Marta Silva"
+        "nombre": "Marta Silva",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Usuario'
     },
     {
-        "_id": "usuario005",
+        "_id": ObjectId("6701ee143c2efcda35bec4e6"),
         "telefono": "789012345",
         "direccion": "Calle 654",
         "cedula": "654321987",
-        "nombre": "Laura Rodriguez"
+        "nombre": "Laura Rodriguez",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Usuario'
     }
 ]);
+
+db.carrito.insertMany([
+    {
+        "_id": ObjectId("6701eedf2c4a9b1234567890"),
+        "fecha": ISODate("2024-10-05T12:00:00Z"),
+        "items": [
+            { "idEvento": "6701eea02f877bfc0e9397cf", "cantidad": 2, "nombreLocalidad": "General" },
+            { "idEvento": "6701eeb14d32c9a9e276392f", "cantidad": 1, "nombreLocalidad": "Platea" }
+        ],
+
+        "idUsuario": "usuario001",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    },
+    {
+        "_id": ObjectId("6701eefb2c4a9b1234567891"),
+        "fecha": ISODate("2024-10-06T14:30:00Z"),
+        "items": [
+            { "idEvento": "6701eea60f15f5a0bd60922f", "cantidad": 3, "nombreLocalidad": "VIP" },
+            { "idEvento": "6701eeb9fbc0310ac379122a", "cantidad": 1, "nombreLocalidad": "General" }
+        ],
+
+        "idUsuario": "usuario002",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    },
+    {
+        "_id": ObjectId("6701eefb2c4a9b1234567892"),
+        "fecha": ISODate("2024-10-07T10:00:00Z"),
+        "items": [
+            { "idEvento": "6701eeb14d32c9a9e276392f", "cantidad": 4, "nombreLocalidad": "Balcón" }
+        ],
+
+        "idUsuario": "usuario003",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    },
+    {
+        "_id": ObjectId("6701eefb2c4a9b1234567893"),
+        "fecha": ISODate("2024-10-08T16:45:00Z"),
+        "items": [
+            { "idEvento": "6701eeb9fbc0310ac379122a", "cantidad": 2, "nombreLocalidad": "Estudiantes" }
+        ],
+
+        "idUsuario": "usuario004",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    },
+    {
+        "_id": ObjectId("6701eefb2c4a9b1234567894"),
+        "fecha": ISODate("2024-10-09T11:15:00Z"),
+        "items": [
+            { "idEvento": "6701eec35da1f43a2940c085", "cantidad": 1, "nombreLocalidad": "General" },
+            { "idEvento": "6701eea02f877bfc0e9397cf", "cantidad": 2, "nombreLocalidad": "VIP" }
+        ],
+
+        "idUsuario": "usuario005",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    }
+]);
+
