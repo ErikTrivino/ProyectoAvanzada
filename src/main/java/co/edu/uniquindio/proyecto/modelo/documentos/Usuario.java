@@ -1,13 +1,14 @@
 package co.edu.uniquindio.proyecto.modelo.documentos;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document("pago")
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Usuario {
 
     private String id;

@@ -5,15 +5,18 @@ import co.edu.uniquindio.proyecto.modelo.vo.Pago;
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.List;
+@Document("orden")
 
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Orden {
 
     @Id
@@ -29,4 +32,7 @@ public class Orden {
     private float total;
     //private ObjectId idCupon;
     private String idCupon;
+
+
+
 }

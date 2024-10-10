@@ -135,6 +135,32 @@ public class OrdenServicioImpl  implements OrdenServicio {
 //                .collect(Collectors.toList());
 //    }
 
+
+
+
+
+    private Pago crearPago(Payment payment) {
+        Pago pago = new Pago();
+        pago.setId(payment.getId().toString());
+        pago.setFecha( payment.getDateCreated().toLocalDateTime() );
+        pago.setEstado(payment.getStatus());
+        pago.setDetalleEstado(payment.getStatusDetail());
+        pago.setTipoPago(payment.getPaymentTypeId());
+        pago.setMoneda(payment.getCurrencyId());
+        pago.setCodigoAutorizacion(payment.getAuthorizationCode());
+        pago.setValorTransaccion(payment.getTransactionAmount().floatValue());
+        return pago;
+    }
+
+
+    private Orden obtenerOrden(String idOrden) throws Exception {
+        Optional<Orden> ordenOptional = ordenRepo.findById(idOrden);
+        if (ordenOptional.isEmpty()) {
+            throw new Exception("No se encontró una orden con el ID " + idOrden);
+        }
+        return ordenOptional.get();
+    }
+
     @Override
     public Preference realizarPago(String idOrden) throws Exception {
 
@@ -171,7 +197,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
 
         // Configurar las credenciales de MercadoPago
-        MercadoPagoConfig.setAccessToken("ACCESS_TOKEN");
+        MercadoPagoConfig.setAccessToken("TEST-5343511780372752-100811-c23f39c427f70f650a67ceaaf25513a2-2018651974");
 
 
         // Configurar las urls de retorno de la pasarela (Frontend)
@@ -187,7 +213,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
                 .backUrls(backUrls)
                 .items(itemsPasarela)
                 .metadata(Map.of("id_orden", ordenGuardada.getId()))
-                .notificationUrl("https://a92d-2800-e2-6f80-309-847-6fa2-3ec-4bba.ngrok-free.app")//URL TOMADA DEL NGROK
+                .notificationUrl("https://2332-45-229-73-135.ngrok-free.app/api/orden/notificacion-pago")
                 .build();
 
 
@@ -203,6 +229,8 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
         return preference;
     }
+
+
 
     @Override
     public void recibirNotificacionMercadoPago(Map<String, Object> request) {
@@ -247,25 +275,4 @@ public class OrdenServicioImpl  implements OrdenServicio {
         }
     }
 
-    private Pago crearPago(Payment payment) {
-        Pago pago = new Pago();
-        pago.setId(payment.getId().toString());
-        pago.setFecha( payment.getDateCreated().toLocalDateTime() );
-        pago.setEstado(payment.getStatus());
-        pago.setDetalleEstado(payment.getStatusDetail());
-        pago.setTipoPago(payment.getPaymentTypeId());
-        pago.setMoneda(payment.getCurrencyId());
-        pago.setCodigoAutorizacion(payment.getAuthorizationCode());
-        pago.setValorTransaccion(payment.getTransactionAmount().floatValue());
-        return pago;
-    }
-
-
-    private Orden obtenerOrden(String idOrden) throws Exception {
-        Optional<Orden> ordenOptional = ordenRepo.findById(idOrden);
-        if (ordenOptional.isEmpty()) {
-            throw new Exception("No se encontró una orden con el ID " + idOrden);
-        }
-        return ordenOptional.get();
-    }
 }
