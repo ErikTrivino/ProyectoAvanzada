@@ -345,7 +345,66 @@ db.cuenta.insertMany([
         ]
         ,
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
+    },
+    {
+        "_id": ObjectId("6701ed2718dc56dfc847f9c7"),
+        "email": "usuario3@example.com",
+        "password": "password12345",
+        "rol": "ADMIN",
+        "fechaRegistro": ISODate("2023-09-12T10:00:00Z"),
+        "usuario": {
+            "id": "6701ed5940fbd4b4320644f1",
+            "telefono": "345678901",
+            "direccion": "Calle 789",
+            "cedula": "876543210",
+            "nombre": "Carlos Lopez"
+        },
+        "estado": "ACTIVO",
+        "codigoValidacionRegistro": null,
+        "codigoValidacionPassword": null,
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
+    },
+    {
+        "_id": ObjectId("6701edd7e490d979c91ccac0"),
+        "email": "usuario4@example.com",
+        "password": "password123456",
+        "rol": "USUARIO",
+        "fechaRegistro": ISODate("2023-09-13T11:30:00Z"),
+        "usuario": {
+            "id": "6701ede133cf27e08dd1e854",
+            "telefono": "567890123",
+            "direccion": "Calle 321",
+            "cedula": "543216789",
+            "nombre": "Marta Silva"
+        },
+        "estado": "ACTIVO",
+        "codigoValidacionRegistro": null,
+        "codigoValidacionPassword": {
+            "codigo": "VAL003",
+            "fechaCreacion": ISODate("2023-09-13T11:35:00Z"),
+            "fechaExpiracion": ISODate("2023-09-14T11:35:00Z")
+        },
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
+    },
+    {
+        "_id": ObjectId("6701ee143c2efcda35bec4e6"),
+        "email": "usuario5@example.com",
+        "password": "password654321",
+        "rol": "USUARIO",
+        "fechaRegistro": ISODate("2023-09-14T12:00:00Z"),
+        "usuario": {
+            "id": "6701ee143c2efcda35bec4e6",
+            "telefono": "789012345",
+            "direccion": "Calle 654",
+            "cedula": "654321987",
+            "nombre": "Laura Rodriguez"
+        },
+        "estado": "INACTIVO",
+        "codigoValidacionRegistro": null,
+        "codigoValidacionPassword": null,
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
     }
+
 ]);
 // Datos de Usuario
 db.usuario.insertMany([
@@ -422,7 +481,55 @@ db.evento.insertMany([
             { nombre: "VIP", precio: 120000, capacidadMaxima: 80 }
         ],
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Evento'
+    },
+    {
+        "_id": ObjectId("6701eeb14d32c9a9e276392f"),
+        "imagenPortada": "portada_evento3.jpg",
+        "estado": "INACTIVO",
+        "nombre": "Teatro Clásico",
+        "descripcion": "Una obra clásica que te emocionará",
+        "imagenLocalidades": "localidades_evento3.jpg",
+        "tipo": "CONCIERTO",
+        "fechaEvento": ISODate("2023-10-05T17:00:00Z"),
+        "ciudad": "Cali",
+        "localidades": [
+            { "nombre": "Platea", "precio": 60000, "capacidadMaxima": 80, "entradasVendidas": 20 },
+            { "nombre": "Balcón", "precio": 40000, "capacidadMaxima": 50, "entradasVendidas": 8 }
+        ]
+    },
+    {
+        "_id": ObjectId("6701eeb9fbc0310ac379122a"),
+        "imagenPortada": "portada_evento4.jpg",
+        "estado": "ACTIVO",
+        "nombre": "Feria de Ciencia",
+        "descripcion": "Exposición de los mejores proyectos científicos",
+        "imagenLocalidades": "localidades_evento4.jpg",
+        "tipo": "CONCIERTO",
+        "fechaEvento": ISODate("2023-11-30T09:00:00Z"),
+        "ciudad": "Barranquilla",
+        "localidades": [
+            { "nombre": "General", "precio": 20000, "capacidadMaxima": 300, "entradasVendidas": 0 },
+            { "nombre": "Estudiantes", "precio": 10000, "capacidadMaxima": 200, "entradasVendidas": 0 }
+        ],
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Evento'
+    },
+    {
+        "_id": ObjectId("6701eec35da1f43a2940c085"),
+        "imagenPortada": "portada_evento5.jpg",
+        "estado": "INACTIVO",
+        "nombre": "Exposición de Arte",
+        "descripcion": "Una colección impresionante de arte moderno",
+        "imagenLocalidades": "localidades_evento5.jpg",
+        "tipo": "CONCIERTO",
+        "fechaEvento": ISODate("2024-01-10T10:00:00Z"),
+        "ciudad": "Cartagena",
+        "localidades": [
+            { "nombre": "General", "precio": 70000, "capacidadMaxima": 120, "entradasVendidas": 0 },
+            { "nombre": "VIP", "precio": 150000, "capacidadMaxima": 30, "entradasVendidas": 0 }
+        ],
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Evento'
     }
+
 ]);
 
 db.carrito.insertMany([
