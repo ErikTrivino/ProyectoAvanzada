@@ -24,11 +24,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,6 +44,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
         Orden nuevaOrden = new Orden();
         nuevaOrden.setIdCliente(crearOrdenDTO.idCliente());
         nuevaOrden.setFecha(LocalDateTime.now());
+        nuevaOrden.setCodigoPasarela(crearOrdenDTO.codigoPasarela());
         nuevaOrden.setItems(crearOrdenDTO.items());
         nuevaOrden.setTotal(crearOrdenDTO.total());
 
@@ -59,7 +60,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
         orden.setTotal(editarOrdenDTO.total());
 
         ordenRepo.save(orden);
-        return "La orden ha sido actualizada con éxito";
+        return "La orden ha sido actualizada con éxito.";
     }
 
     @Override
@@ -75,8 +76,24 @@ public class OrdenServicioImpl  implements OrdenServicio {
     }
 
     @Override
-    public List<Orden> buscarOrdenesPorRangoDeFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) throws Exception {
-        return ordenRepo.buscarOrdenesPorRangoDeFechas(fechaInicio, fechaFin);
+    public List<Orden> buscarOrdenesPorRangoDeFechas(String fechaInicio, String fechaFin) throws Exception {
+
+        SimpleDateFormat parser=new SimpleDateFormat("yyyy-MM-dd");
+        Date dateOne=new Date();
+        Date dateTwo=new Date();
+        try {
+            dateOne=parser.parse(fechaInicio);
+            dateTwo=parser.parse(fechaFin);
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(dateOne.before(dateTwo)){
+            return ordenRepo.buscarOrdenesPorRangoDeFechas(dateOne, dateTwo);
+        }else{
+            List<Orden> ordenList = new ArrayList<>();
+            return ordenList;
+        }
+
     }
 
     @Override
@@ -106,18 +123,18 @@ public class OrdenServicioImpl  implements OrdenServicio {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<InformacionOrdenDTO> listarOrdenesPorCliente(String idCliente) throws Exception {
-        List<Orden> ordenes = ordenRepo.buscarOrdenesPorCliente(idCliente);
-        return ordenes.stream()
-                .map(orden -> new InformacionOrdenDTO(
-                        orden.getId(),
-                        orden.getIdCliente(),
-                        orden.getFecha(),
-                        orden.getTotal(),
-                        orden.getItems()))
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<InformacionOrdenDTO> listarOrdenesPorCliente(String idCliente) throws Exception {
+//        List<Orden> ordenes = ordenRepo.buscarOrdenesPorCliente(idCliente);
+//        return ordenes.stream()
+//                .map(orden -> new InformacionOrdenDTO(
+//                        orden.getId(),
+//                        orden.getIdCliente(),
+//                        orden.getFecha(),
+//                        orden.getTotal(),
+//                        orden.getItems()))
+//                .collect(Collectors.toList());
+//    }
 
     @Override
     public Preference realizarPago(String idOrden) throws Exception {
@@ -131,6 +148,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
         // Recorrer los items de la orden y crea los ítems de la pasarela
         for(DetalleOrden item : ordenGuardada.getItems()){
 
+            //System.out.println();
 
             // Obtener el evento y la localidad del ítem
             Evento evento = eventoServicio.obtenerEvento(item.getIdEvento().toString());
@@ -155,7 +173,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
 
         // Configurar las credenciales de MercadoPago
-        MercadoPagoConfig.setAccessToken("ACCESS_TOKEN");
+        MercadoPagoConfig.setAccessToken("TEST-588868403287290-100616-0e528ecb48f60cebab6692df2b492cec-1615533331");
 
 
         // Configurar las urls de retorno de la pasarela (Frontend)
@@ -171,7 +189,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
                 .backUrls(backUrls)
                 .items(itemsPasarela)
                 .metadata(Map.of("id_orden", ordenGuardada.getId()))
-                .notificationUrl("URL NOTIFICACION")
+                .notificationUrl("https://daca-2800-e2-6f80-309-dd7d-3ad2-faeb-4a16.ngrok-free.app")//URL TOMADA DEL NGROK
                 .build();
 
 

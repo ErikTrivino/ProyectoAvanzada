@@ -1,5 +1,240 @@
 
 db = connect( 'mongodb://localhost:27017/proyecto' );
+// Datos de Carrito
+
+
+// Datos de Cupon
+db.cupon.insertMany([
+    {
+        _id: ObjectId("652c95c6f0b56723d4638921"),
+        descuento: 20.0,
+        fechaVencimiento: ISODate("2024-12-31T23:59:00Z"),
+        codigo: "CUPON2024",
+        estado: "ACTIVO",
+        tipo: "UNICO",
+        nombre: "Descuento del 20%",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cupon'
+    },
+    {
+        _id: ObjectId("652c95c6f0b56723d4638922"),
+        descuento: 15.0,
+        fechaVencimiento: ISODate("2024-11-30T23:59:00Z"),
+        codigo: "CUPON2023",
+        estado: "ACTIVO",
+        tipo: "MULTIPLE",
+        nombre: "Descuento del 15%",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cupon'
+
+    },
+    {
+        _id: ObjectId("652c95c6f0b56723d4638923"),
+        descuento: 10.0,
+        fechaVencimiento: ISODate("2024-10-31T23:59:00Z"),
+        codigo: "CUPON2022",
+        estado: "EXPIRADO",
+        tipo: "UNICO",
+        nombre: "Descuento del 10%",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cupon'
+    },
+    {
+        _id: ObjectId("652c95c6f0b56723d4638924"),
+        descuento: 5.0,
+        fechaVencimiento: ISODate("2024-09-30T23:59:00Z"),
+        codigo: "CUPON2021",
+        estado: "ACTIVO",
+        tipo: "MULTIPLE",
+        nombre: "Descuento del 5%",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cupon'
+    },
+    {
+        _id: ObjectId("652c95c6f0b56723d4638925"),
+        descuento: 25.0,
+        fechaVencimiento: ISODate("2024-08-31T23:59:00Z"),
+        codigo: "CUPON2020",
+        estado: "REDIMIDO",
+        tipo: "UNICO",
+        nombre: "Descuento del 25%",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cupon'
+    },
+
+]);
+
+
+
+
+// Datos de Orden
+db.orden.insertMany([
+    {
+        _id: ObjectId("6701fcf0bdb88d4aa14f6547"),
+        idCliente: ObjectId("652c95c6f0b56723d4638910"),
+        fecha: ISODate("2024-01-01T15:30:00Z"),
+        codigoPasarela: "CODIGO_PASARELA_123",
+        items:  [
+            {
+                "id": "item001",
+                "idEvento": "evento001",
+                "precio": 20000.0,
+                "nombreLocalidad": "VIP",
+                "cantidad": 2
+            },
+            {
+                "id": "item002",
+                "idEvento": "evento002",
+                "precio": 15000.0,
+                "nombreLocalidad": "General",
+                "cantidad": 1
+            }
+        ],
+        pago: {
+            moneda: "USD",
+            tipoPago: "CREDIT_CARD",
+            detalleEstado: "Pago exitoso",
+            codigoAutorizacion: "AUTH123",
+            fecha: ISODate("2024-01-01T15:35:00Z"),
+            id: ObjectId(),
+            valorTransaccion: 350.0,
+            estado: "COMPLETADO"
+        },
+        total: 350.0,
+        idCupon: ObjectId("652c95c6f0b56723d4638921")
+        ,
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Orden'
+    },
+    {
+        _id: ObjectId("6701fd0d44bf8e22611ddeaa"),
+        idCliente: ObjectId("652c95c6f0b56723d4638911"),
+        fecha: ISODate("2024-02-15T10:45:00Z"),
+        codigoPasarela: "CODIGO_PASARELA_456",
+        items:  [
+            {
+                "id": "item001",
+                "idEvento": "evento001",
+                "precio": 20000.0,
+                "nombreLocalidad": "VIP",
+                "cantidad": 2
+            },
+            {
+                "id": "item002",
+                "idEvento": "evento002",
+                "precio": 15000.0,
+                "nombreLocalidad": "General",
+                "cantidad": 1
+            }
+        ],
+        pago: {
+            moneda: "COP",
+            tipoPago: "DEBIT_CARD",
+            detalleEstado: "Pago pendiente",
+            codigoAutorizacion: "AUTH456",
+            fecha: ISODate("2024-02-15T10:50:00Z"),
+            id: ObjectId(),
+            valorTransaccion: 550.0,
+            estado: "PENDIENTE"
+        },
+        total: 550.0,
+        idCupon: ObjectId("652c95c6f0b56723d4638922"),
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Orden'
+    },
+    {
+        _id: ObjectId("6701fd148a8526257d0ed1f5"),
+        idCliente: ObjectId("652c95c6f0b56723d4638912"),
+        fecha: ISODate("2024-03-20T18:00:00Z"),
+        codigoPasarela: "CODIGO_PASARELA_789",
+        items:  [
+            {
+                "id": "item001",
+                "idEvento": "evento001",
+                "precio": 20000.0,
+                "nombreLocalidad": "VIP",
+                "cantidad": 2
+            },
+            {
+                "id": "item002",
+                "idEvento": "evento002",
+                "precio": 15000.0,
+                "nombreLocalidad": "General",
+                "cantidad": 1
+            }
+        ],
+        pago: {
+            moneda: "USD",
+            tipoPago: "PAYPAL",
+            detalleEstado: "Pago rechazado",
+            codigoAutorizacion: "AUTH789",
+            fecha: ISODate("2024-03-20T18:05:00Z"),
+            id: ObjectId(),
+            valorTransaccion: 600.0,
+            estado: "RECHAZADO"
+        },
+        total: 600.0,
+        idCupon: ObjectId("652c95c6f0b56723d4638923"),
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Orden'
+    },
+    {
+        _id: ObjectId("6701fd1b9b809cfdda0a5c4f"),
+        idCliente: ObjectId("652c95c6f0b56723d4638913"),
+        fecha: ISODate("2024-04-05T12:00:00Z"),
+        codigoPasarela: "CODIGO_PASARELA_101",
+        items:  [
+            {
+                "id": "item001",
+                "idEvento": "evento001",
+                "precio": 20000.0,
+                "nombreLocalidad": "VIP",
+                "cantidad": 2
+            },
+
+        ],
+        pago: {
+            moneda: "EUR",
+            tipoPago: "BANK_TRANSFER",
+            detalleEstado: "Pago exitoso",
+            codigoAutorizacion: "AUTH101",
+            fecha: ISODate("2024-04-05T12:05:00Z"),
+            id: ObjectId(),
+            valorTransaccion: 100.0,
+            estado: "COMPLETADO"
+        },
+        total: 100.0,
+        idCupon: ObjectId("652c95c6f0b56723d4638924"),
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Orden'
+    },
+    {
+        _id: ObjectId("6701fd25aba7f616b42cbfb1"),
+        idCliente: ObjectId("652c95c6f0b56723d4638914"),
+        fecha: ISODate("2024-05-10T08:00:00Z"),
+        codigoPasarela: "CODIGO_PASARELA_202",
+        items:  [
+            {
+                "id": "item001",
+                "idEvento": "evento001",
+                "precio": 20000.0,
+                "nombreLocalidad": "VIP",
+                "cantidad": 2
+            },
+            {
+                "id": "item002",
+                "idEvento": "evento002",
+                "precio": 15000.0,
+                "nombreLocalidad": "General",
+                "cantidad": 1
+            }
+        ],
+        pago: {
+            moneda: "COP",
+            tipoPago: "CASH",
+            detalleEstado: "Pago exitoso",
+            codigoAutorizacion: "AUTH202",
+            fecha: ISODate("2024-05-10T08:05:00Z"),
+            id: ObjectId(),
+            valorTransaccion: 540.0,
+            estado: "COMPLETADO"
+        },
+        total: 540.0,
+        idCupon: ObjectId("652c95c6f0b56723d4638925"),
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Orden'
+    }
+]);
 
 // Datos de Cuenta
 db.cuenta.insertMany([
@@ -236,3 +471,60 @@ db.usuario.insertMany([
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Usuario'
     }
 ]);
+
+db.carrito.insertMany([
+    {
+        "_id": ObjectId("6701eedf2c4a9b1234567890"),
+        "fecha": ISODate("2024-10-05T12:00:00Z"),
+        "items": [
+            { "idEvento": "6701eea02f877bfc0e9397cf", "cantidad": 2, "nombreLocalidad": "General" },
+            { "idEvento": "6701eeb14d32c9a9e276392f", "cantidad": 1, "nombreLocalidad": "Platea" }
+        ],
+
+        "idUsuario": "usuario001",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    },
+    {
+        "_id": ObjectId("6701eefb2c4a9b1234567891"),
+        "fecha": ISODate("2024-10-06T14:30:00Z"),
+        "items": [
+            { "idEvento": "6701eea60f15f5a0bd60922f", "cantidad": 3, "nombreLocalidad": "VIP" },
+            { "idEvento": "6701eeb9fbc0310ac379122a", "cantidad": 1, "nombreLocalidad": "General" }
+        ],
+
+        "idUsuario": "usuario002",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    },
+    {
+        "_id": ObjectId("6701eefb2c4a9b1234567892"),
+        "fecha": ISODate("2024-10-07T10:00:00Z"),
+        "items": [
+            { "idEvento": "6701eeb14d32c9a9e276392f", "cantidad": 4, "nombreLocalidad": "Balcón" }
+        ],
+
+        "idUsuario": "usuario003",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    },
+    {
+        "_id": ObjectId("6701eefb2c4a9b1234567893"),
+        "fecha": ISODate("2024-10-08T16:45:00Z"),
+        "items": [
+            { "idEvento": "6701eeb9fbc0310ac379122a", "cantidad": 2, "nombreLocalidad": "Estudiantes" }
+        ],
+
+        "idUsuario": "usuario004",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    },
+    {
+        "_id": ObjectId("6701eefb2c4a9b1234567894"),
+        "fecha": ISODate("2024-10-09T11:15:00Z"),
+        "items": [
+            { "idEvento": "6701eec35da1f43a2940c085", "cantidad": 1, "nombreLocalidad": "General" },
+            { "idEvento": "6701eea02f877bfc0e9397cf", "cantidad": 2, "nombreLocalidad": "VIP" }
+        ],
+
+        "idUsuario": "usuario005",
+        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
+    }
+]);
+

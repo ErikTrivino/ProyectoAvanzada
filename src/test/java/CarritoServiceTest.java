@@ -25,26 +25,65 @@ public class CarritoServiceTest {
     @Autowired
     private CarritoServicio carritoServicio;
 
+    @Test
+    void testAgregarItem() throws Exception {
+        // Crear un nuevo DetalleCarrito
+        DetalleCarrito item = new DetalleCarrito();
+        item.setIdEvento("evento001");
+        item.setCantidad(2);
+        item.setNombreLocalidad("General");
+
+        // Agregar el item al carrito
+        carritoServicio.agregarItem("6701eedf2c4a9b1234567890", item);
+
+        // Traer el carrito actualizado
+        Carrito carritoActualizado = carritoServicio.traerCarrito("6701eedf2c4a9b1234567890");
+
+        // Verificar que el item fue agregado
+        assertEquals(1, carritoActualizado.getItems().size());
+        assertEquals("evento001", carritoActualizado.getItems().get(0).getIdEvento());
+        assertEquals(2, carritoActualizado.getItems().get(0).getCantidad());
+    }
 
     @Test
-    public void testAgregarItemAlCarrito() throws Exception {
-        // Arrange: Creamos el carrito y un item de prueba
-        List<DetalleCarrito> items = new ArrayList<>();
-        ObjectId idEvento = new ObjectId();
-        DetalleCarrito detalle = DetalleCarrito.builder()
-                .idEvento(idEvento)
-                .cantidad(2)
-                .nombreLocalidad("Platea")
-                .build();
+    void testEliminarItem() throws Exception {
+        // Crear un nuevo DetalleCarrito y agregarlo
+        DetalleCarrito item = new DetalleCarrito();
+        item.setIdEvento("evento002");
+        item.setCantidad(1);
+        item.setNombreLocalidad("VIP");
+        carritoServicio.agregarItem("6701eefb2c4a9b1234567891", item);//carrito 2
 
-        // Act: Se agrega el item al carrito
-        carritoServicio.agregarItem(items.toString(), detalle);
+        // Asegurarse que el item está en el carrito
+       // assertEquals(1, carrito.getItems().size());
 
-        // Assert: Se verifica que el item se haya agregado correctamente
-        assertEquals(1, items.size());
-        assertEquals(idEvento, items.get(0).getIdEvento());
-        assertEquals(2, items.get(0).getCantidad());
-        assertEquals("Platea", items.get(0).getNombreLocalidad());
+        // Eliminar el item
+        String result = carritoServicio.eliminarItem("6701eefb2c4a9b1234567891", "evento002");
+
+        // Verificar que el item fue eliminado
+        assertEquals("Item eliminado correctamente", result);
+        //assertEquals(0, carrito.getItems().size());
     }
+
+    @Test
+    void testTraerCarrito() throws Exception {
+        // Crear un nuevo DetalleCarrito y agregarlo
+        DetalleCarrito item = new DetalleCarrito();
+        item.setIdEvento("evento003");
+        item.setCantidad(3);
+        item.setNombreLocalidad("Platea");
+       // carritoServicio.agregarItem("6701eefb2c4a9b1234567892", item);///carrito 3
+
+        // Traer el carrito
+        Carrito carritoTraido = carritoServicio.traerCarrito("6701ed1fa81f609e1a5692fb");
+
+        // Verificar que el carrito tiene los items correctos
+        assertNotNull(carritoTraido);
+        assertEquals(2, carritoTraido.getItems().size());
+        assertEquals("6701eea02f877bfc0e9397cf", carritoTraido.getItems().get(0).getIdEvento());
+        //assertEquals(3, carritoTraido.getItems().get(0).getCantidad());
+    }
+
+
 
 }

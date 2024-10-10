@@ -17,11 +17,14 @@ import java.util.List;
 @NoArgsConstructor
 public class Carrito {
 
+    @Id
+    @EqualsAndHashCode.Exclude
+    private String id;
+
     private LocalDateTime fecha;
     private List<DetalleCarrito> items;
-    @Id
-    private String idCarrito;
-    private ObjectId idUsuario;
+
+    private String idUsuario;
 
     @Builder
     public Carrito(String idCarrito, String nombre, double v) {

@@ -12,10 +12,10 @@ import java.util.List;
 public record CrearOrdenDTO(
 
         @NotBlank @Length(max = 50) String idCliente,
-        @NotBlank @Length(max = 50) String idEvento,
-        @NotNull LocalDateTime fechaCreacion,
-        @Positive float total,
 
+        @NotNull LocalDateTime fecha,
+        @NotBlank String  codigoPasarela,
+        @Positive float total,
         @NotNull List<DetalleOrden> items
 
 

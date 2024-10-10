@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -23,7 +24,6 @@ import java.util.Optional;
 public class CuponServicioImpl implements CuponServicio {
 
     private final CuponRepo cuponRepo;
-
 
     @Override
     public List<Cupon> listarCuponesPorTipo(TipoCupon tipo) throws Exception {
@@ -71,7 +71,7 @@ public class CuponServicioImpl implements CuponServicio {
 
     @Override
     @Transactional(readOnly = true)
-    public InformacionCuponDTO obtenerInformacionCuenta(String id) throws Exception {
+    public InformacionCuponDTO obtenerInformacionCupon(String id) throws Exception {
         Cupon cupon = obtenerCupon(id);
 
         return new InformacionCuponDTO(
@@ -116,6 +116,7 @@ public class CuponServicioImpl implements CuponServicio {
     // Métodos privados de utilidad
 
     private boolean existeCodigo(String codigo) {
+       // System.out.println(codigo);
         return cuponRepo.buscarPorCodigo(codigo).isPresent();
     }
 
@@ -131,7 +132,7 @@ public class CuponServicioImpl implements CuponServicio {
 
     private Cupon obtenerPorCodigo(String codigo) throws Exception {
         Optional<Cupon> cuponOptional = cuponRepo.buscarPorCodigo(codigo);
-
+        //System.out.println(codigo);
         if (cuponOptional.isEmpty()) {
             throw new Exception("No existe un cupón con el código " + codigo);
         }

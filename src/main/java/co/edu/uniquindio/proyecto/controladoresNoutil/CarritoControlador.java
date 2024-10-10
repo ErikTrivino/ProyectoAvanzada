@@ -1,4 +1,4 @@
-package co.edu.uniquindio.proyecto.controladores;
+package co.edu.uniquindio.proyecto.controladoresNoutil;
 
 import co.edu.uniquindio.proyecto.modelo.documentos.Carrito;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.MensajeDTO;
@@ -10,40 +10,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 
 @RequiredArgsConstructor
-@RequestMapping("/api/carrito")
+@RequestMapping("/api/cliente")
 public class CarritoControlador {
 
     @Autowired
     private final CarritoServicio carritoServicio;
 
 
-    @GetMapping("/listarCarrito")
-    public ResponseEntity<List<Carrito>> obtenerCarrito() {
-        List<Carrito> carrito = carritoServicio.listarCarritos();
-        return ResponseEntity.ok(carrito);
-    }
 
 
-
-    @PostMapping("/agregarItem/{id}")
+    @PostMapping("/agregarItem-carrito/{id}")
     public ResponseEntity<MensajeDTO<String>> agregarItem(@RequestBody DetalleCarrito item) throws Exception {
         carritoServicio.agregarItem("ID_CARRITO", item);
         return ResponseEntity.ok(new MensajeDTO<>(false,"Item agregado correctamente"));
     }
 
-    @DeleteMapping("/eliminarItem/{id}")
+    @DeleteMapping("/eliminarItem-carrito/{id}")
     public ResponseEntity<MensajeDTO<String>> eliminarItem(@PathVariable String id) throws Exception {
         carritoServicio.eliminarItem(id, "ID_EVENTO");
         return ResponseEntity.ok(new MensajeDTO<>(false,"Item eliminado correctamente"));
     }
-
-    @GetMapping("/obtenerTablaCarrito")
-    public ResponseEntity<MensajeDTO<String>> obtenerTablaCarrito(@RequestParam List<DetalleCarrito> listaCarrito) throws Exception {
-        return ResponseEntity.ok(new MensajeDTO<>(false,carritoServicio.tablaCarrito(listaCarrito)));
+    @GetMapping("/traerCarrito-carrito/{id}")
+    public Carrito traerCArrito(@PathVariable String id) throws Exception {
+       return carritoServicio.traerCarrito(id);
     }
+
+
 }
