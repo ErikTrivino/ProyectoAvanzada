@@ -14,9 +14,9 @@ import java.util.Optional;
 @Repository
 public interface EventoRepo extends MongoRepository<Evento, String> {
 
-    @Query("{nombre : ?0, fechaEvento: ?1, ciudad :  ?2}")
+    @Query("{nombre : nombreEvento, fechaEvento: fechaEvento, ciudad :  ciudad}")
     Optional<Evento> buscarEvento(String nombreEvento, LocalDateTime fechaEvento, String ciudad);
 
-    @Query("{nombre : ?0, tipo: ?1, ciudad :  ?2}")
+    @Query("{nombre : nombreEvento, tipo: tipo, ciudad :  ciudad}")
     List<Evento> filtrarEventos(String nombreEvento, TipoEvento tipo, String ciudad);
 }

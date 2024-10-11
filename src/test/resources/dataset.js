@@ -242,7 +242,7 @@ db.cuenta.insertMany([
         "_id": ObjectId("6701ec61eb812956e91267d7") ,
         "email": "usuario1@example.com",
         "password": "password123",
-        "rol": "ADMINISTRADOR",
+        "rol": "ADMIN",
         "fechaRegistro": ISODate("2023-09-10T08:30:00Z"),
         "usuario": {
             "id": "6701ecb5522faa848df6771c",
@@ -264,7 +264,7 @@ db.cuenta.insertMany([
         "_id": ObjectId("6701ed1fa81f609e1a5692fb"),
         "email": "usuario2@example.com",
         "password": "password1234",
-        "rol": "CLIENTE",
+        "rol": "USUARIO",
         "fechaRegistro": ISODate("2023-09-11T09:00:00Z"),
         "usuario": {
             "id": "6701ed2718dc56dfc847f9c7",
@@ -286,7 +286,7 @@ db.cuenta.insertMany([
         "_id": ObjectId("6701ed2718dc56dfc847f9c7"),
         "email": "usuario3@example.com",
         "password": "password12345",
-        "rol": "ADMINISTRADOR",
+        "rol": "ADMIN",
         "fechaRegistro": ISODate("2023-09-12T10:00:00Z"),
         "usuario": {
             "id": "6701ed5940fbd4b4320644f1",
@@ -304,7 +304,7 @@ db.cuenta.insertMany([
         "_id": ObjectId("6701edd7e490d979c91ccac0"),
         "email": "usuario4@example.com",
         "password": "password123456",
-        "rol": "CLIENTE",
+        "rol": "USUARIO",
         "fechaRegistro": ISODate("2023-09-13T11:30:00Z"),
         "usuario": {
             "id": "6701ede133cf27e08dd1e854",
@@ -326,7 +326,7 @@ db.cuenta.insertMany([
         "_id": ObjectId("6701ee143c2efcda35bec4e6"),
         "email": "usuario5@example.com",
         "password": "password654321",
-        "rol": "CLIENTE",
+        "rol": "USUARIO",
         "fechaRegistro": ISODate("2023-09-14T12:00:00Z"),
         "usuario": {
             "id": "6701ee143c2efcda35bec4e6",
@@ -368,7 +368,7 @@ db.evento.insertMany([
         "nombre": "Festival de Jazz",
         "descripcion": "Disfruta del mejor jazz en vivo",
         "imagenLocalidades": "localidades_evento2.jpg",
-        "tipo": "CULTURAL",
+        "tipo": "FESTIVAL",
         "fechaEvento": ISODate("2023-12-20T18:00:00Z"),
         "ciudad": "Medellín",
         "localidades": [
@@ -384,7 +384,7 @@ db.evento.insertMany([
         "nombre": "Teatro Clásico",
         "descripcion": "Una obra clásica que te emocionará",
         "imagenLocalidades": "localidades_evento3.jpg",
-        "tipo": "CULTURAL",
+        "tipo": "TEATRO",
         "fechaEvento": ISODate("2023-10-05T17:00:00Z"),
         "ciudad": "Cali",
         "localidades": [
@@ -399,7 +399,7 @@ db.evento.insertMany([
         "nombre": "Feria de Ciencia",
         "descripcion": "Exposición de los mejores proyectos científicos",
         "imagenLocalidades": "localidades_evento4.jpg",
-        "tipo": "CULTURAL",
+        "tipo": "FERIA",
         "fechaEvento": ISODate("2023-11-30T09:00:00Z"),
         "ciudad": "Barranquilla",
         "localidades": [
@@ -415,7 +415,7 @@ db.evento.insertMany([
         "nombre": "Exposición de Arte",
         "descripcion": "Una colección impresionante de arte moderno",
         "imagenLocalidades": "localidades_evento5.jpg",
-        "tipo": "CULTURAL",
+        "tipo": "EXPOSICION",
         "fechaEvento": ISODate("2024-01-10T10:00:00Z"),
         "ciudad": "Cartagena",
         "localidades": [

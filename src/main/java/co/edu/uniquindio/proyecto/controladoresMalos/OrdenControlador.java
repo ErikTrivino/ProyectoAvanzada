@@ -1,9 +1,6 @@
-package co.edu.uniquindio.proyecto.controladoresNoutil;
+package co.edu.uniquindio.proyecto.controladoresMalos;
 import co.edu.uniquindio.proyecto.modelo.documentos.Orden;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.MensajeDTO;
-import co.edu.uniquindio.proyecto.modelo.dto.cupon.CrearCuponDTO;
-import co.edu.uniquindio.proyecto.modelo.dto.cupon.EditarCuponDTO;
-import co.edu.uniquindio.proyecto.modelo.dto.cupon.InformacionCuponDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.CrearOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.EditarOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.InformacionOrdenDTO;
@@ -12,7 +9,6 @@ import com.mercadopago.resources.preference.Preference;
 //import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

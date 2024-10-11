@@ -1,8 +1,7 @@
-package co.edu.uniquindio.proyecto.controladoresNoutil;
+package co.edu.uniquindio.proyecto.controladoresMalos;
 
 import co.edu.uniquindio.proyecto.modelo.enums.TipoEvento;
 import co.edu.uniquindio.proyecto.servicios.implementaciones.CuentaServicioImpl;
-import co.edu.uniquindio.proyecto.servicios.interfaces.CuentaServicio;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

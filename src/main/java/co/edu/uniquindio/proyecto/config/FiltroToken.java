@@ -3,11 +3,7 @@ package co.edu.uniquindio.proyecto.config;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.MensajeDTO;
 import co.edu.uniquindio.proyecto.modelo.enums.Rol;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.security.SignatureException;
+import io.jsonwebtoken.*;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,15 +18,9 @@ import java.io.IOException;
 
 
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-import java.io.IOException;
-
-
 @Component
 @RequiredArgsConstructor
 public class FiltroToken extends OncePerRequestFilter {
-
 
     private final JWTUtils jwtUtils;
 
@@ -66,11 +56,13 @@ public class FiltroToken extends OncePerRequestFilter {
                 //Si la petición es para la ruta /api/cliente se verifica que el token exista y que el rol sea CLIENTE
                 if (requestURI.startsWith("/api/cliente")) {
                     error = validarToken(token, Rol.CLIENTE);
-                }else if (requestURI.startsWith("/api/admin")){
-                    error = validarToken(token, Rol.ADMINISTRADOR);
-                }else{
+                }else {
                     error = false;
                 }
+
+
+                //Agregar la validación para las peticiones que sean de los administradores
+
 
                 //Si hay un error se crea una respuesta con el mensaje del error
                 if(error){
@@ -125,6 +117,5 @@ public class FiltroToken extends OncePerRequestFilter {
         return error;
     }
 
+
 }
-
-
