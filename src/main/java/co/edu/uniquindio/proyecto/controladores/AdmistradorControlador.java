@@ -80,7 +80,7 @@ public class AdmistradorControlador {
     @PostMapping("/crear-cupon")
     public ResponseEntity<MensajeDTO<String>> crearCupon(@Valid @RequestBody CrearCuponDTO cupon) throws Exception {
         cuponServicio.crearCupon(cupon);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta creada exitosamente"));
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Cupon creado exitosamente"));
 
     }
     @PutMapping("/actualizar-cupon")

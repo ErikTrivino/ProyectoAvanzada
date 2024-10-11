@@ -1,3 +1,5 @@
+package co.edu.uniquindio.proyecto.test;
+
 import co.edu.uniquindio.proyecto.ProyectoApplication;
 import co.edu.uniquindio.proyecto.modelo.documentos.Cupon;
 import co.edu.uniquindio.proyecto.modelo.dto.cupon.CrearCuponDTO;

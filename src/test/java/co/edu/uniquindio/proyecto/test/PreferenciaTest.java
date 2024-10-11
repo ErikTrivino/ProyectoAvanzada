@@ -1,5 +1,6 @@
+package co.edu.uniquindio.proyecto.test;
+
 import co.edu.uniquindio.proyecto.ProyectoApplication;
-import co.edu.uniquindio.proyecto.modelo.documentos.Cuenta;
 import co.edu.uniquindio.proyecto.modelo.enums.TipoEvento;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CuentaServicio;
 import org.junit.jupiter.api.Test;

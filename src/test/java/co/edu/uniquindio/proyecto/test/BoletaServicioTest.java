@@ -1,3 +1,5 @@
+package co.edu.uniquindio.proyecto.test;
+
 import co.edu.uniquindio.proyecto.ProyectoApplication;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.InformacionCuentaDTO;
 import co.edu.uniquindio.proyecto.modelo.enums.EstadoBoleta;
