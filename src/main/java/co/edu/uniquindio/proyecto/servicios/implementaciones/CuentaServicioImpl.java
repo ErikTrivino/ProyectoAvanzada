@@ -368,10 +368,10 @@ public class CuentaServicioImpl implements CuentaServicio {
     @Override
     public List<Boleta> buscarBoletasPorPropietario(String idPropietario) throws Exception {
         Cuenta cuenta = obtenerCuentaPorIdPropietario(idPropietario);
-        return cuenta.getBoletas().stream()
-                .filter(boleta -> boleta.getIdClientepropietario().equals(idPropietario))
-                .collect(Collectors.toList());
+
+        return cuenta.getBoletas();
     }
+
 
     @Override
     public Boleta obtenerDetalleBoleta(String idBoleta, String idPropietario) throws Exception {

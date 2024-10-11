@@ -54,11 +54,13 @@ public class CarritoServicioImpl implements CarritoServicio {
     @Override
     public Carrito traerCarrito(String idCuenta) throws Exception {
         Optional<Carrito> carrito = carritoRepo.buscarCarritoPorIdUsuario(idCuenta);
-        if(carrito.isPresent()){
-            return carrito.get();
-        }else {
-            return null;
-        }
+        System.out.println( carritoRepo.findById(idCuenta).get().getIdUsuario());
+        return carritoRepo.findById(idCuenta).get();
+//        if(carrito.isPresent()){
+//            return carrito.get();
+//        }else {
+//            return null;
+//        }
 
     }
 

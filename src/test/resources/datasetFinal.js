@@ -127,7 +127,7 @@ db.cuenta.insertMany([
         _id: ObjectId("6701ec61eb812956e91267d7"),
         email: "usuario1@example.com",
         password: "password123",
-        rol: "ADMIN",
+        rol: "ADMINISTARDOR",
         fechaRegistro: ISODate("2023-09-10T08:30:00Z"),
         usuario: {
             id: ObjectId("6701ecb5522faa848df6771c"),  // ID usuario relacionado
@@ -143,13 +143,72 @@ db.cuenta.insertMany([
             fechaExpiracion: ISODate("2023-09-11T08:35:00Z")
         },
         codigoValidacionPassword: null,
+        boletas: [
+            {
+                id: "670756852fdf2526017894e3",
+                idEvento: "6701eea02f877bfc0e9397cf",
+                idClientePropietario: "6701ed1fa81f609e1a5692fb",
+                nombreEvento: "Concierto Rock",
+                fechaEvento: ISODate("2024-11-01T19:00:00Z"),
+                nombreLocalidad: "General",
+                estado: "ACTIVA",
+                idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
+            },
+            {
+                id: "6707568b3591fb84abdb4f9c",
+                idEvento: "6701eeb14d32c9a9e276392f",
+                idClientePropietario: "6701ed1fa81f609e1a5692fb",
+                nombreEvento: "Torneo Deportivo",
+                fechaEvento: ISODate("2024-10-20T18:00:00Z"),
+                nombreLocalidad: "VIP",
+                estado: "ENVIADA",
+                idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
+            },
+            {
+                id: "67075691abfd13b4d89d541f",
+                idEvento: "6701eec35da1f43a2940c085",
+                idClientePropietario: "6701ed1fa81f609e1a5692fb",
+                nombreEvento: "Desfile de Moda",
+                fechaEvento: ISODate("2024-12-05T20:30:00Z"),
+                nombreLocalidad: "Platea",
+                estado: "ENVIADA",
+                idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
+            },
+            {
+                id: "67075b6c729e4a6804365b3e",
+                idEvento: "6701eec35da1f43a2940c085",
+                idClientePropietario: "6701ed1fa81f609e1a5692fb",
+                nombreEvento: "Desfile de Moda",
+                fechaEvento: ISODate("2024-12-05T20:30:00Z"),
+                nombreLocalidad: "Platea",
+                estado: "PENDIENTE",
+                idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
+            }
+            ,
+            {
+                id: "6707e621e96e75a8eb1cb0cd",
+                idEvento: "6701eec35da1f43a2940c085",
+                idClientePropietario: "6701ed1fa81f609e1a5692fb",
+                nombreEvento: "Desfile de Moda",
+                fechaEvento: ISODate("2024-12-05T20:30:00Z"),
+                nombreLocalidad: "Platea",
+                estado: "ACTIVA",
+                idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
+            }
+        ],
+
+        preferencias: [
+            "DEPORTE",
+            "CONCIERTO",
+            "MODA"
+        ],
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
     },
     {
         _id: ObjectId("6701ed1fa81f609e1a5692fb"),
         email: "usuario2@example.com",
         password: "password1234",
-        rol: "USUARIO",
+        rol: "CLIENTE",
         fechaRegistro: ISODate("2023-09-11T09:00:00Z"),
         usuario: {
             id: ObjectId("6701ed2718dc56dfc847f9c7"),
@@ -230,7 +289,7 @@ db.cuenta.insertMany([
         _id: ObjectId("6701ed1fa81f609e1a5692fb"),
         email: "usuario2@example.com",
         password: "password1234",
-        rol: "USUARIO",
+        rol: "CLIENTE",
         fechaRegistro: ISODate("2023-09-11T09:00:00Z"),
         usuario: {
             id: ObjectId("6701ed2718dc56dfc847f9c7"),
@@ -301,7 +360,7 @@ db.cuenta.insertMany([
         _id: ObjectId("67075cab0623a30f86f70d0d"),
         email: "usuario3@example.com",
         password: "password1234",
-        rol: "USUARIO",
+        rol: "CLIENTE",
         fechaRegistro: ISODate("2023-09-11T09:00:00Z"),
         usuario: {
             id: ObjectId("6701ed5940fbd4b4320644f1"),
@@ -384,6 +443,33 @@ db.cuenta.insertMany([
             "fechaCreacion": ISODate("2023-09-13T11:35:00Z"),
             "fechaExpiracion": ISODate("2023-09-14T11:35:00Z")
         },
+        boletas: [
+            {
+                id: "67075ca665e74b056e674590",
+                idEvento: "6701eea02f877bfc0e9397cf",
+                idClientePropietario: "67075cab0623a30f86f70d0d",
+                nombreEvento: "Concierto Rock",
+                fechaEvento: ISODate("2024-11-01T19:00:00Z"),
+                nombreLocalidad: "General",
+                estado: "ACTIVA",
+                idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
+            },
+            {
+                id: "6707ec00a26d03698ccbc650",
+                idEvento: "6701eea02f877bfc0e9397cf",
+                idClientePropietario: "6701ed1fa81f609e1a5692fb",
+                nombreEvento: "Concierto Rock",
+                fechaEvento: ISODate("2024-11-01T19:00:00Z"),
+                nombreLocalidad: "General",
+                estado: "PENDIENTE",
+                idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
+            }
+        ],
+
+        preferencias: [
+
+        ],
+
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
     },
     {
@@ -401,7 +487,33 @@ db.cuenta.insertMany([
         },
         "estado": "INACTIVO",
         "codigoValidacionRegistro": null,
-        "codigoValidacionPassword": null,
+        codigoValidacionPassword: null,
+        boletas: [
+            {
+                id: "67075ca665e74b056e674590",
+                idEvento: "6701eea02f877bfc0e9397cf",
+                idClientePropietario: "67075cab0623a30f86f70d0d",
+                nombreEvento: "Concierto Rock",
+                fechaEvento: ISODate("2024-11-01T19:00:00Z"),
+                nombreLocalidad: "General",
+                estado: "ACTIVA",
+                idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
+            },
+            {
+                id: "6707ec00a26d03698ccbc650",
+                idEvento: "6701eea02f877bfc0e9397cf",
+                idClientePropietario: "6701ed1fa81f609e1a5692fb",
+                nombreEvento: "Concierto Rock",
+                fechaEvento: ISODate("2024-11-01T19:00:00Z"),
+                nombreLocalidad: "General",
+                estado: "PENDIENTE",
+                idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
+            }
+        ],
+
+        preferencias: [
+
+        ],
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
     }
 

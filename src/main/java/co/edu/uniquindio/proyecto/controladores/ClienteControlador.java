@@ -122,7 +122,7 @@ public class ClienteControlador {
     }
 
     // RF-003: Ver detalle de una boleta
-    @GetMapping("/detalle-boleta/{idBoleta}")
+    @GetMapping("/detalle-boleta/{idBoleta}/{idPropietario}")
     public ResponseEntity<Boleta> obtenerDetalleBoleta(
             @PathVariable String idBoleta,
             @PathVariable String idPropietario) throws Exception {
@@ -171,14 +171,14 @@ public class ClienteControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false,"Item agregado correctamente"));
     }
 
-    @DeleteMapping("/eliminarItem-carrito/{id}")
-    public ResponseEntity<MensajeDTO<String>> eliminarItem(@PathVariable String id) throws Exception {
-        carritoServicio.eliminarItem(id, "ID_EVENTO");
+    @DeleteMapping("/eliminarItem-carrito/{id}/{idEvento}")
+    public ResponseEntity<MensajeDTO<String>> eliminarItem(@PathVariable String id, @PathVariable String idEvento) throws Exception {
+        carritoServicio.eliminarItem(id, idEvento);
         return ResponseEntity.ok(new MensajeDTO<>(false,"Item eliminado correctamente"));
     }
     @GetMapping("/traerCarrito-carrito/{id}")
-    public Carrito traerCArrito(@PathVariable String id) throws Exception {
-        return carritoServicio.traerCarrito(id);
+    public ResponseEntity<MensajeDTO<Carrito>>  traerCArrito(@PathVariable String id) throws Exception {
+        return  ResponseEntity.ok(new MensajeDTO<>(false,carritoServicio.traerCarrito(id)));
     }
 
     @PutMapping("/activar-cuenta")
