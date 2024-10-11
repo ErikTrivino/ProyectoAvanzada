@@ -18,7 +18,6 @@ public class ExcepcionesGlobales {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<MensajeDTO<String>> generalException(Exception e){
-        e.printStackTrace();
         return ResponseEntity.internalServerError().body( new MensajeDTO<>(true, e.getMessage()) );
     }
 

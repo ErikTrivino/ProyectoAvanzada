@@ -71,7 +71,7 @@ public class CuentaServicioImpl implements CuentaServicio {
                 ));
 
         cuentaRepo.save(nuevaCuenta);
-        emailServicio.enviarCorreo( new EmailDTO("CODIGO DE ACTIVACIÓN CUENTA", nuevaCuenta.getCodigoValidacionRegistro().getCodigo(), nuevaCuenta.getEmail()) );
+        //SE DEBE ENVIAR AL CORREO DEL USUARIO EL CODIGO DE VALIDACIÓN
         return "Su cuenta se ha generado con éxito.";
     }
 
@@ -174,97 +174,7 @@ public class CuentaServicioImpl implements CuentaServicio {
 
     @Override
     public String activarCuenta(ActivarCuentaDTO activarCuentaDTO) throws Exception {
-<<<<<<< HEAD
         return "";
-=======
-        // Buscar la cuenta por el token de validación de registro
-        Optional<Cuenta> cuentaOpt = cuentaRepo.buscarPorCodigoValidacion(activarCuentaDTO.token());
-
-        // Verificar si la cuenta existe
-        if (!cuentaOpt.isPresent()) {
-            throw new Exception("El token de activación es inválido.");
-        }
-
-        Cuenta cuenta = cuentaOpt.get();
-        // Verificar si el tiempo desde la creación del token ha superado los 15 minutos
-        LocalDateTime fechaCreacionToken = cuenta.getCodigoValidacionRegistro().getFechaCreacion();
-        if (fechaCreacionToken.plusMinutes(15).isBefore(LocalDateTime.now())) {
-            throw new Exception("El token de activación ha expirado.");
-        }
-
-        // Activar la cuenta si el token es válido y no ha expirado
-        cuenta.setEstado(EstadoCuenta.ACTIVO);
-        cuentaRepo.save(cuenta); // Guardar el cambio en la base de datos
-
-        return "Cuenta activada exitosamente.";
-    }
-
-    @Override
-    public List<ItemCuentaDTO> listarCuentas() {
-
-
-        //Obtenemos todas las cuentas de los usuarios de la base de datos
-        List<Cuenta> cuentas = cuentaRepo.findAll();
-
-        //Creamos una lista de DTOs
-        List<ItemCuentaDTO> items = new ArrayList<>();
-
-
-        //Recorremos la lista de cuentas y por cada uno creamos un DTO y lo agregamos a la lista
-        for (Cuenta cuenta : cuentas) {
-            items.add( new ItemCuentaDTO(
-                    cuenta.getId(),
-                    cuenta.getUsuario().getNombre(),
-                    cuenta.getEmail(),
-                    cuenta.getUsuario().getTelefono()
-            ));
-        }
-
-
-        return items;
-    }
-
-    @Override
-    public Cuenta obtenerPorEmail(String email) throws Exception {
-
-        System.out.println(email);
-
-        Optional<Cuenta> cuentaOptional = cuentaRepo.findByEmail(email);
-
-        System.out.println(cuentaOptional.isEmpty());
-
-        if(cuentaOptional.isEmpty()){
-            throw new Exception("No existe una cuenta registrada con el email " + email + ".");
-        }
-
-        Cuenta cuenta = cuentaOptional.get();
-
-        if(cuenta.getEstado() == EstadoCuenta.ELIMINADO){
-            throw new Exception("La cuenta registrada con el email " + email + " esta ELIMINADA.");
-        }
-
-        return cuenta;
-
-    }
-
-    @Override
-    public String enviarCodigoActivacionCuenta(String correo) throws Exception {
-
-        Cuenta cuenta = obtenerEmail(correo);
-        String codigoValidacion = generarCodigo();
-
-        cuenta.setCodigoValidacionRegistro(new CodigoValidacion(
-                LocalDateTime.now(),
-                codigoValidacion
-        ));
-
-        cuentaRepo.save(cuenta);
-
-        emailServicio.enviarCorreo( new EmailDTO("CODIGO DE ACTIVACIÓN CUENTA", codigoValidacion, correo) );
-
-        return "Se ha enviado un correo con el código de activación de su cuenta";
-
->>>>>>> adri
     }
 
     private Cuenta obtenerEmail(String correo) throws Exception {
