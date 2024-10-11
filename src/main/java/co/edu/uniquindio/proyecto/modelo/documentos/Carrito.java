@@ -24,7 +24,7 @@ public class Carrito {
     private LocalDateTime fecha;
     private List<DetalleCarrito> items;
 
-    private String idUsuario;
+    private ObjectId idUsuario;
 
     @Builder
     public Carrito(String idCarrito, String nombre, double v) {

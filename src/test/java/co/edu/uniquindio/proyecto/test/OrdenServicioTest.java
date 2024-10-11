@@ -1,13 +1,12 @@
+package co.edu.uniquindio.proyecto.test;
+
 import co.edu.uniquindio.proyecto.ProyectoApplication;
 import co.edu.uniquindio.proyecto.modelo.documentos.Orden;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.CrearOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.EditarOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.InformacionOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.vo.DetalleOrden;
-import co.edu.uniquindio.proyecto.modelo.vo.Pago;
-import co.edu.uniquindio.proyecto.servicios.interfaces.EventoServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.OrdenServicio;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
