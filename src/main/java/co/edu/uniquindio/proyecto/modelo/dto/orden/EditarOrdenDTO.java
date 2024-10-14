@@ -23,6 +23,7 @@ public record EditarOrdenDTO (
 
         //@NotNull Pago pago,
        // @NotNull String idCupon,
-        @NotNull List<DetalleOrden> items
+        @NotNull List<DetalleOrden> items,
+        String idCupon
 ){
 }

@@ -11,14 +11,14 @@ import java.time.LocalDateTime;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Boleta {
-    private String id;
+    private String idBoleta;
     private String idEvento;
-    private String idClientepropietario;
+    private String idClientePropietario;
     private String nombreEvento;
     private LocalDateTime fechaEvento;
     private String nombreLocalidad;
     private EstadoBoleta estado;
-    private String IdPropietarioOriginal;
-
+    private String idPropietarioOriginal;
 }

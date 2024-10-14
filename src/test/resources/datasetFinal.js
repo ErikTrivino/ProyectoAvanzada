@@ -58,14 +58,14 @@ db.orden.insertMany([
         codigoPasarela: "CODIGO_PASARELA_123",
         items: [
             {
-                id: "item001",
+                idDetalleOrden: "item001",
                 idEvento: ObjectId("6701eea02f877bfc0e9397cf"),  // Evento relacionado
                 precio: 20000.0,
                 nombreLocalidad: "VIP",
                 cantidad: 2
             },
             {
-                id: "item002",
+                idDetalleOrden: "item002",
                 idEvento: ObjectId("6701eea60f15f5a0bd60922f"),  // Evento relacionado
                 precio: 15000.0,
                 nombreLocalidad: "General",
@@ -93,14 +93,14 @@ db.orden.insertMany([
         codigoPasarela: "CODIGO_PASARELA_456",
         items: [
             {
-                id: "item001",
+                idDetalleOrden: "item001",
                 idEvento: ObjectId("6701eea02f877bfc0e9397cf"),  // Evento relacionado
                 precio: 20000.0,
                 nombreLocalidad: "VIP",
                 cantidad: 2
             },
             {
-                id: "item002",
+                idDetalleOrden: "item002",
                 idEvento: ObjectId("6701eea60f15f5a0bd60922f"),  // Evento relacionado
                 precio: 15000.0,
                 nombreLocalidad: "General",
@@ -127,7 +127,7 @@ db.cuenta.insertMany([
         _id: ObjectId("6701ec61eb812956e91267d7"),
         email: "usuario1@example.com",
         password: "password123",
-        rol: "ADMINISTARDOR",
+        rol: "ADMINISTRADOR",
         fechaRegistro: ISODate("2023-09-10T08:30:00Z"),
         usuario: {
             id: ObjectId("6701ecb5522faa848df6771c"),  // ID usuario relacionado
@@ -145,7 +145,7 @@ db.cuenta.insertMany([
         codigoValidacionPassword: null,
         boletas: [
             {
-                id: "670756852fdf2526017894e3",
+                idBoleta: "670756852fdf2526017894e3",
                 idEvento: "6701eea02f877bfc0e9397cf",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Concierto Rock",
@@ -155,7 +155,7 @@ db.cuenta.insertMany([
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
             },
             {
-                id: "6707568b3591fb84abdb4f9c",
+                idBoleta: "6707568b3591fb84abdb4f9c",
                 idEvento: "6701eeb14d32c9a9e276392f",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Torneo Deportivo",
@@ -165,7 +165,7 @@ db.cuenta.insertMany([
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
             },
             {
-                id: "67075691abfd13b4d89d541f",
+                idBoleta: "67075691abfd13b4d89d541f",
                 idEvento: "6701eec35da1f43a2940c085",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Desfile de Moda",
@@ -175,7 +175,7 @@ db.cuenta.insertMany([
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
             },
             {
-                id: "67075b6c729e4a6804365b3e",
+                idBoleta: "67075b6c729e4a6804365b3e",
                 idEvento: "6701eec35da1f43a2940c085",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Desfile de Moda",
@@ -186,7 +186,7 @@ db.cuenta.insertMany([
             }
             ,
             {
-                id: "6707e621e96e75a8eb1cb0cd",
+                idBoleta: "6707e621e96e75a8eb1cb0cd",
                 idEvento: "6701eec35da1f43a2940c085",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Desfile de Moda",
@@ -205,7 +205,7 @@ db.cuenta.insertMany([
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
     },
     {
-        _id: ObjectId("6701ed1fa81f609e1a5692fb"),
+        _id: ObjectId("6701ed1fa81f609e1a5692fb"), //6701ec61eb812956e91267d7,6701ed1fa81f609e1a5692fb
         email: "usuario2@example.com",
         password: "password1234",
         rol: "CLIENTE",
@@ -226,7 +226,7 @@ db.cuenta.insertMany([
         codigoValidacionPassword: null,
         boletas: [
             {
-                id: "670756852fdf2526017894e3",
+                idBoleta: "670756852fdf2526017894e3",
                 idEvento: "6701eea02f877bfc0e9397cf",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Concierto Rock",
@@ -236,7 +236,7 @@ db.cuenta.insertMany([
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
             },
             {
-                id: "6707568b3591fb84abdb4f9c",
+                idBoleta: "6707568b3591fb84abdb4f9c",
                 idEvento: "6701eeb14d32c9a9e276392f",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Torneo Deportivo",
@@ -246,7 +246,7 @@ db.cuenta.insertMany([
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
             },
             {
-                id: "67075691abfd13b4d89d541f",
+                idBoleta: "67075691abfd13b4d89d541f",
                 idEvento: "6701eec35da1f43a2940c085",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Desfile de Moda",
@@ -256,7 +256,7 @@ db.cuenta.insertMany([
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
             },
             {
-                id: "67075b6c729e4a6804365b3e",
+                idBoleta: "67075b6c729e4a6804365b3e",
                 idEvento: "6701eec35da1f43a2940c085",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Desfile de Moda",
@@ -267,7 +267,7 @@ db.cuenta.insertMany([
             }
             ,
             {
-                id: "6707e621e96e75a8eb1cb0cd",
+                idBoleta: "6707e621e96e75a8eb1cb0cd",
                 idEvento: "6701eec35da1f43a2940c085",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Desfile de Moda",
@@ -286,7 +286,7 @@ db.cuenta.insertMany([
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
     },
     {
-        _id: ObjectId("6701ed1fa81f609e1a5692fb"),
+        _id: ObjectId("6708caadac61c8a15edcad80"),//6701ec61eb812956e91267d7,6701ed1fa81f609e1a5692fb
         email: "usuario2@example.com",
         password: "password1234",
         rol: "CLIENTE",
@@ -307,9 +307,9 @@ db.cuenta.insertMany([
         codigoValidacionPassword: null,
         boletas: [
             {
-                id: "670756852fdf2526017894e3",
+                idBoleta: ObjectId("670756852fdf2526017894e3"),
                 idEvento: "6701eea02f877bfc0e9397cf",
-                idClientePropietario: "6701ed1fa81f609e1a5692fb",
+                idClientepropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Concierto Rock",
                 fechaEvento: ISODate("2024-11-01T19:00:00Z"),
                 nombreLocalidad: "General",
@@ -317,7 +317,7 @@ db.cuenta.insertMany([
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
             },
             {
-                id: "6707568b3591fb84abdb4f9c",
+                idBoleta: ObjectId("6707568b3591fb84abdb4f9c"),
                 idEvento: "6701eeb14d32c9a9e276392f",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Torneo Deportivo",
@@ -327,7 +327,7 @@ db.cuenta.insertMany([
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
             },
             {
-                id: "67075691abfd13b4d89d541f",
+                idBoleta: ("67075691abfd13b4d89d541f"),
                 idEvento: "6701eec35da1f43a2940c085",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Desfile de Moda",
@@ -337,7 +337,7 @@ db.cuenta.insertMany([
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
             },
             {
-                id: "67075b6c729e4a6804365b3e",
+                idBoleta: "bol1",
                 idEvento: "6701eec35da1f43a2940c085",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Desfile de Moda",
@@ -345,7 +345,8 @@ db.cuenta.insertMany([
                 nombreLocalidad: "Platea",
                 estado: "PENDIENTE",
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
-            }
+            },
+
         ],
 
         preferencias: [
@@ -357,7 +358,7 @@ db.cuenta.insertMany([
 
     },
     {
-        _id: ObjectId("67075cab0623a30f86f70d0d"),
+        _id: ObjectId("6708cab600b416279c76963e"),
         email: "usuario3@example.com",
         password: "password1234",
         rol: "CLIENTE",
@@ -378,7 +379,7 @@ db.cuenta.insertMany([
         codigoValidacionPassword: null,
         boletas: [
             {
-                id: "67075ca665e74b056e674590",
+                idBoleta: "67075ca665e74b056e674590",
                 idEvento: "6701eea02f877bfc0e9397cf",
                 idClientePropietario: "67075cab0623a30f86f70d0d",
                 nombreEvento: "Concierto Rock",
@@ -388,7 +389,7 @@ db.cuenta.insertMany([
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
             },
             {
-                id: "6707ec00a26d03698ccbc650",
+                idBoleta: "6707ec00a26d03698ccbc650",
                 idEvento: "6701eea02f877bfc0e9397cf",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Concierto Rock",
@@ -406,28 +407,28 @@ db.cuenta.insertMany([
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
     },
     {
-        "_id": ObjectId("6701ed2718dc56dfc847f9c7"),
-        "email": "usuario3@example.com",
-        "password": "password12345",
-        "rol": "ADMIN",
-        "fechaRegistro": ISODate("2023-09-12T10:00:00Z"),
-        "usuario": {
+        _id: ObjectId("6708cac10b25744b3db15317"),
+        email: "usuario3@example.com",
+        password: "password12345",
+        rol: "ADMIN",
+        fechaRegistro: ISODate("2023-09-12T10:00:00Z"),
+        usuario: {
             "id": "6701ed5940fbd4b4320644f1",
             "telefono": "345678901",
             "direccion": "Calle 789",
             "cedula": "876543210",
             "nombre": "Carlos Lopez"
         },
-        "estado": "ACTIVO",
-        "codigoValidacionRegistro": null,
-        "codigoValidacionPassword": null,
+        estado: "ACTIVO",
+        codigoValidacionRegistro: null,
+        codigoValidacionPassword: null,
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
     },
     {
-        "_id": ObjectId("6701edd7e490d979c91ccac0"),
+        "_id": ObjectId("6708caca04729d5b0313a9cc"),
         "email": "usuario4@example.com",
         "password": "password123456",
-        "rol": "USUARIO",
+        "rol": "CLIENTE",
         "fechaRegistro": ISODate("2023-09-13T11:30:00Z"),
         "usuario": {
             "id": "6701ede133cf27e08dd1e854",
@@ -445,7 +446,7 @@ db.cuenta.insertMany([
         },
         boletas: [
             {
-                id: "67075ca665e74b056e674590",
+                idBoleta: "67075ca665e74b056e674590",
                 idEvento: "6701eea02f877bfc0e9397cf",
                 idClientePropietario: "67075cab0623a30f86f70d0d",
                 nombreEvento: "Concierto Rock",
@@ -455,7 +456,7 @@ db.cuenta.insertMany([
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
             },
             {
-                id: "6707ec00a26d03698ccbc650",
+                idBoleta: "6707ec00a26d03698ccbc650",
                 idEvento: "6701eea02f877bfc0e9397cf",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Concierto Rock",
@@ -476,7 +477,7 @@ db.cuenta.insertMany([
         "_id": ObjectId("6701ee143c2efcda35bec4e6"),
         "email": "usuario5@example.com",
         "password": "password654321",
-        "rol": "USUARIO",
+        "rol": "CLIENTE",
         "fechaRegistro": ISODate("2023-09-14T12:00:00Z"),
         "usuario": {
             "id": "6701ee143c2efcda35bec4e6",
@@ -490,7 +491,7 @@ db.cuenta.insertMany([
         codigoValidacionPassword: null,
         boletas: [
             {
-                id: "67075ca665e74b056e674590",
+                idBoleta: "67075ca665e74b056e674590",
                 idEvento: "6701eea02f877bfc0e9397cf",
                 idClientePropietario: "67075cab0623a30f86f70d0d",
                 nombreEvento: "Concierto Rock",
@@ -500,7 +501,7 @@ db.cuenta.insertMany([
                 idPropietarioOriginal: "6701ed1fa81f609e1a5692fb"
             },
             {
-                id: "6707ec00a26d03698ccbc650",
+                idBoleta: "6707ec00a26d03698ccbc650",
                 idEvento: "6701eea02f877bfc0e9397cf",
                 idClientePropietario: "6701ed1fa81f609e1a5692fb",
                 nombreEvento: "Concierto Rock",
@@ -649,8 +650,8 @@ db.carrito.insertMany([
         _id: ObjectId("6701eedf2c4a9b1234567890"),
         fecha: ISODate("2024-10-05T12:00:00Z"),
         items: [
-            { id: "item001",idEvento: ObjectId("6701eea02f877bfc0e9397cf"), cantidad: 2, nombreLocalidad: "General" },  // Evento relacionado
-            { id: "item002",idEvento: ObjectId("6701eeb14d32c9a9e276392f"), cantidad: 1, nombreLocalidad: "Platea" }
+            { idDetalleCarrito: "item001",idEvento: ObjectId("6701eea02f877bfc0e9397cf"), cantidad: 2, nombreLocalidad: "General" },  // Evento relacionado
+            { idDetalleCarrito: "item002",idEvento: ObjectId("6701eeb14d32c9a9e276392f"), cantidad: 1, nombreLocalidad: "Platea" }
         ],
         idUsuario: ObjectId("6701ed1fa81f609e1a5692fb"),  // Usuario relacionado (usuario001)
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
@@ -660,8 +661,8 @@ db.carrito.insertMany([
         _id: ObjectId("6701eefb2c4a9b1234567891"),
         fecha: ISODate("2024-10-06T14:30:00Z"),
         items: [
-            { id: "item001",idEvento: ObjectId("6701eea60f15f5a0bd60922f"), cantidad: 3, nombreLocalidad: "VIP" },  // Evento relacionado
-            { id: "item002",idEvento: ObjectId("6701eeb9fbc0310ac379122a"), cantidad: 1, nombreLocalidad: "General" }
+            { idDetalleCarrito: "item001",idEvento: ObjectId("6701eea60f15f5a0bd60922f"), cantidad: 3, nombreLocalidad: "VIP" },  // Evento relacionado
+            { idDetalleCarrito: "item002",idEvento: ObjectId("6701eeb9fbc0310ac379122a"), cantidad: 1, nombreLocalidad: "General" }
         ],
         idUsuario: ObjectId("6701ed1fa81f609e1a5692fb"),  // Usuario relacionado (usuario002)
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
@@ -670,7 +671,7 @@ db.carrito.insertMany([
         _id: ObjectId("6701eefb2c4a9b1234567892"),
         fecha: ISODate("2024-10-07T10:00:00Z"),
         items: [
-            {id: "item001", idEvento: ObjectId("6701eeb14d32c9a9e276392f"), cantidad: 4, nombreLocalidad: "Balcón" }  // Evento relacionado
+            {idDetalleCarrito: "item001", idEvento: ObjectId("6701eeb14d32c9a9e276392f"), cantidad: 4, nombreLocalidad: "Balcón" }  // Evento relacionado
         ],
         idUsuario: ObjectId("6701ed1fa81f609e1a5692fb"),  // Usuario relacionado (usuario003)
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
@@ -679,7 +680,7 @@ db.carrito.insertMany([
         _id: ObjectId("6701eefb2c4a9b1234567893"),
         fecha: ISODate("2024-10-08T16:45:00Z"),
         items: [
-            { id: "item001",idEvento: ObjectId("6701eeb9fbc0310ac379122a"), cantidad: 2, nombreLocalidad: "Estudiantes" }  // Evento relacionado
+            { idDetalleCarrito: "item001",idEvento: ObjectId("6701eeb9fbc0310ac379122a"), cantidad: 2, nombreLocalidad: "Estudiantes" }  // Evento relacionado
         ],
         idUsuario: ObjectId("6701ed1fa81f609e1a5692fb"),  // Usuario relacionado (usuario004)
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'
@@ -688,8 +689,8 @@ db.carrito.insertMany([
         _id: ObjectId("6701eefb2c4a9b1234567894"),
         fecha: ISODate("2024-10-09T11:15:00Z"),
         items: [
-            { id: "item001",idEvento: ObjectId("6701eec35da1f43a2940c085"), cantidad: 1, nombreLocalidad: "General" },  // Evento relacionado
-            { id: "item002",idEvento: ObjectId("6701eea02f877bfc0e9397cf"), cantidad: 2, nombreLocalidad: "VIP" }  // Evento relacionado
+            { idDetalleCarrito: "item001",idEvento: ObjectId("6701eec35da1f43a2940c085"), cantidad: 1, nombreLocalidad: "General" },  // Evento relacionado
+            { idDetalleCarrito: "item002",idEvento: ObjectId("6701eea02f877bfc0e9397cf"), cantidad: 2, nombreLocalidad: "VIP" }  // Evento relacionado
         ],
         idUsuario: ObjectId("6701ed1fa81f609e1a5692fb"),  // Usuario relacionado (usuario005)
         _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Carrito'

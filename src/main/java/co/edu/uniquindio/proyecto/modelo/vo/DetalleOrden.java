@@ -12,7 +12,7 @@ import org.bson.types.ObjectId;
 @Setter
 public class DetalleOrden {
 
-    private String id;
+    private String idDetalleOrden;
     private String idEvento;
     private float precio;
     private String nombreLocalidad;

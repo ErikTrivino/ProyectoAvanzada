@@ -73,6 +73,8 @@ public class CuentaServicioImpl implements CuentaServicio {
                 new CodigoValidacion(
                         LocalDateTime.now(), codigoAleatorio
                 ));
+        nuevaCuenta.setBoletas(new ArrayList<>());
+        nuevaCuenta.setPreferencias(new ArrayList<>());
 
         cuentaRepo.save(nuevaCuenta);
         emailServicio.enviarCorreo( new EmailDTO("CODIGO DE ACTIVACIÓN CUENTA", nuevaCuenta.getCodigoValidacionRegistro().getCodigo(), nuevaCuenta.getEmail()) );
@@ -378,7 +380,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         Optional<Cuenta> cuenta = cuentaRepo.findById(idPropietario);
         if(cuenta.isPresent()){
             return cuenta.get().getBoletas().stream()
-                    .filter(boleta -> boleta.getId().equals(idBoleta))
+                    .filter(boleta -> boleta.getIdBoleta().equals(idBoleta))
                     .findFirst()
                     .orElse(null);
         }
@@ -396,8 +398,9 @@ public class CuentaServicioImpl implements CuentaServicio {
     @Override
     public List<Boleta> listarBoletasPendientes(String idPropietario) throws Exception {
         Cuenta cuenta = obtenerCuentaPorIdPropietario(idPropietario);
+        //System.out.println(cuenta.getBoletas().toString());
         return cuenta.getBoletas().stream()
-                .filter(boleta -> boleta.getIdClientepropietario().equals(idPropietario) && boleta.getEstado() == EstadoBoleta.PENDIENTE)
+                .filter(boleta -> boleta.getIdPropietarioOriginal().equals(idPropietario) && boleta.getEstado() == EstadoBoleta.PENDIENTE)
                 .collect(Collectors.toList());
     }
 
@@ -408,7 +411,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         Optional<Cuenta> cuenta2 = cuentaRepo.findById(idNuevoPropietario);
         if(cuenta.isPresent() && cuenta2.isPresent()){
             Boleta boletaTra = cuenta.get().getBoletas().stream()
-                    .filter(boleta -> boleta.getId().equals(idBoleta))
+                    .filter(boleta -> boleta.getIdBoleta().equals(idBoleta))
                     .findFirst()
                     .orElse(null);
             if(boletaTra != null){
@@ -430,11 +433,13 @@ public class CuentaServicioImpl implements CuentaServicio {
         Optional<Cuenta> cuenta = cuentaRepo.findById(idNuevoPropietario);
         if(cuenta.isPresent()){
             Boleta boletaTra = cuenta.get().getBoletas().stream()
-                    .filter(boleta -> boleta.getId().equals(idBoleta))
+                    .filter(boleta -> boleta.getIdBoleta().equals(idBoleta))
                     .findFirst()
                     .orElse(null);
             if(boletaTra != null){
+                cuenta.get().getBoletas().remove(boletaTra);
                 boletaTra.setEstado(EstadoBoleta.ACEPTADA);
+                cuenta.get().getBoletas().add(boletaTra);
                 cuentaRepo.save(cuenta.get());
 
             }
@@ -447,12 +452,12 @@ public class CuentaServicioImpl implements CuentaServicio {
     private Boleta buscarBoletaPorId(String idBoleta) throws Exception {
         // Lógica para buscar la boleta en las cuentas
         Optional<Cuenta> cuentaOptional = cuentaRepo.findAll().stream()
-                .filter(cuenta -> cuenta.getBoletas().stream().anyMatch(boleta -> boleta.getId().equals(idBoleta)))
+                .filter(cuenta -> cuenta.getBoletas().stream().anyMatch(boleta -> boleta.getIdBoleta().equals(idBoleta)))
                 .findFirst();
 
         if (cuentaOptional.isPresent()) {
             return cuentaOptional.get().getBoletas().stream()
-                    .filter(boleta -> boleta.getId().equals(idBoleta))
+                    .filter(boleta -> boleta.getIdBoleta().equals(idBoleta))
                     .findFirst()
                     .orElse(null);
         }

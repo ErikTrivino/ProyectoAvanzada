@@ -50,7 +50,7 @@ public class EventoServicioTest {
     public void editarEventoTest() {
 
         // Se define el id del evento a actualizar, este id debe estar en el dataset.js
-        String idEvento = "6702c38a68d7d142b2e1e2ab";
+        String idEvento = "670d2abb52bd187deddbace8";
 
         // Crear el objeto EditarEventoDTO con los nuevos datos del evento
         EditarEventoDTO editarEventoDTO = new EditarEventoDTO(
@@ -74,7 +74,7 @@ public class EventoServicioTest {
     @Test
     public void eliminarEventoTest(){
 
-        String idEvento = "6702c38a68d7d142b2e1e2ab";
+        String idEvento = "6701eea02f877bfc0e9397cf";
 
         //Se elimina la cuenta del usuario con el id definido
         assertDoesNotThrow(() -> eventoServicio.eliminarEvento(idEvento) );
@@ -87,7 +87,7 @@ public class EventoServicioTest {
     @Test
     public void obtenerInformacionEventoTest(){
         // Se define el id de la cuenta del usuario, este id está en el dataset.js
-        String idEvento = "6701eea60f15f5a0bd60922f";
+        String idEvento = "670d2abb52bd187deddbace8";
 
         // Se invoca el método obtenerInformacionCuenta y se espera que no lance excepciones
         assertDoesNotThrow(() -> {
@@ -104,7 +104,7 @@ public class EventoServicioTest {
         List<ItemEventoDTO> lista = eventoServicio.listarEventos();
 
         //Se verifica que la lista no sea nula y que tenga 3 elementos (o los que hayan)
-        assertEquals(6, lista.size());
+        assertEquals(7, lista.size());
         assertFalse(lista.isEmpty());
     }
 
@@ -114,7 +114,7 @@ public class EventoServicioTest {
         // Se crea un objeto de tipo FiltroEventoDTO con los criterios de búsqueda
         FiltroEventoDTO filtroEventoDTO = new FiltroEventoDTO(
                 "Exposición de Arte", // Nombre
-                TipoEvento.CULTURAL, // Tipo
+                TipoEvento.CONCIERTO, // Tipo
                 "Cartagena" // Ciudad
         );
 
@@ -130,7 +130,7 @@ public class EventoServicioTest {
             // Verificamos que los eventos filtrados cumplan con los criterios de búsqueda
             for (ItemEventoDTO evento : eventosFiltrados) {
                 assertEquals("Cartagena", evento.ciudad()); // Aquí deberías comparar con el filtro, que es "Cartagena"
-                assertEquals(TipoEvento.CULTURAL, filtroEventoDTO.tipo());
+                assertEquals(TipoEvento.CONCIERTO, filtroEventoDTO.tipo());
             }
         });
     }

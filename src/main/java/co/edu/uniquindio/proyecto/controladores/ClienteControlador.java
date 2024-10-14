@@ -4,6 +4,7 @@ import co.edu.uniquindio.proyecto.modelo.documentos.Carrito;
 import co.edu.uniquindio.proyecto.modelo.documentos.Orden;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.MensajeDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.ActivarCuentaDTO;
+import co.edu.uniquindio.proyecto.modelo.dto.cuenta.InformacionCuentaDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.CrearOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.EditarOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.InformacionOrdenDTO;
@@ -103,7 +104,7 @@ public class ClienteControlador {
         cuentaServicio.agregarPreferenciasUsuario(idUsuario, tipoPreferencias);
         return "Preferencias agregadas al usuario con éxito.";
     }
-    //Boleta
+    //BOLETA
 
     // RF-001: Buscar boletas por nombre o identificación
     @GetMapping("/buscar-boleta")
@@ -118,7 +119,9 @@ public class ClienteControlador {
     public ResponseEntity<List<Boleta>> listarBoletasPorPropietario(
             @PathVariable String idPropietario) throws Exception {
         List<Boleta> boletas = cuentaServicio.buscarBoletasPorPropietario(idPropietario);
-        return ResponseEntity.ok(boletas);
+        InformacionCuentaDTO informacionOrdenDTO = cuentaServicio.obtenerInformacionCuenta(idPropietario);
+        //System.out.println(informacionOrdenDTO.boletas().toString());
+        return ResponseEntity.ok(informacionOrdenDTO.boletas());
     }
 
     // RF-003: Ver detalle de una boleta
@@ -138,7 +141,7 @@ public class ClienteControlador {
         return ResponseEntity.ok(boletasEnviadas);
     }
 
-    @GetMapping("listarBoletasPendientes-boleta/{idPropietario}/envios/pendientes")
+    @GetMapping("listarBoletasPendientes-boleta/{idPropietario}")
     public ResponseEntity<List<Boleta>> listarBoletasPendientes(
             @PathVariable String idPropietario) throws Exception {
         List<Boleta> boletasPendientes = cuentaServicio.listarBoletasPendientes(idPropietario);
@@ -166,14 +169,14 @@ public class ClienteControlador {
 
     //Carrito
     @PostMapping("/agregarItem-carrito/{id}")
-    public ResponseEntity<MensajeDTO<String>> agregarItem(@RequestBody DetalleCarrito item) throws Exception {
-        carritoServicio.agregarItem("ID_CARRITO", item);
+    public ResponseEntity<MensajeDTO<String>> agregarItem(@PathVariable String id,@RequestBody DetalleCarrito item) throws Exception {
+        carritoServicio.agregarItem(id, item);
         return ResponseEntity.ok(new MensajeDTO<>(false,"Item agregado correctamente"));
     }
 
-    @DeleteMapping("/eliminarItem-carrito/{id}/{idEvento}")
-    public ResponseEntity<MensajeDTO<String>> eliminarItem(@PathVariable String id, @PathVariable String idEvento) throws Exception {
-        carritoServicio.eliminarItem(id, idEvento);
+    @PutMapping("/eliminarItem-carrito/{id}/{idDetalleCarrito}")
+    public ResponseEntity<MensajeDTO<String>> eliminarItem(@PathVariable String id, @PathVariable String idDetalleCarrito) throws Exception {
+        carritoServicio.eliminarItem(id, idDetalleCarrito);
         return ResponseEntity.ok(new MensajeDTO<>(false,"Item eliminado correctamente"));
     }
     @GetMapping("/traerCarrito-carrito/{id}")

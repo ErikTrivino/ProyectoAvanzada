@@ -48,7 +48,7 @@ public class PreferenciaTest {
     @Test
     public void agregarPreferenciasUsuarioTest() throws Exception {
         // Simular el ID del usuario y las preferencias que se agregarán
-        String idUsuario = "67075cab0623a30f86f70d0d";
+        String idUsuario = "670d2a7614d99c1d4d8c20fa";
         List<TipoEvento> preferenciasSimuladas = List.of(
                 TipoEvento.DEPORTE,
                 TipoEvento.BELLEZA
@@ -57,7 +57,7 @@ public class PreferenciaTest {
 
         // Llamar al método de agregar preferencias
         cuentaServicio.agregarPreferenciasUsuario(idUsuario, preferenciasSimuladas);
-        assertEquals(preferenciasSimuladas.get(0), cuentaServicio.obtenerPreferenciasUsuario("67075cab0623a30f86f70d0d").get(0));
+        assertEquals(preferenciasSimuladas.get(0), cuentaServicio.obtenerPreferenciasUsuario("670d2a7614d99c1d4d8c20fa").get(0));
 
 
     }
@@ -73,7 +73,7 @@ public class PreferenciaTest {
         List<TipoEvento> resultado = cuentaServicio.obtenerPreferenciasUsuario(idUsuario);
 
         assertNotNull(resultado);
-        assertEquals(4, resultado.size());
+        assertEquals(3, resultado.size());
         assertEquals(preferencias.get(1), resultado.get(0));
     }
 

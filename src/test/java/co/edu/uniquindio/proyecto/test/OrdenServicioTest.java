@@ -66,7 +66,8 @@ public class OrdenServicioTest {
                 LocalDateTime.now(),
                 "CODIGO_PASARELA_202",
                 150f,
-                items
+                items,
+                "idcupon"
         );
 
         assertDoesNotThrow(() -> {
@@ -81,7 +82,7 @@ public class OrdenServicioTest {
      */
     @Test
     public void eliminarOrdenTest() {
-        String idOrden = "670201877e289659d6c62adf";
+        String idOrden = "6701fd0d44bf8e22611ddeaa";
         assertDoesNotThrow(() -> {
             String resultado = ordenServicio.eliminarOrden(idOrden);
             assertEquals("La orden ha sido eliminada.", resultado);  // Validar mensaje de éxito
@@ -93,7 +94,7 @@ public class OrdenServicioTest {
      */
     @Test
     public void buscarOrdenesPorClienteTest() {
-        String idCliente = "652c95c6f0b56723d4638910";
+        String idCliente = "670d2a7614d99c1d4d8c20fa";
         assertDoesNotThrow(() -> {
             List<Orden> ordenes = ordenServicio.buscarOrdenesPorCliente(idCliente);
             assertNotNull(ordenes);  // Verificar que la lista no sea nula

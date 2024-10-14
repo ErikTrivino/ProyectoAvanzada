@@ -5,6 +5,7 @@ import co.edu.uniquindio.proyecto.modelo.documentos.Orden;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.MensajeDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cupon.CrearCuponDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cupon.EditarCuponDTO;
+import co.edu.uniquindio.proyecto.modelo.dto.cupon.InformacionCuponDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.CrearEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.EditarEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.InformacionOrdenDTO;
@@ -104,6 +105,11 @@ public class AdmistradorControlador {
     public ResponseEntity<MensajeDTO<List<Cupon>>> listarCuponesActivos() throws Exception {
         List<Cupon> cupones = cuponServicio.listarCuponesActivos();
         return ResponseEntity.ok(new MensajeDTO<>(false, cupones));
+    }
+    @GetMapping("/obtener-informacion-cupon/{id}")
+    public ResponseEntity<MensajeDTO<InformacionCuponDTO>> obtenerInformacionCupon(@PathVariable String id) throws Exception {
+        InformacionCuponDTO cuponInfo = cuponServicio.obtenerInformacionCupon(id);
+        return ResponseEntity.ok(new MensajeDTO<>(false, cuponInfo));
     }
 
 }

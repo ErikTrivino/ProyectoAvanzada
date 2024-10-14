@@ -48,6 +48,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
         nuevaOrden.setItems(crearOrdenDTO.items());
         nuevaOrden.setTotal(crearOrdenDTO.total());
 
+
         ordenRepo.save(nuevaOrden);
         return "La orden ha sido creada con éxito";
     }
@@ -58,6 +59,8 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
         orden.setItems(editarOrdenDTO.items());
         orden.setTotal(editarOrdenDTO.total());
+        orden.setIdCliente(editarOrdenDTO.idCliente());
+        orden.setIdCupon(editarOrdenDTO.idCupon());
 
         ordenRepo.save(orden);
         return "La orden ha sido actualizada con éxito.";
@@ -251,7 +254,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
     private Pago crearPago(Payment payment) {
         Pago pago = new Pago();
-        pago.setId(payment.getId().toString());
+        pago.setIdPago(payment.getId().toString());
         pago.setFecha( payment.getDateCreated().toLocalDateTime() );
         pago.setEstado(payment.getStatus());
         pago.setDetalleEstado(payment.getStatusDetail());
