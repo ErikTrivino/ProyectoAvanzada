@@ -7,14 +7,17 @@ import co.edu.uniquindio.proyecto.modelo.dto.evento.CrearEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.FiltroEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.InformacionEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.ItemEventoDTO;
+import co.edu.uniquindio.proyecto.servicios.implementaciones.OrdenServicioImpl;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CuentaServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EventoServicio;
+import com.mercadopago.resources.preference.Preference;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +27,15 @@ public class GeneralControlador {
     private final EventoServicio eventoServicio;
     private final CuentaServicio cuentaServicio;
 
+    private final OrdenServicioImpl ordenServicio;
+
+
+
+
+    @PostMapping("/notificacion-pago")
+    public void recibirNotificacionMercadoPago(@RequestBody Map<String, Object> requestBody) {
+        ordenServicio.recibirNotificacionMercadoPago(requestBody);
+    }
     @GetMapping("/obtener-info-evento/{id}")
     public ResponseEntity<MensajeDTO<InformacionEventoDTO>> obtenerInformacionEvento(@PathVariable String id) throws Exception{
         InformacionEventoDTO info = eventoServicio.obtenerInformacionEvento(id);

@@ -58,8 +58,10 @@ public class OrdenServicioImpl  implements OrdenServicio {
         Orden orden = obtenerOrden(editarOrdenDTO.id());
 
         orden.setItems(editarOrdenDTO.items());
+
         orden.setTotal(editarOrdenDTO.total());
         orden.setIdCliente(editarOrdenDTO.idCliente());
+
         orden.setIdCupon(editarOrdenDTO.idCupon());
 
         ordenRepo.save(orden);
@@ -192,7 +194,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
                 .backUrls(backUrls)
                 .items(itemsPasarela)
                 .metadata(Map.of("id_orden", ordenGuardada.getId()))
-                .notificationUrl("https://daca-2800-e2-6f80-309-dd7d-3ad2-faeb-4a16.ngrok-free.app")//URL TOMADA DEL NGROK
+                .notificationUrl("https://83dc-2800-e2-6f80-309-bda6-292a-7535-e863.ngrok-free.app/api/general/notificacion-pago")//URL TOMADA DEL NGROK
                 .build();
 
 
@@ -203,6 +205,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
         // Guardar el código de la pasarela en la orden
         ordenGuardada.setCodigoPasarela( preference.getId() );
+      //  System.out.println(ordenGuardada.getPago().toString());
         ordenRepo.save(ordenGuardada);
 
 

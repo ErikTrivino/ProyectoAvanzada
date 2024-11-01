@@ -46,10 +46,7 @@ public class ClienteControlador {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, ordenServicio.realizarPago(idOrden)));
     }
 
-    @PostMapping("/notificacion-pago")
-    public void recibirNotificacionMercadoPago(@RequestBody Map<String, Object> requestBody) {
-        ordenServicio.recibirNotificacionMercadoPago(requestBody);
-    }
+
 
     @PostMapping("/crear-orden")
     public ResponseEntity<MensajeDTO<String>> crearOrden(@Valid @RequestBody CrearOrdenDTO orden) throws Exception {

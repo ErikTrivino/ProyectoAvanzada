@@ -32,6 +32,14 @@ public class CuentaServicioTest {
                 "rosario27@email.com",
                 "password"
         );
+//        CrearCuentaDTO crearCuentaDTO = new CrearCuentaDTO(
+//                "4321",
+//                "Prueba Usuario Eliminar",
+//                "31043242",
+//                "Carrera 21 #13-64",
+//                "correoPrueba@gmail.com",
+//                "4321"
+//        );
 
 
 
@@ -50,7 +58,7 @@ public class CuentaServicioTest {
 
 
         //Se define el id de la cuenta del usuario a actualizar, este id está en el dataset.js
-        String idCuenta = "66fb6f2296a08b156b316846";
+        String idCuenta = "6701ed1fa81f609e1a5692fb"; //Usuario 2 de la bd PruebasUnitarios
 
 
         //Se crea un objeto de tipo EditarCuentaDTO
@@ -79,7 +87,7 @@ public class CuentaServicioTest {
     public void eliminarCuentaTest(){
 
         //Se define el id de la cuenta del usuario a eliminar, este id está en el dataset.js
-        String idCuenta = "6702b36ce4319b7094fdf3d3";
+        String idCuenta = "670ff61d375d72246c685a95";
 
         //Se elimina la cuenta del usuario con el id definido
         assertDoesNotThrow(() -> cuentaServicio.eliminarCuenta(idCuenta) );
@@ -95,7 +103,7 @@ public class CuentaServicioTest {
 
         //Se verifica que la lista no sea nula y que tenga 3 elementos (o los que hayan)
         assertFalse(lista.isEmpty());
-        assertEquals(8, lista.size());
+        assertEquals(3, lista.size());
     }
 
     @Test
@@ -110,11 +118,11 @@ public class CuentaServicioTest {
 
             // Se validan los atributos de la cuenta para asegurarse de que la información es correcta
             assertNotNull(informacion);
-            //assertEquals("1097743245", informacion.cedula());
-            //assertEquals("Raul Quintero", informacion.nombre());
-            //assertEquals("3125642189", informacion.telefono());
-            //assertEquals("Cerros del Viento", informacion.direccion());
-            //assertEquals("raul32@email.com", informacion.correo());
+            assertEquals("123456789", informacion.cedula());
+            assertEquals("Raul Quintero", informacion.nombre());
+            assertEquals("3124532875", informacion.telefono());
+            assertEquals("Nueva dirección", informacion.direccion());
+            assertEquals("usuario2@example.com", informacion.correo());
         });
 
     }
@@ -144,7 +152,7 @@ public class CuentaServicioTest {
     public void cambiarPasswordTest() throws Exception {
         // Preparar el DTO con un código de verificación válido
         String email = "unieventosfae@gmail.com";
-        String codigoVerificacion = "N89IJQ"; // Este debería ser el código previamente generado y guardado
+        String codigoVerificacion = "2UQ7HM"; // Este debería ser el código previamente generado y guardado
         String nuevaPassword = "newPassword";
 
         CambiarPasswordDTO cambiarPasswordDTO = new CambiarPasswordDTO(email, codigoVerificacion, nuevaPassword);
@@ -154,6 +162,41 @@ public class CuentaServicioTest {
 
         // Comprobar que el resultado sea el esperado
         assertEquals("Su contraseña ha sido cambiada.", resultado);
+
+    }
+    @Test
+    public void activarCuentaTest() throws Exception {
+        // Preparar el entorno
+        String tokenValido = "YVV4C7";
+        String tokenInvalido = "invalidToken123";
+        String correo = "unieventosfae@gmail.com";
+
+        // Crear y guardar una cuenta con el token de validación
+        LocalDateTime fechaCreacion = LocalDateTime.now();
+        CodigoValidacion codigoValidacion = new CodigoValidacion(fechaCreacion, tokenValido);
+
+        // Caso 1: Activar cuenta con token válido
+        ActivarCuentaDTO activarCuentaDTOValido = new ActivarCuentaDTO(tokenValido,correo);
+
+        String resultado = cuentaServicio.activarCuenta(activarCuentaDTOValido);
+
+        // Verificar que el mensaje de activación sea el esperado
+        assertEquals("Cuenta activada exitosamente.", resultado);
+
+        // Verificar que el estado de la cuenta se haya cambiado a ACTIVO
+        Cuenta cuentaActivada = cuentaServicio.obtenerPorEmail(correo);
+        assertEquals(EstadoCuenta.ACTIVO, cuentaActivada.getEstado());
+
+        // Caso 2: Intentar activar cuenta con token inválido
+        //ActivarCuentaDTO activarCuentaDTOInvalido = new ActivarCuentaDTO(tokenInvalido,correo);
+
+        // Verificar que se lance una excepción al usar un token inválido
+        //Exception exception = assertThrows(Exception.class, () -> {
+        //  cuentaServicio.activarCuenta(activarCuentaDTOInvalido);
+        //});
+
+        // Comprobar el mensaje de la excepción
+        //assertEquals("El token de activación es inválido.", exception.getMessage());
 
     }
 
@@ -185,41 +228,7 @@ public class CuentaServicioTest {
     }
 
 
-    @Test
-    public void activarCuentaTest() throws Exception {
-        // Preparar el entorno
-        String tokenValido = "ZB3BBM";
-        String tokenInvalido = "invalidToken123";
-        String correo = "unieventosfae@gmail.com";
 
-        // Crear y guardar una cuenta con el token de validación
-        LocalDateTime fechaCreacion = LocalDateTime.now();
-        CodigoValidacion codigoValidacion = new CodigoValidacion(fechaCreacion, tokenValido);
-
-        // Caso 1: Activar cuenta con token válido
-        ActivarCuentaDTO activarCuentaDTOValido = new ActivarCuentaDTO(tokenValido,correo);
-
-        String resultado = cuentaServicio.activarCuenta(activarCuentaDTOValido);
-
-        // Verificar que el mensaje de activación sea el esperado
-        assertEquals("Cuenta activada exitosamente.", resultado);
-
-        // Verificar que el estado de la cuenta se haya cambiado a ACTIVO
-        Cuenta cuentaActivada = cuentaServicio.obtenerPorEmail(correo);
-        assertEquals(EstadoCuenta.ACTIVO, cuentaActivada.getEstado());
-
-        // Caso 2: Intentar activar cuenta con token inválido
-        //ActivarCuentaDTO activarCuentaDTOInvalido = new ActivarCuentaDTO(tokenInvalido,correo);
-
-        // Verificar que se lance una excepción al usar un token inválido
-        //Exception exception = assertThrows(Exception.class, () -> {
-          //  cuentaServicio.activarCuenta(activarCuentaDTOInvalido);
-        //});
-
-        // Comprobar el mensaje de la excepción
-        //assertEquals("El token de activación es inválido.", exception.getMessage());
-
-    }
 
     @Test
     public void enviarCodigoActivacionCuentaTest() throws Exception {
