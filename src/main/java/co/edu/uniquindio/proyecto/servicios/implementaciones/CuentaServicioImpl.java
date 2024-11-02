@@ -1,16 +1,14 @@
 package co.edu.uniquindio.proyecto.servicios.implementaciones;
 
 import co.edu.uniquindio.proyecto.config.JWTUtils;
-import co.edu.uniquindio.proyecto.modelo.enums.TipoEvento;
+import co.edu.uniquindio.proyecto.modelo.documentos.Cupon;
+import co.edu.uniquindio.proyecto.modelo.enums.*;
 import co.edu.uniquindio.proyecto.modelo.vo.Boleta;
 import co.edu.uniquindio.proyecto.modelo.documentos.Cuenta;
 import co.edu.uniquindio.proyecto.modelo.documentos.Usuario;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.TokenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.*;
-import co.edu.uniquindio.proyecto.modelo.enums.EstadoBoleta;
 import co.edu.uniquindio.proyecto.modelo.dto.email.EmailDTO;
-import co.edu.uniquindio.proyecto.modelo.enums.EstadoCuenta;
-import co.edu.uniquindio.proyecto.modelo.enums.Rol;
 import co.edu.uniquindio.proyecto.modelo.vo.CodigoValidacion;
 import co.edu.uniquindio.proyecto.repositorios.CuentaRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CuentaServicio;
@@ -21,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -178,14 +173,19 @@ public class CuentaServicioImpl implements CuentaServicio {
     public TokenDTO iniciarSesion(LoginDTO loginDTO) throws Exception {
 
         Cuenta cuenta = obtenerPorEmail(loginDTO.correo());
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if(cuenta.getEstado() == EstadoCuenta.ACTIVO){
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        if( !passwordEncoder.matches(loginDTO.password(), cuenta.getPassword()) ) {
-            throw new Exception("La contraseña es incorrecta");
+            if( !passwordEncoder.matches(loginDTO.password(), cuenta.getPassword()) ) {
+                throw new Exception("La contraseña es incorrecta");
+            }
+
+            Map<String, Object> map = construirClaims(cuenta);
+            return new TokenDTO( jwtUtils.generarToken(cuenta.getEmail(), map) );
+        }else {
+            throw new Exception("La cuenta no esta activa");
         }
 
-        Map<String, Object> map = construirClaims(cuenta);
-        return new TokenDTO( jwtUtils.generarToken(cuenta.getEmail(), map) );
     }
 
 
@@ -208,9 +208,104 @@ public class CuentaServicioImpl implements CuentaServicio {
 
         // Activar la cuenta si el token es válido y no ha expirado
         cuenta.setEstado(EstadoCuenta.ACTIVO);
+        if(!cuentaOpt.get().isActivacionPrimeraVez()){
+            String nombreCupon = "CUPON"+generarNumeroAleatorio();
+            Cupon cupon = new Cupon();
+            cupon.setCodigo(nombreCupon);
+            cupon.setTipo(TipoCupon.UNICO);
+            cupon.setDescuento(15.0f);
+            cupon.setNombre("Cupon de activacion primera vez");
+            cupon.setFechaVencimiento(LocalDateTime.now().minusMonths(1));
+            cupon.setEstado(EstadoCupon.ACTIVO);
+            String cuerpo = "<!DOCTYPE html>\n" +
+                    "<html lang=\"es\">\n" +
+                    "<head>\n" +
+                    "    <meta charset=\"UTF-8\">\n" +
+                    "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                    "    <title>Activación de Cuenta - Cupón de Descuento</title>\n" +
+                    "    <style>\n" +
+                    "        body {\n" +
+                    "            font-family: Arial, sans-serif;\n" +
+                    "            background-color: #f4f4f4;\n" +
+                    "            color: #333;\n" +
+                    "            margin: 0;\n" +
+                    "            padding: 0;\n" +
+                    "        }\n" +
+                    "        .container {\n" +
+                    "            width: 100%;\n" +
+                    "            max-width: 600px;\n" +
+                    "            margin: 0 auto;\n" +
+                    "            background-color: #fff;\n" +
+                    "            padding: 20px;\n" +
+                    "            border-radius: 8px;\n" +
+                    "            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n" +
+                    "        }\n" +
+                    "        .header {\n" +
+                    "            background-color: #4CAF50;\n" +
+                    "            color: #fff;\n" +
+                    "            padding: 10px;\n" +
+                    "            text-align: center;\n" +
+                    "            border-radius: 8px 8px 0 0;\n" +
+                    "        }\n" +
+                    "        .content {\n" +
+                    "            padding: 20px;\n" +
+                    "            line-height: 1.6;\n" +
+                    "        }\n" +
+                    "        .coupon {\n" +
+                    "            font-size: 20px;\n" +
+                    "            font-weight: bold;\n" +
+                    "            color: #4CAF50;\n" +
+                    "            margin: 20px 0;\n" +
+                    "        }\n" +
+                    "        .footer {\n" +
+                    "            font-size: 12px;\n" +
+                    "            color: #777;\n" +
+                    "            text-align: center;\n" +
+                    "            padding: 10px;\n" +
+                    "            border-top: 1px solid #ddd;\n" +
+                    "            margin-top: 20px;\n" +
+                    "        }\n" +
+                    "    </style>\n" +
+                    "</head>\n" +
+                    "<body>\n" +
+                    "    <div class=\"container\">\n" +
+                    "        <div class=\"header\">\n" +
+                    "            <h1>¡Bienvenido a nuestra comunidad!</h1>\n" +
+                    "        </div>\n" +
+                    "        <div class=\"content\">\n" +
+                    "            <p>Estimado usuario,</p>\n" +
+                    "            <p>Gracias por activar tu cuenta con nosotros. Como agradecimiento, te regalamos un cupón de descuento exclusivo para tu primera compra.</p>\n" +
+                    "\n" +
+                    "            <p><strong>Detalles del Cupón:</strong></p>\n" +
+                    "            <p class=\"coupon\">Código del Cupón: <span style=\"color:#333;\">{{"+nombreCupon+"}}</span></p>\n" +
+                    "            <ul>\n" +
+                    "                <li><strong>Tipo de Cupón:</strong> Único</li>\n" +
+                    "                <li><strong>Descuento:</strong> 15%</li>\n" +
+                    "                <li><strong>Nombre:</strong> Cupón de activación primera vez</li>\n" +
+                    "                <li><strong>Fecha de Vencimiento:</strong> {{"+cupon.getFechaVencimiento().toString()+"}}</li>\n" +
+                    "                <li><strong>Estado:</strong> Activo</li>\n" +
+                    "            </ul>\n" +
+                    "\n" +
+                    "            <p>¡Aprovecha este descuento y explora todos los beneficios que tenemos para ti!</p>\n" +
+                    "        </div>\n" +
+                    "        <div class=\"footer\">\n" +
+                    "            <p>Si tienes alguna pregunta, no dudes en contactarnos.</p>\n" +
+                    "            <p>&copy; 2024 - Nuestra Empresa. Todos los derechos reservados.</p>\n" +
+                    "        </div>\n" +
+                    "    </div>\n" +
+                    "</body>\n" +
+                    "</html>\n";
+
+            emailServicio.enviarCorreo( new EmailDTO("CUPON POR ACTIVACION CUENTA PRIMERA VEZ", cuerpo, cuentaOpt.get().getEmail()) );
+        }
+
         cuentaRepo.save(cuenta); // Guardar el cambio en la base de datos
 
         return "Cuenta activada exitosamente.";
+    }
+    public static int generarNumeroAleatorio() {
+        Random random = new Random();
+        return random.nextInt(10000); // Genera un número entre 0 y 9999
     }
 
     @Override

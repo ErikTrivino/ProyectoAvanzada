@@ -17,6 +17,14 @@ public interface EventoRepo extends MongoRepository<Evento, String> {
     @Query("{nombre : ?0, fechaEvento: ?1, ciudad :  ?2}")
     Optional<Evento> buscarEvento(String nombreEvento, LocalDateTime fechaEvento, String ciudad);
 
-    @Query("{nombre : ?0, tipo: ?1, ciudad :  ?2}")
+    @Query("{nombre : ?0, tipo: ?1, ciudad :  ?2, estado: ACTIVO}")
     List<Evento> filtrarEventos(String nombreEvento, TipoEvento tipo, String ciudad);
+
+    @Query("{estado: ACTIVO}")
+    List<Evento> listarEventosActivos();
+
+    @Query("{fecha: {$gte: ?0, $lte: ?1, estado : ACTIVO}}")
+    List<Evento> filtrarEventosFuturos(LocalDateTime fechaInicio, LocalDateTime fechaFin);
+
+
 }

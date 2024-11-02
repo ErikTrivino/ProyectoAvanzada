@@ -95,13 +95,21 @@ public class CuponServicioImpl implements CuponServicio {
     public boolean redimirCupon(String codigo) throws Exception {
         Cupon cupon = obtenerPorCodigo(codigo);
 
-        if (cupon.getFechaVencimiento().isBefore(LocalDateTime.now())) {
-            throw new Exception("El cupón ha vencido.");
+        if(cupon.getEstado() == EstadoCupon.ACTIVO){
+            if (cupon.getFechaVencimiento().isBefore(LocalDateTime.now())) {
+                throw new Exception("El cupón ha vencido.");
+            }
+
+            if(cupon.getTipo() == TipoCupon.UNICO){
+                cupon.setEstado(EstadoCupon.INACTIVO);
+            }
+
+            cuponRepo.save(cupon);
+            return true;
+        }else {
+            throw new Exception("El cupon ya ha sido utilizado");
         }
 
-        cupon.setEstado(EstadoCupon.INACTIVO);
-        cuponRepo.save(cupon);
-        return true;
     }
 
     @Override
@@ -111,6 +119,11 @@ public class CuponServicioImpl implements CuponServicio {
         Date fechaLimiteDate = Date.from(fechaLimite.atZone(ZoneId.systemDefault()).toInstant());
 
         return cuponRepo.buscarCuponesPorExpirarAntesDe(fechaLimiteDate);
+    }
+
+    @Override
+    public List<Cupon> listarCupones() throws Exception {
+        return cuponRepo.findAll();
     }
 
     // Métodos privados de utilidad

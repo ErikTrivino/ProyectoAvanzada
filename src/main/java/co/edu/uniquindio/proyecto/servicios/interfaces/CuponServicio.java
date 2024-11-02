@@ -41,4 +41,6 @@ public interface CuponServicio {
 
 
     List<Cupon> listarCuponesPorExpirar() throws Exception;
+    List<Cupon> listarCupones() throws Exception;
+
 }

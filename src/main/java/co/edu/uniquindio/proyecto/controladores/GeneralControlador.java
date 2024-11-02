@@ -47,6 +47,16 @@ public class GeneralControlador {
         List<ItemEventoDTO> lista = eventoServicio.listarEventos();
         return ResponseEntity.ok(new MensajeDTO<>(false, lista));
     }
+    @GetMapping("/listar-eventos-activos")
+    public ResponseEntity<MensajeDTO<List<ItemEventoDTO>>> listarEventosActivos() throws Exception {
+        List<ItemEventoDTO> lista = eventoServicio.listarEventosActivos();
+        return ResponseEntity.ok(new MensajeDTO<>(false, lista));
+    }
+    @GetMapping("/listar-eventos-futuros")
+    public ResponseEntity<MensajeDTO<List<ItemEventoDTO>>> listarEventosFuturos() throws Exception {
+        List<ItemEventoDTO> lista = eventoServicio.filtrarEventosFuturos();
+        return ResponseEntity.ok(new MensajeDTO<>(false, lista));
+    }
 
     @PostMapping("/filtrar-eventos")
     public ResponseEntity<MensajeDTO<List<ItemEventoDTO>>> filtrarEventos(@RequestBody FiltroEventoDTO filtroEventoDTO) throws Exception {

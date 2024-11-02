@@ -37,6 +37,7 @@ public class Cuenta {
     private List<Boleta> boletas;
     private List<TipoEvento> preferencias;
 
+    private boolean activacionPrimeraVez;
 
     @Builder
     public Cuenta(String email, String password, Rol rol, LocalDateTime fechaRegistro, Usuario usuario, EstadoCuenta estado, CodigoValidacion codigoValidacionRegistro, CodigoValidacion codigoValidacionPassword) {
@@ -50,6 +51,7 @@ public class Cuenta {
         this.codigoValidacionPassword = codigoValidacionPassword;
         this.boletas = new ArrayList<>();
         this.preferencias = new ArrayList<>();
+        this.activacionPrimeraVez = false;
     }
 
 }

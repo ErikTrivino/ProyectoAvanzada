@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -122,6 +123,34 @@ public class EventoServicioImpl implements EventoServicio {
                         evento.getFechaEvento(),
                         evento.getCiudad()
                         ))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ItemEventoDTO> listarEventosActivos() throws Exception {
+        List<Evento> eventosActivos = eventoRepo.listarEventosActivos();
+        return eventosActivos.stream()
+                .map(evento -> new ItemEventoDTO(
+                        evento.getImagenPortada(),
+                        evento.getNombre(),
+                        evento.getFechaEvento(),
+                        evento.getCiudad()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ItemEventoDTO> filtrarEventosFuturos() throws Exception {
+        LocalDateTime fechaInicio = LocalDateTime.now();
+        LocalDateTime fechaFin = fechaInicio.plusMonths(2);
+        List<Evento> eventosFuturos = eventoRepo.filtrarEventosFuturos(fechaInicio, fechaFin);
+        return eventosFuturos.stream()
+                .map(evento -> new ItemEventoDTO(
+                        evento.getImagenPortada(),
+                        evento.getNombre(),
+                        evento.getFechaEvento(),
+                        evento.getCiudad()
+                ))
                 .collect(Collectors.toList());
     }
 

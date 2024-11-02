@@ -47,6 +47,7 @@ public class AdmistradorControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, ordenesCliente));
     }
 
+    //Evento
     @PostMapping("/crear-evento")
     public ResponseEntity<MensajeDTO<String>> crearEvento(@Valid @RequestBody CrearEventoDTO evento) throws Exception{
         eventoServicio.crearEvento(evento);
@@ -104,6 +105,11 @@ public class AdmistradorControlador {
     @GetMapping("/listar-cupones-activos-cupon")
     public ResponseEntity<MensajeDTO<List<Cupon>>> listarCuponesActivos() throws Exception {
         List<Cupon> cupones = cuponServicio.listarCuponesActivos();
+        return ResponseEntity.ok(new MensajeDTO<>(false, cupones));
+    }
+    @GetMapping("/listar-cupones")
+    public ResponseEntity<MensajeDTO<List<Cupon>>> listarCupones() throws Exception {
+        List<Cupon> cupones = cuponServicio.listarCupones();
         return ResponseEntity.ok(new MensajeDTO<>(false, cupones));
     }
     @GetMapping("/obtener-informacion-cupon/{id}")
