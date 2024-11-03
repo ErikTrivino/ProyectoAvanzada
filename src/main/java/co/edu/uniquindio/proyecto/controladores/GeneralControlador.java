@@ -7,6 +7,8 @@ import co.edu.uniquindio.proyecto.modelo.dto.evento.CrearEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.FiltroEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.InformacionEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.ItemEventoDTO;
+import co.edu.uniquindio.proyecto.modelo.enums.Ciudad;
+import co.edu.uniquindio.proyecto.modelo.enums.TipoEvento;
 import co.edu.uniquindio.proyecto.servicios.implementaciones.OrdenServicioImpl;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CuentaServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EventoServicio;
@@ -45,6 +47,16 @@ public class GeneralControlador {
     @GetMapping("/listar-todos-eventos")
     public ResponseEntity<MensajeDTO<List<ItemEventoDTO>>> listarEventos() throws Exception {
         List<ItemEventoDTO> lista = eventoServicio.listarEventos();
+        return ResponseEntity.ok(new MensajeDTO<>(false, lista));
+    }
+    @GetMapping("/listar-tipo-eventos")
+    public ResponseEntity<MensajeDTO<List<TipoEvento>>> listarTipoEventos() throws Exception {
+        List<TipoEvento> lista = eventoServicio.obtenerTipoEventos();
+        return ResponseEntity.ok(new MensajeDTO<>(false, lista));
+    }
+    @GetMapping("/listar-ciudad-eventos")
+    public ResponseEntity<MensajeDTO<List<Ciudad>>> listarCiudadesEventos() throws Exception {
+        List<Ciudad> lista = List.of(Ciudad.values());
         return ResponseEntity.ok(new MensajeDTO<>(false, lista));
     }
     @GetMapping("/listar-eventos-activos")

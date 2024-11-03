@@ -1,0 +1,33 @@
+package co.edu.uniquindio.proyecto.modelo.enums;
+
+public enum Ciudad {
+    BOGOTA,
+    MEDELLIN,
+    CALI,
+    BARRANQUILLA,
+    CARTAGENA,
+    CUCUTA,
+    BUCARAMANGA,
+    PEREIRA,
+    SANTA_MARTA,
+    IBAGUE,
+    VILLAVICENCIO,
+    MANIZALES,
+    PASTO,
+    MONTERIA,
+    ARMENIA,
+    NEIVA,
+    SINCELEJO,
+    POPAYAN,
+    RIOHACHA,
+    TUNJA,
+    FLORENCIA,
+    VALLEDUPAR,
+    QUIBDO,
+    MOCOA,
+    SAN_ANDRES,
+    YOPAL,
+    INIRIDA,
+    MITU,
+    LETICIA
+}

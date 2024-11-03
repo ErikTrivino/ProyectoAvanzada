@@ -2,6 +2,7 @@ package co.edu.uniquindio.proyecto.servicios.interfaces;
 
 import co.edu.uniquindio.proyecto.modelo.documentos.Evento;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.*;
+import co.edu.uniquindio.proyecto.modelo.enums.TipoEvento;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,4 +25,5 @@ public interface EventoServicio {
     List<ItemEventoDTO> filtrarEventos(FiltroEventoDTO filtroEventoDTO) throws Exception;
 
     Evento obtenerEvento(String id) throws Exception;
+    List<TipoEvento> obtenerTipoEventos();
 }

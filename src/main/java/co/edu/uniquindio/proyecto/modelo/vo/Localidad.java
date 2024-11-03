@@ -23,4 +23,7 @@ public class Localidad {
         this.nombre = nombre;
         this.capacidadMaxima = capacidadMaxima;
     }
+    public int getCapacidadDisponible(){
+        return capacidadMaxima - entradasVendidas;
+    }
 }

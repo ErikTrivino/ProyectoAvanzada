@@ -3,6 +3,7 @@ package co.edu.uniquindio.proyecto.servicios.implementaciones;
 import co.edu.uniquindio.proyecto.modelo.documentos.Evento;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.*;
 import co.edu.uniquindio.proyecto.modelo.enums.EstadoEvento;
+import co.edu.uniquindio.proyecto.modelo.enums.TipoEvento;
 import co.edu.uniquindio.proyecto.modelo.vo.Localidad;
 import co.edu.uniquindio.proyecto.repositorios.EventoRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EventoServicio;
@@ -186,6 +187,11 @@ public class EventoServicioImpl implements EventoServicio {
 
         return evento;
 
+    }
+
+    @Override
+    public List<TipoEvento> obtenerTipoEventos() {
+        return List.of(TipoEvento.values());
     }
 
     //Método para validar si el evento ya existe y no se duplique un mismo evento cuando se esta creando

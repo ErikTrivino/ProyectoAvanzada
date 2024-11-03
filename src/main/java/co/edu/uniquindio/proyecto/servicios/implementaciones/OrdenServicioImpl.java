@@ -41,17 +41,41 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
     @Override
     public String crearOrden(CrearOrdenDTO crearOrdenDTO) throws Exception {
+        // Obtener el evento para verificar la fecha y la capacidad
+        Evento evento = eventoServicio.obtenerEvento(crearOrdenDTO.items().get(0).getIdEvento());
+        LocalDateTime fechaActual = LocalDateTime.now();
+
+        // Validar que la compra solo se pueda realizar hasta dos días antes del evento
+        if (evento.getFechaEvento().minusDays(2).isBefore(fechaActual)) {
+            throw new Exception("La compra solo puede realizarse hasta dos días antes del evento.");
+        }
+
+        // Validar que haya suficiente capacidad en las localidades solicitadas
+        for (DetalleOrden detalle : crearOrdenDTO.items()) {
+            Localidad localidad = evento.obtenerLocalidad(detalle.getNombreLocalidad());
+            if (localidad.getCapacidadDisponible() < detalle.getCantidad()) {
+                throw new Exception("No hay capacidad suficiente para la localidad " + detalle.getNombreLocalidad());
+            }
+        }
+
+        // Crear y guardar la orden si todas las validaciones pasan
         Orden nuevaOrden = new Orden();
         nuevaOrden.setIdCliente(crearOrdenDTO.idCliente());
-        nuevaOrden.setFecha(LocalDateTime.now());
+        nuevaOrden.setFecha(fechaActual);
         nuevaOrden.setCodigoPasarela(crearOrdenDTO.codigoPasarela());
         nuevaOrden.setItems(crearOrdenDTO.items());
         nuevaOrden.setTotal(crearOrdenDTO.total());
 
+        // Descontar la capacidad en las localidades
+        for (DetalleOrden detalle : crearOrdenDTO.items()) {
+            Localidad localidad = evento.obtenerLocalidad(detalle.getNombreLocalidad());
+            localidad.setEntradasVendidas(localidad.getEntradasVendidas() + detalle.getCantidad());
+        }
 
         ordenRepo.save(nuevaOrden);
         return "La orden ha sido creada con éxito";
     }
+
 
     @Override
     public String actualizarOrden(EditarOrdenDTO editarOrdenDTO) throws Exception {
@@ -71,9 +95,20 @@ public class OrdenServicioImpl  implements OrdenServicio {
     @Override
     public String eliminarOrden(String idOrden) throws Exception {
         Orden orden = obtenerOrden(idOrden);
+
+        // Obtener el evento asociado para devolver la capacidad
+        Evento evento = eventoServicio.obtenerEvento(orden.getItems().get(0).getIdEvento());
+
+        // Devolver la capacidad a las localidades
+        for (DetalleOrden detalle : orden.getItems()) {
+            Localidad localidad = evento.obtenerLocalidad(detalle.getNombreLocalidad());
+            localidad.setEntradasVendidas(localidad.getEntradasVendidas() - detalle.getCantidad());
+        }
+
         ordenRepo.delete(orden);
-        return "La orden ha sido eliminada.";
+        return "La orden ha sido cancelada y la capacidad ha sido devuelta.";
     }
+
 
     @Override
     public List<Orden> buscarOrdenesPorCliente(String idCliente) throws Exception {
