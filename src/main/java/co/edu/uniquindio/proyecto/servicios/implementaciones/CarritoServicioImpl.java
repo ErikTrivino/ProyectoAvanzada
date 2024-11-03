@@ -1,6 +1,7 @@
 package co.edu.uniquindio.proyecto.servicios.implementaciones;
 
 import co.edu.uniquindio.proyecto.modelo.documentos.Carrito;
+import co.edu.uniquindio.proyecto.modelo.dto.carrito.InformacionCarritoDto;
 import co.edu.uniquindio.proyecto.modelo.vo.DetalleCarrito;
 import co.edu.uniquindio.proyecto.repositorios.CarritoRepo;
 import co.edu.uniquindio.proyecto.repositorios.CuentaRepo;
@@ -55,11 +56,53 @@ public class CarritoServicioImpl implements CarritoServicio {
 
 
         if(carrito.isPresent()){
-            // Agregar el item al carrito
-            carrito.get().getItems().add(item);
+            Carrito carritoActual = carrito.get();
 
+            // Verificar si el item ya está en el carrito
+            Optional<DetalleCarrito> itemExistente = carritoActual.getItems().stream()
+                    .filter(i -> i.getIdEvento().equals(item.getIdEvento()))
+                    .findFirst();
+
+            if (itemExistente.isPresent()) {
+                // Si el item ya existe, incrementar la cantidad
+                DetalleCarrito detalleExistente = itemExistente.get();
+                detalleExistente.setCantidad(detalleExistente.getCantidad() + item.getCantidad());
+            } else {
+                // Si el item no existe, agregarlo al carrito
+                carritoActual.getItems().add(item);
+            }
             // Guardar el carrito actualizado en la base de datos
             carritoRepo.save(carrito.get());
+        }
+
+    }
+
+    @Override
+    public void editarItem(String idCarrito, DetalleCarrito item) throws Exception {
+        Optional<Carrito> carrito = carritoRepo.findById(idCarrito);
+
+        if (carrito.isPresent()) {
+            Carrito carritoActual = carrito.get();
+
+            // Buscar el item que se desea editar en el carrito
+            Optional<DetalleCarrito> itemExistente = carritoActual.getItems().stream()
+                    .filter(i -> i.getIdEvento().equals(item.getIdEvento()))
+                    .findFirst();
+
+            if (itemExistente.isPresent()) {
+                // Si el item existe, actualizar los detalles
+                DetalleCarrito detalleExistente = itemExistente.get();
+                detalleExistente.setCantidad(item.getCantidad());
+                detalleExistente.setNombreLocalidad(item.getNombreLocalidad());
+                // Actualizar otros campos de detalleExistente según sea necesario
+
+                // Guardar el carrito actualizado en la base de datos
+                carritoRepo.save(carritoActual);
+            } else {
+                throw new Exception("Item no encontrado en el carrito");
+            }
+        } else {
+            throw new Exception("Carrito no encontrado");
         }
 
     }
@@ -72,10 +115,28 @@ public class CarritoServicioImpl implements CarritoServicio {
         if(carrito.isPresent()){
             return carrito.get();
         }else {
-            return null;
+            throw  new Exception("No se ha encontrado un carrito");
         }
 
     }
+
+    @Override
+    public void vaciarCarrito(String idCarrito) throws Exception {
+        Optional<Carrito> carrito = carritoRepo.findById(idCarrito);
+
+        if (carrito.isPresent()) {
+            Carrito carritoActual = carrito.get();
+
+            // Vaciar la lista de ítems del carrito
+            carritoActual.getItems().clear();
+
+            // Guardar el carrito actualizado en la base de datos
+            carritoRepo.save(carritoActual);
+        } else {
+            throw new Exception("Carrito no encontrado");
+        }
+    }
+
 
 
 }

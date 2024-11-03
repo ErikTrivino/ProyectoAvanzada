@@ -34,5 +34,6 @@ public interface OrdenServicio {
     void recibirNotificacionMercadoPago(Map<String, Object> request) throws Exception;
 
     Preference realizarPago(String idOrden) throws Exception;
+    List<InformacionOrdenDTO> obtenerHistorialOrdenes(String idCliente) throws Exception;
 
 }

@@ -20,11 +20,9 @@ public class Carrito {
     @Id
     @EqualsAndHashCode.Exclude
     private String id;
-
     private LocalDateTime fecha;
     private List<DetalleCarrito> items;
-
-    private ObjectId idUsuario;
+    private String idUsuario;
 
     @Builder
     public Carrito(String idCarrito, String nombre, double v) {

@@ -10,6 +10,6 @@ public record CarritoDTO(
          LocalDateTime fecha,
          List<DetalleCarrito>items,
          String id,
-         ObjectId idUsuario
+         String idUsuario
 ) {
 }

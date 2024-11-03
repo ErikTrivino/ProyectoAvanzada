@@ -2,6 +2,7 @@ package co.edu.uniquindio.proyecto.servicios.implementaciones;
 
 import co.edu.uniquindio.proyecto.modelo.documentos.Evento;
 import co.edu.uniquindio.proyecto.modelo.documentos.Orden;
+import co.edu.uniquindio.proyecto.modelo.dto.email.EmailDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.CrearOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.EditarOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.InformacionOrdenDTO;
@@ -9,6 +10,7 @@ import co.edu.uniquindio.proyecto.modelo.vo.DetalleOrden;
 import co.edu.uniquindio.proyecto.modelo.vo.Localidad;
 import co.edu.uniquindio.proyecto.modelo.vo.Pago;
 import co.edu.uniquindio.proyecto.repositorios.OrdenRepo;
+import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EventoServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.OrdenServicio;
 import com.mercadopago.MercadoPagoConfig;
@@ -38,6 +40,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
     private final OrdenRepo ordenRepo;
     private final EventoServicio eventoServicio;
+    private final EmailServicio emailServicio;
 
     @Override
     public String crearOrden(CrearOrdenDTO crearOrdenDTO) throws Exception {
@@ -73,8 +76,20 @@ public class OrdenServicioImpl  implements OrdenServicio {
         }
 
         ordenRepo.save(nuevaOrden);
-        return "La orden ha sido creada con éxito";
+        String correoPrueba = "unieventosfae@gmail.com";
+        EmailDTO emailDTO = new EmailDTO(
+                correoPrueba,
+                //crearOrdenDTO.(), // dirección de correo del cliente
+                "Detalles de tu compra en UniEventos", // asunto
+                "Gracias por tu compra. Adjuntamos el código QR de tu orden y los detalles de la misma." // cuerpo del correo
+        );
+
+        // Enviar el correo con el código QR adjunto
+         emailServicio.enviarCorreoConQr(emailDTO, nuevaOrden);
+
+        return "La orden ha sido creada con éxito y se ha enviado un correo con los detalles de la compra.";
     }
+
 
 
     @Override
@@ -311,4 +326,25 @@ public class OrdenServicioImpl  implements OrdenServicio {
         }
         return ordenOptional.get();
     }
+    @Override
+    public List<InformacionOrdenDTO> obtenerHistorialOrdenes(String idCliente) throws Exception {
+        // Verificar si el cliente tiene órdenes
+        List<Orden> ordenesCliente = ordenRepo.buscarOrdenesPorCliente(idCliente);
+
+        if (ordenesCliente.isEmpty()) {
+            throw new Exception("No se encontraron órdenes para el cliente con ID " + idCliente);
+        }
+
+        // Mapear las órdenes a objetos DTO para el historial
+        return ordenesCliente.stream()
+                .map(orden -> new InformacionOrdenDTO(
+                        orden.getId(),
+                        orden.getIdCliente(),
+                        orden.getFecha(),
+                        orden.getTotal(),
+                        orden.getItems()
+                ))
+                .collect(Collectors.toList());
+    }
+
 }
