@@ -336,11 +336,11 @@ public class CuentaServicioImpl implements CuentaServicio {
     @Override
     public Cuenta obtenerPorEmail(String email) throws Exception {
 
-        System.out.println(email);
+       // System.out.println(email);
 
         Optional<Cuenta> cuentaOptional = cuentaRepo.findByEmail(email);
 
-        System.out.println(cuentaOptional.isEmpty());
+       // System.out.println(cuentaOptional.isEmpty());
 
         if(cuentaOptional.isEmpty()){
             throw new Exception("No existe una cuenta registrada con el email " + email + ".");

@@ -6,6 +6,7 @@ import co.edu.uniquindio.proyecto.modelo.vo.Localidad;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record EditarEventoDTO(
@@ -14,7 +15,7 @@ public record EditarEventoDTO(
          @NotNull EstadoEvento estado,
          @NotBlank String descripcion,
          @NotBlank String imagenLocalidades,
-         @NotNull LocalDateTime fechaEvento,
+         @NotNull LocalDate fechaEvento,
          @NotBlank String id
 
 ) {

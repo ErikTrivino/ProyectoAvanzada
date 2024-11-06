@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -46,7 +47,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
     public String crearOrden(CrearOrdenDTO crearOrdenDTO) throws Exception {
         // Obtener el evento para verificar la fecha y la capacidad
         Evento evento = eventoServicio.obtenerEvento(crearOrdenDTO.items().get(0).getIdEvento());
-        LocalDateTime fechaActual = LocalDateTime.now();
+        LocalDate fechaActual = LocalDate.now();
 
         // Validar que la compra solo se pueda realizar hasta dos días antes del evento
         if (evento.getFechaEvento().minusDays(2).isBefore(fechaActual)) {
@@ -64,7 +65,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
         // Crear y guardar la orden si todas las validaciones pasan
         Orden nuevaOrden = new Orden();
         nuevaOrden.setIdCliente(crearOrdenDTO.idCliente());
-        nuevaOrden.setFecha(fechaActual);
+        nuevaOrden.setFecha(fechaActual.atStartOfDay());
         nuevaOrden.setCodigoPasarela(crearOrdenDTO.codigoPasarela());
         nuevaOrden.setItems(crearOrdenDTO.items());
         nuevaOrden.setTotal(crearOrdenDTO.total());

@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public interface EventoRepo extends MongoRepository<Evento, String> {
 
     @Query("{nombre : ?0, fechaEvento: ?1, ciudad :  ?2}")
-    Optional<Evento> buscarEvento(String nombreEvento, LocalDateTime fechaEvento, String ciudad);
+    Optional<Evento> buscarEvento(String nombreEvento, LocalDate fechaEvento, String ciudad);
 
     @Query("{nombre : ?0, tipo: ?1, ciudad :  ?2, estado: ACTIVO}")
     List<Evento> filtrarEventos(String nombreEvento, TipoEvento tipo, String ciudad);

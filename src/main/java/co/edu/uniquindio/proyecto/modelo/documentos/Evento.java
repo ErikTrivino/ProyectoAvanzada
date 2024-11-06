@@ -7,6 +7,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Evento {
     private String descripcion;
     private String imagenLocalidades;
     private TipoEvento tipo;
-    private LocalDateTime fechaEvento;
+    private LocalDate fechaEvento;
     private String ciudad;
     private List<Localidad> localidades;
 

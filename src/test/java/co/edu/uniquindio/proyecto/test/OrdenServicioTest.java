@@ -39,7 +39,8 @@ public class OrdenServicioTest {
                 "CodigoPasarela1",
 //                "evento001",
                 100f,
-                items
+                items,
+                "CUPON2025"
         );
 
         assertDoesNotThrow(() -> {

@@ -27,7 +27,7 @@ public class EventoServicioImpl implements EventoServicio {
     @Override
     public String crearEvento(CrearEventoDTO crearEventoDTO) throws Exception {
 
-        if(crearEventoDTO.fechaEvento().isBefore(LocalDateTime.now())){
+        if(crearEventoDTO.fechaEvento().isBefore(LocalDate.now())){
             throw new Exception("La fecha ingresada para el evento debe ser mayor a la fecha actual");
         }
 
@@ -46,6 +46,10 @@ public class EventoServicioImpl implements EventoServicio {
                 .collect(Collectors.toList());
 
         Evento nuevoEvento = new Evento();
+
+        nuevoEvento.setImagenPortada(crearEventoDTO.imagenImportada());
+        nuevoEvento.setImagenLocalidades(crearEventoDTO.imagenLocalidades());
+
         nuevoEvento.setFechaEvento(crearEventoDTO.fechaEvento());
         nuevoEvento.setNombre(crearEventoDTO.nombre());
         nuevoEvento.setDescripcion(crearEventoDTO.descripcion());
@@ -64,7 +68,7 @@ public class EventoServicioImpl implements EventoServicio {
 
         Evento eventoModificado = obtenerEvento(editarEventoDTO.id());
 
-        if(editarEventoDTO.fechaEvento().isBefore(LocalDateTime.now())){
+        if(editarEventoDTO.fechaEvento().isBefore(LocalDate.now())){
             throw new Exception("La nueva fecha ingresada para el evento debe ser mayor a la fecha actual");
         }
 
@@ -195,7 +199,7 @@ public class EventoServicioImpl implements EventoServicio {
     }
 
     //Método para validar si el evento ya existe y no se duplique un mismo evento cuando se esta creando
-    private boolean existeEvento(LocalDateTime fechaEvento, String nombre, String ciudad) {
+    private boolean existeEvento(LocalDate fechaEvento, String nombre, String ciudad) {
 
         return eventoRepo.buscarEvento(nombre, fechaEvento, ciudad).isPresent();
 

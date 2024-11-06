@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public record CrearEventoDTO(
          @NotBlank @Length (max = 500) String descripcion,
          @NotBlank String imagenLocalidades,
          @NotNull TipoEvento tipo,
-         @NotNull LocalDateTime fechaEvento,
+         @NotNull LocalDate fechaEvento,
          @NotBlank @Length (max = 20) String ciudad,
          @NotEmpty List<LocalidadDTO> localidades
 

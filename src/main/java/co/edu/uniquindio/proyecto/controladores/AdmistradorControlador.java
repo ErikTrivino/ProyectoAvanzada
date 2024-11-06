@@ -1,6 +1,7 @@
 package co.edu.uniquindio.proyecto.controladores;
 
 import co.edu.uniquindio.proyecto.modelo.documentos.Cupon;
+import co.edu.uniquindio.proyecto.modelo.documentos.Evento;
 import co.edu.uniquindio.proyecto.modelo.documentos.Orden;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.MensajeDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cupon.CrearCuponDTO;
@@ -38,6 +39,11 @@ public class AdmistradorControlador {
     public ResponseEntity<MensajeDTO<List<Orden>>> buscarOrdenesPorRangoDeFechas(@PathVariable("dateOne")String d1, @PathVariable("dateTwo")String d2) throws Exception {
         List<Orden> ordenesClientes = ordenServicio.buscarOrdenesPorRangoDeFechas(d1,d2);
         return ResponseEntity.ok(new MensajeDTO<>(false, ordenesClientes));
+    }
+    @GetMapping("/obtener-evento/{id}")
+    public ResponseEntity<MensajeDTO<Evento>> obtenerEvento(@PathVariable String id) throws Exception {
+        Evento evento = eventoServicio.obtenerEvento(id);
+        return ResponseEntity.ok(new MensajeDTO<>(false, evento));
     }
 
 

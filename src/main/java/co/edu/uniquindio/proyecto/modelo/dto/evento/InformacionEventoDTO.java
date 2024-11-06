@@ -6,6 +6,7 @@ import co.edu.uniquindio.proyecto.modelo.vo.Localidad;
 import lombok.Builder;
 
 import java.awt.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public record InformacionEventoDTO(
         String nombre,
         String descripcion,
         TipoEvento tipo,
-        LocalDateTime fechaEvento,
+        LocalDate fechaEvento,
         String ciudad,
         String imagenPortada,
         String imagenLocalidades,

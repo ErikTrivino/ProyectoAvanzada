@@ -3,6 +3,7 @@ package co.edu.uniquindio.proyecto.modelo.dto.orden;
 import co.edu.uniquindio.proyecto.modelo.vo.DetalleOrden;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Positive;
 import org.hibernate.validator.constraints.Length;
 
@@ -16,7 +17,9 @@ public record CrearOrdenDTO(
         @NotNull LocalDateTime fecha,
         @NotBlank String  codigoPasarela,
         @Positive float total,
-        @NotNull List<DetalleOrden> items
+        @NotNull List<DetalleOrden> items,
+        //FALTO CUPON
+        @Null String idCupon
 
 
 ) {
