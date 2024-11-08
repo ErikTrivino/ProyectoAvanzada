@@ -9,6 +9,8 @@ import co.edu.uniquindio.proyecto.modelo.dto.cupon.EditarCuponDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cupon.InformacionCuponDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.CrearEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.EditarEventoDTO;
+import co.edu.uniquindio.proyecto.modelo.dto.evento.InformacionEventoDTO;
+import co.edu.uniquindio.proyecto.modelo.dto.evento.ItemEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.InformacionOrdenDTO;
 import co.edu.uniquindio.proyecto.servicios.implementaciones.CuponServicioImpl;
 import co.edu.uniquindio.proyecto.servicios.implementaciones.OrdenServicioImpl;
@@ -47,6 +49,7 @@ public class AdmistradorControlador {
     }
 
 
+
     @GetMapping("/obtener-ordenes-orden")
     public ResponseEntity<MensajeDTO<List<InformacionOrdenDTO>>> buscarOrdenes() throws Exception {
         List<InformacionOrdenDTO> ordenesCliente = ordenServicio.listarTodasLasOrdenes();
@@ -54,6 +57,12 @@ public class AdmistradorControlador {
     }
 
     //Evento
+
+    @GetMapping("/listar-todos-eventos-admin")
+    public ResponseEntity<MensajeDTO<List<InformacionEventoDTO>>> listarEventos() throws Exception {
+        List<InformacionEventoDTO> lista = eventoServicio.listarEventosAdmin();
+        return ResponseEntity.ok(new MensajeDTO<>(false, lista));
+    }
     @PostMapping("/crear-evento")
     public ResponseEntity<MensajeDTO<String>> crearEvento(@Valid @RequestBody CrearEventoDTO evento) throws Exception{
         eventoServicio.crearEvento(evento);

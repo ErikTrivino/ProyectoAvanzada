@@ -22,7 +22,8 @@ public class Carrito {
     private String id;
     private LocalDateTime fecha;
     private List<DetalleCarrito> items;
-    private String idUsuario;
+    private String idUsuario;//Esto es de cuenta id
+    private float precioTotal;
 
     @Builder
     public Carrito(String idCarrito, String nombre, double v) {

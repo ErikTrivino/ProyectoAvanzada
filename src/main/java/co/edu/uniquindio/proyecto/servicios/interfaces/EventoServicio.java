@@ -26,4 +26,6 @@ public interface EventoServicio {
 
     Evento obtenerEvento(String id) throws Exception;
     List<TipoEvento> obtenerTipoEventos();
+
+    List<InformacionEventoDTO> listarEventosAdmin() throws  Exception;
 }

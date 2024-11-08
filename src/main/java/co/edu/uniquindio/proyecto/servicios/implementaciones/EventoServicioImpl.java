@@ -198,6 +198,27 @@ public class EventoServicioImpl implements EventoServicio {
         return List.of(TipoEvento.values());
     }
 
+    @Override
+    public List<InformacionEventoDTO> listarEventosAdmin() throws Exception {
+        List<Evento> eventos = eventoRepo.findAll();
+
+        return eventos.stream()
+                .map(evento -> new InformacionEventoDTO(
+
+                        evento.getId(),
+                        evento.getEstado(),
+                        evento.getNombre(),
+                        evento.getDescripcion(),
+                        evento.getTipo(),
+                        evento.getFechaEvento(),
+                        evento.getCiudad(),
+                        evento.getImagenPortada(),
+                        evento.getImagenLocalidades(),
+                        evento.getLocalidades()
+                ))
+                .collect(Collectors.toList());
+    }
+
     //Método para validar si el evento ya existe y no se duplique un mismo evento cuando se esta creando
     private boolean existeEvento(LocalDate fechaEvento, String nombre, String ciudad) {
 

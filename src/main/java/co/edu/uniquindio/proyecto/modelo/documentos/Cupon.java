@@ -5,6 +5,7 @@ import co.edu.uniquindio.proyecto.modelo.enums.TipoCupon;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -19,7 +20,7 @@ public class Cupon {
     private String id;
 
     private float descuento;
-    private LocalDateTime fechaVencimiento;
+    private LocalDate fechaVencimiento;
     private String codigo;
     private EstadoCupon estado;
     private TipoCupon tipo;

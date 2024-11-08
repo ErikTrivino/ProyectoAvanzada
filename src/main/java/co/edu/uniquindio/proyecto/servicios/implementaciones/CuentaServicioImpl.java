@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -215,7 +216,7 @@ public class CuentaServicioImpl implements CuentaServicio {
             cupon.setTipo(TipoCupon.UNICO);
             cupon.setDescuento(15.0f);
             cupon.setNombre("Cupon de activacion primera vez");
-            cupon.setFechaVencimiento(LocalDateTime.now().minusMonths(1));
+            cupon.setFechaVencimiento(LocalDate.now().minusMonths(1));
             cupon.setEstado(EstadoCupon.ACTIVO);
             String cuerpo = "<!DOCTYPE html>\n" +
                     "<html lang=\"es\">\n" +

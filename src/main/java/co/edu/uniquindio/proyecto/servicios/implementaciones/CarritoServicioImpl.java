@@ -1,7 +1,8 @@
 package co.edu.uniquindio.proyecto.servicios.implementaciones;
 
 import co.edu.uniquindio.proyecto.modelo.documentos.Carrito;
-import co.edu.uniquindio.proyecto.modelo.dto.carrito.InformacionCarritoDto;
+
+import co.edu.uniquindio.proyecto.modelo.documentos.Cuenta;
 import co.edu.uniquindio.proyecto.modelo.vo.DetalleCarrito;
 import co.edu.uniquindio.proyecto.repositorios.CarritoRepo;
 import co.edu.uniquindio.proyecto.repositorios.CuentaRepo;
@@ -109,7 +110,20 @@ public class CarritoServicioImpl implements CarritoServicio {
 
     @Override
     public Carrito traerCarrito(String idCarrito) throws Exception {
+
         Optional<Carrito> carrito = carritoRepo.findById(idCarrito);
+//        System.out.println( carritoRepo.findById(idCuenta).get().getIdUsuario());
+//        return carritoRepo.findById(idCuenta).get();
+        if(carrito.isPresent()){
+            return carrito.get();
+        }else {
+            throw  new Exception("No se ha encontrado un carrito");
+        }
+
+    }
+
+    public Carrito traerCarritoCliente(String idCuenta) throws  Exception{
+        Optional<Carrito> carrito = carritoRepo.buscarCarritoPorIdUsuario(idCuenta);
 //        System.out.println( carritoRepo.findById(idCuenta).get().getIdUsuario());
 //        return carritoRepo.findById(idCuenta).get();
         if(carrito.isPresent()){

@@ -170,6 +170,11 @@ public class ClienteControlador {
         carritoServicio.agregarItem(id, item);
         return ResponseEntity.ok(new MensajeDTO<>(false,"Item agregado correctamente"));
     }
+    @PostMapping("/editarItem-carrito/{id}")
+    public ResponseEntity<MensajeDTO<String>> editarItem(@PathVariable String id,@RequestBody DetalleCarrito item) throws Exception {
+        carritoServicio.editarItem(id, item);
+        return ResponseEntity.ok(new MensajeDTO<>(false,"Item editado correctamente"));
+    }
 
     @PutMapping("/eliminarItem-carrito/{id}/{idDetalleCarrito}")
     public ResponseEntity<MensajeDTO<String>> eliminarItem(@PathVariable String id, @PathVariable String idDetalleCarrito) throws Exception {
@@ -178,7 +183,7 @@ public class ClienteControlador {
     }
     @GetMapping("/traerCarrito-carrito/{id}")
     public ResponseEntity<MensajeDTO<Carrito>>  traerCArrito(@PathVariable String id) throws Exception {
-        return  ResponseEntity.ok(new MensajeDTO<>(false,carritoServicio.traerCarrito(id)));
+        return  ResponseEntity.ok(new MensajeDTO<>(false,carritoServicio.traerCarritoCliente(id)));
     }
 
     @PutMapping("/activar-cuenta")

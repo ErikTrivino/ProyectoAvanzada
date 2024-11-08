@@ -1,7 +1,7 @@
 package co.edu.uniquindio.proyecto.servicios.interfaces;
 
 import co.edu.uniquindio.proyecto.modelo.documentos.Carrito;
-import co.edu.uniquindio.proyecto.modelo.dto.carrito.InformacionCarritoDto;
+
 import co.edu.uniquindio.proyecto.modelo.vo.DetalleCarrito;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +17,6 @@ public interface CarritoServicio {
 
    Carrito traerCarrito(String idCarrito) throws Exception;
 
+    Carrito traerCarritoCliente(String idCuenta) throws  Exception;
    void vaciarCarrito(String idCarrito) throws Exception;
 }

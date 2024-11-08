@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -51,7 +52,7 @@ public class CuponServicioImpl implements CuponServicio {
 
     @Override
     public Cupon actualizarCupon(EditarCuponDTO cuponDTO) throws Exception {
-        Cupon cuponExistente = obtenerCupon(cuponDTO.id());
+        Cupon cuponExistente = obtenerCuponPorId(cuponDTO.id());
 
         cuponExistente.setNombre(cuponDTO.nombre());
         cuponExistente.setDescuento(cuponDTO.descuento());
@@ -66,7 +67,10 @@ public class CuponServicioImpl implements CuponServicio {
     @Override
     public void eliminarCupon(String id) throws Exception {
         Cupon cupon = obtenerCupon(id);
-        cuponRepo.delete(cupon);
+        if(cupon!= null){
+            cupon.setEstado(EstadoCupon.INACTIVO);
+        }
+        cuponRepo.save(cupon);
     }
 
     @Override
@@ -96,7 +100,7 @@ public class CuponServicioImpl implements CuponServicio {
         Cupon cupon = obtenerPorCodigo(codigo);
 
         if(cupon.getEstado() == EstadoCupon.ACTIVO){
-            if (cupon.getFechaVencimiento().isBefore(LocalDateTime.now())) {
+            if (cupon.getFechaVencimiento().isBefore(LocalDate.now())) {
                 throw new Exception("El cupón ha vencido.");
             }
 
@@ -134,6 +138,15 @@ public class CuponServicioImpl implements CuponServicio {
     }
 
     private Cupon obtenerCupon(String id) throws Exception {
+        Optional<Cupon> cuponOptional = cuponRepo.buscarPorCodigo(id);
+
+        if (cuponOptional.isEmpty()) {
+            throw new Exception("No existe un cupón con el codigo " + id);
+        }
+
+        return cuponOptional.get();
+    }
+    private Cupon obtenerCuponPorId(String id) throws Exception {
         Optional<Cupon> cuponOptional = cuponRepo.findById(id);
 
         if (cuponOptional.isEmpty()) {
@@ -142,7 +155,6 @@ public class CuponServicioImpl implements CuponServicio {
 
         return cuponOptional.get();
     }
-
     private Cupon obtenerPorCodigo(String codigo) throws Exception {
         Optional<Cupon> cuponOptional = cuponRepo.buscarPorCodigo(codigo);
         //System.out.println(codigo);

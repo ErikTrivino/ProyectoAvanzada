@@ -14,6 +14,7 @@ public class DetalleCarrito {
     private String idEvento;
     private int cantidad;
     private String nombreLocalidad;
+    private float precioUnitario;
 
 
 }
