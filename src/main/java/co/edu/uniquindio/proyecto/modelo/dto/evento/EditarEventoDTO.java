@@ -10,13 +10,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record EditarEventoDTO(
+        @NotBlank String id,
+        @NotBlank String nombre,
 
-         @NotBlank String imagenPortada,
-         @NotNull EstadoEvento estado,
-         @NotBlank String descripcion,
-         @NotBlank String imagenLocalidades,
-         @NotNull LocalDate fechaEvento,
-         @NotBlank String id
+        @NotBlank String descripcion,
+       // @NotNull EstadoEvento estado,
+        String ciudad,
+        @NotNull LocalDate fechaEvento,
+
+        @NotBlank String imagenPortada,
+         @NotBlank String imagenLocalidades
+
 
 ) {
 }
