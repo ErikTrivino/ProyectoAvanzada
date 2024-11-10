@@ -24,7 +24,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -94,7 +93,7 @@ public class ClienteControlador {
         return cuentaServicio.obtenerPreferencias(); // null ya que no se usa idUsuario en este método
     }
     @GetMapping("/obtener-preferenciasUsuario/{idUsuario}")
-    public List<TipoEvento> obtenerPreferencias( @PathVariable String idUsuario) throws Exception {
+    public List<TipoEvento> obtenerPreferenciasUsario(@PathVariable String idUsuario) throws Exception {
         return cuentaServicio.obtenerPreferenciasUsuario(idUsuario); // null ya que no se usa idUsuario en este método
     }
 
