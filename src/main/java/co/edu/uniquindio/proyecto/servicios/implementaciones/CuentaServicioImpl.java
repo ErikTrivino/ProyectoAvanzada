@@ -376,6 +376,33 @@ public class CuentaServicioImpl implements CuentaServicio {
 
     }
 
+    @Override
+    public void eliminarBoletas(String idCuenta, List<Boleta> boletasAEliminar) throws Exception {
+        // Buscar la cuenta por su ID
+        Optional<Cuenta> optionalCuenta = cuentaRepo.findById(idCuenta);
+
+        // Validar si la cuenta existe
+        if (optionalCuenta.isEmpty()) {
+            throw new Exception("La cuenta con ID " + idCuenta + " no existe.");
+        }
+
+        Cuenta cuenta = optionalCuenta.get();
+
+        // Obtener la lista de boletas del cliente
+        List<Boleta> boletasCliente = cuenta.getBoletas();
+
+        // Filtrar y eliminar las boletas que coinciden con la lista proporcionada
+        boletasCliente.removeIf(boletaCliente ->
+                boletasAEliminar.stream().anyMatch(boletaAEliminar ->
+                        boletaCliente.getIdBoleta().equals(boletaAEliminar.getIdBoleta())
+                )
+        );
+
+        // Guardar la cuenta actualizada en el repositorio
+        cuentaRepo.save(cuenta);
+    }
+
+
     private Cuenta obtenerEmail(String correo) throws Exception {
 
         Optional<Cuenta> cuentaOptional = cuentaRepo.buscaremail(correo);
@@ -543,6 +570,12 @@ public class CuentaServicioImpl implements CuentaServicio {
 
     }
 
+    @Override
+    public void agregarBoletas(String idCuenta, List<Boleta> boletas) throws Exception {
+        Optional<Cuenta> cuenta = cuentaRepo.findById(idCuenta);
+        cuenta.get().setBoletas(boletas);
+        cuentaRepo.save(cuenta.get());
+    }
 
 
     private Boleta buscarBoletaPorId(String idBoleta) throws Exception {

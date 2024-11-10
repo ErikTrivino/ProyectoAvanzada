@@ -35,6 +35,8 @@ public interface CuentaServicio {
     void transferirBoleta(String idBoleta, String idPropietario, String idNuevoPropietario) throws Exception;
     void aceptarBoleta(String idBoleta, String idNuevoPropietario) throws Exception;
 
+    void agregarBoletas(String idCuenta, List<Boleta> boletas) throws  Exception;
+
     List<TipoEvento> obtenerPreferencias() throws  Exception;
 
     void agregarPreferenciasUsuario(String idUsuario, List<TipoEvento> tipoPreferencias) throws  Exception;
@@ -46,4 +48,6 @@ public interface CuentaServicio {
     Cuenta obtenerPorEmail(String email) throws Exception;
 
     String enviarCodigoActivacionCuenta(String correo) throws Exception;
+
+    void eliminarBoletas(String id, List<Boleta> boletasAEliminar) throws  Exception;
 }

@@ -1,15 +1,20 @@
 package co.edu.uniquindio.proyecto.servicios.implementaciones;
 
+import co.edu.uniquindio.proyecto.modelo.documentos.Cuenta;
 import co.edu.uniquindio.proyecto.modelo.documentos.Evento;
 import co.edu.uniquindio.proyecto.modelo.documentos.Orden;
+import co.edu.uniquindio.proyecto.modelo.dto.cuenta.InformacionCuentaDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.email.EmailDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.CrearOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.EditarOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.InformacionOrdenDTO;
+import co.edu.uniquindio.proyecto.modelo.enums.EstadoBoleta;
+import co.edu.uniquindio.proyecto.modelo.vo.Boleta;
 import co.edu.uniquindio.proyecto.modelo.vo.DetalleOrden;
 import co.edu.uniquindio.proyecto.modelo.vo.Localidad;
 import co.edu.uniquindio.proyecto.modelo.vo.Pago;
 import co.edu.uniquindio.proyecto.repositorios.OrdenRepo;
+import co.edu.uniquindio.proyecto.servicios.interfaces.CuentaServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EventoServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.OrdenServicio;
@@ -41,6 +46,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
     private final OrdenRepo ordenRepo;
     private final EventoServicio eventoServicio;
+    private final CuentaServicio cuentaServicio;
     private final EmailServicio emailServicio;
 
     @Override
@@ -85,11 +91,41 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
         // Guardar la orden en la base de datos
         ordenRepo.save(nuevaOrden);
+        // Generar boletas a partir de los detalles de la orden
+        List<Boleta> boletasGeneradas = new ArrayList<>();
+        for (DetalleOrden detalle : crearOrdenDTO.items()) {
+            Evento evento = eventoServicio.obtenerEvento(detalle.getIdEvento());
+            Localidad localidad = evento.obtenerLocalidad(detalle.getNombreLocalidad());
 
+            // Actualizar la cantidad de entradas vendidas en la localidad
+            localidad.setEntradasVendidas(localidad.getEntradasVendidas() + detalle.getCantidad());
+
+            // Crear boletas para cada entrada en el detalle
+            for (int i = 0; i < detalle.getCantidad(); i++) {
+                Boleta boleta = new Boleta();
+                boleta.setIdBoleta(UUID.randomUUID().toString()); // Generar un ID único para la boleta
+                boleta.setIdEvento(detalle.getIdEvento());
+                boleta.setIdClientePropietario(crearOrdenDTO.idCliente());
+                boleta.setNombreEvento(evento.getNombre());
+                boleta.setFechaEvento(evento.getFechaEvento());
+                boleta.setNombreLocalidad(detalle.getNombreLocalidad());
+                boleta.setEstado(EstadoBoleta.ACTIVA);
+                boleta.setIdPropietarioOriginal(crearOrdenDTO.idCliente());
+
+                // Guardar la boleta en la base de datos
+                //boletaRepo.save(boleta);
+                boletasGeneradas.add(boleta);
+            }
+        }
+
+        cuentaServicio.agregarBoletas(crearOrdenDTO.idCliente(), boletasGeneradas);
+
+
+        InformacionCuentaDTO cuenta = cuentaServicio.obtenerInformacionCuenta(crearOrdenDTO.idCliente());
         // Enviar correo de confirmación
         String correoPrueba = "unieventosfae@gmail.com";
         EmailDTO emailDTO = new EmailDTO(
-                correoPrueba,
+                cuenta.correo(),
                 "Detalles de tu compra en UniEventos", // Asunto del correo
                 "Gracias por tu compra. Adjuntamos el código QR de tu orden y los detalles de la misma." // Cuerpo del correo
         );
@@ -118,7 +154,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
         return "La orden ha sido actualizada con éxito.";
     }
 
-    @Override
+   /* @Override
     public String eliminarOrden(String idOrden) throws Exception {
         Orden orden = obtenerOrden(idOrden);
 
@@ -133,7 +169,75 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
         ordenRepo.delete(orden);
         return "La orden ha sido cancelada y la capacidad ha sido devuelta.";
-    }
+    }*/
+   @Override
+   public String eliminarOrden(String idOrden) throws Exception {
+       // Obtener la orden a partir del ID proporcionado
+       Orden orden = obtenerOrden(idOrden);
+       if (orden == null) {
+           throw new Exception("La orden no existe.");
+       }
+
+       // Obtener la cuenta del cliente que realizó la orden
+       InformacionCuentaDTO cuenta = cuentaServicio.obtenerInformacionCuenta(orden.getIdCliente());
+       if (cuenta == null) {
+           throw new Exception("No se encontró la cuenta del cliente.");
+       }
+
+       // Recuperar las boletas asociadas a la cuenta del cliente
+       List<Boleta> boletasCliente = cuentaServicio.buscarBoletasPorPropietario(cuenta.id());
+
+       // Crear una lista para almacenar las boletas a eliminar
+       List<Boleta> boletasAEliminar = new ArrayList<>();
+
+       // Devolver la capacidad a las localidades y buscar las boletas que corresponden a esta orden
+       for (DetalleOrden detalle : orden.getItems()) {
+           Evento evento = eventoServicio.obtenerEvento(detalle.getIdEvento());
+           if (evento == null) {
+               throw new Exception("Evento no encontrado para el detalle: " + detalle.getIdEvento());
+           }
+
+           Localidad localidad = evento.obtenerLocalidad(detalle.getNombreLocalidad());
+           if (localidad == null) {
+               throw new Exception("Localidad no encontrada: " + detalle.getNombreLocalidad());
+           }
+
+           // Devolver la capacidad a la localidad
+           localidad.setEntradasVendidas(localidad.getEntradasVendidas() - detalle.getCantidad());
+
+           // Buscar y eliminar las boletas que coinciden con el detalle de la orden
+           int boletasEncontradas = 0;
+           for (Boleta boleta : boletasCliente) {
+               if (boleta.getIdEvento().equals(detalle.getIdEvento()) &&
+                       boleta.getNombreLocalidad().equals(detalle.getNombreLocalidad()) &&
+                       boleta.getEstado() == EstadoBoleta.ACTIVA) {
+
+                   // Agregar boleta a la lista para eliminar
+                   boletasAEliminar.add(boleta);
+                   boletasEncontradas++;
+
+                   // Si encontramos todas las boletas que corresponden a la cantidad comprada, salimos del bucle
+                   if (boletasEncontradas == detalle.getCantidad()) {
+                       break;
+                   }
+               }
+           }
+
+           // Validar que hayamos encontrado suficientes boletas para eliminar
+           if (boletasEncontradas < detalle.getCantidad()) {
+               throw new Exception("No se encontraron suficientes boletas para el detalle del evento " + detalle.getIdEvento());
+           }
+       }
+
+       // Eliminar las boletas de la cuenta del cliente
+       cuentaServicio.eliminarBoletas(cuenta.id(), boletasAEliminar);
+
+       // Finalmente, eliminar la orden de la base de datos
+       ordenRepo.delete(orden);
+
+       return "La orden ha sido cancelada, las boletas han sido eliminadas y la capacidad ha sido devuelta.";
+   }
+
 
 
     @Override
