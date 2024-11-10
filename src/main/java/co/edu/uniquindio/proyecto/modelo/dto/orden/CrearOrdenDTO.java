@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Positive;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,12 +15,12 @@ public record CrearOrdenDTO(
 
         @NotBlank @Length(max = 50) String idCliente,
 
-        @NotNull LocalDateTime fecha,
+
         @NotBlank String  codigoPasarela,
         @Positive float total,
         @NotNull List<DetalleOrden> items,
         //FALTO CUPON
-        @Null String idCupon
+         String idCupon
 
 
 ) {

@@ -6,6 +6,7 @@ import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class Orden {
 
    // private ObjectId idCliente;
     private String idCliente;
-    private LocalDateTime fecha;
+    private LocalDate fecha;
     private String codigoPasarela;
     private List<DetalleOrden> items;
     private Pago pago;

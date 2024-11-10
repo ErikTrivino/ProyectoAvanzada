@@ -45,51 +45,61 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
     @Override
     public String crearOrden(CrearOrdenDTO crearOrdenDTO) throws Exception {
-        // Obtener el evento para verificar la fecha y la capacidad
-        Evento evento = eventoServicio.obtenerEvento(crearOrdenDTO.items().get(0).getIdEvento());
         LocalDate fechaActual = LocalDate.now();
 
-        // Validar que la compra solo se pueda realizar hasta dos días antes del evento
-        if (evento.getFechaEvento().minusDays(2).isBefore(fechaActual)) {
-            throw new Exception("La compra solo puede realizarse hasta dos días antes del evento.");
-        }
-
-        // Validar que haya suficiente capacidad en las localidades solicitadas
+        // Recorrer cada item en crearOrdenDTO para realizar las validaciones por evento y localidad
         for (DetalleOrden detalle : crearOrdenDTO.items()) {
+            // Obtener el evento correspondiente para cada item
+            Evento evento = eventoServicio.obtenerEvento(detalle.getIdEvento());
+
+            // Validar que la compra solo se pueda realizar hasta dos días antes del evento
+            if (evento.getFechaEvento().minusDays(2).isBefore(fechaActual)) {
+                throw new Exception("La compra solo puede realizarse hasta dos días antes del evento: " + evento.getNombre());
+            }
+
+            // Obtener la localidad específica dentro del evento
             Localidad localidad = evento.obtenerLocalidad(detalle.getNombreLocalidad());
+
+            // Validar que haya suficiente capacidad en la localidad solicitada
             if (localidad.getCapacidadDisponible() < detalle.getCantidad()) {
-                throw new Exception("No hay capacidad suficiente para la localidad " + detalle.getNombreLocalidad());
+                throw new Exception("No hay capacidad suficiente para la localidad " + detalle.getNombreLocalidad() + " en el evento " + evento.getNombre());
             }
         }
 
         // Crear y guardar la orden si todas las validaciones pasan
         Orden nuevaOrden = new Orden();
         nuevaOrden.setIdCliente(crearOrdenDTO.idCliente());
-        nuevaOrden.setFecha(fechaActual.atStartOfDay());
+        nuevaOrden.setFecha(fechaActual);
         nuevaOrden.setCodigoPasarela(crearOrdenDTO.codigoPasarela());
         nuevaOrden.setItems(crearOrdenDTO.items());
         nuevaOrden.setTotal(crearOrdenDTO.total());
 
-        // Descontar la capacidad en las localidades
+        // Descontar la capacidad en las localidades y actualizar el evento
         for (DetalleOrden detalle : crearOrdenDTO.items()) {
+            Evento evento = eventoServicio.obtenerEvento(detalle.getIdEvento());
             Localidad localidad = evento.obtenerLocalidad(detalle.getNombreLocalidad());
+
+            // Actualizar la cantidad de entradas vendidas en la localidad
             localidad.setEntradasVendidas(localidad.getEntradasVendidas() + detalle.getCantidad());
         }
 
+        // Guardar la orden en la base de datos
         ordenRepo.save(nuevaOrden);
+
+        // Enviar correo de confirmación
         String correoPrueba = "unieventosfae@gmail.com";
         EmailDTO emailDTO = new EmailDTO(
                 correoPrueba,
-                //crearOrdenDTO.(), // dirección de correo del cliente
-                "Detalles de tu compra en UniEventos", // asunto
-                "Gracias por tu compra. Adjuntamos el código QR de tu orden y los detalles de la misma." // cuerpo del correo
+                "Detalles de tu compra en UniEventos", // Asunto del correo
+                "Gracias por tu compra. Adjuntamos el código QR de tu orden y los detalles de la misma." // Cuerpo del correo
         );
 
         // Enviar el correo con el código QR adjunto
-         emailServicio.enviarCorreoConQr(emailDTO, nuevaOrden);
+        emailServicio.enviarCorreoConQr(emailDTO, nuevaOrden);
 
         return "La orden ha sido creada con éxito y se ha enviado un correo con los detalles de la compra.";
     }
+
 
 
 

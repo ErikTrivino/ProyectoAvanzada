@@ -2,7 +2,7 @@ package co.edu.uniquindio.proyecto.modelo.dto.cuenta;
 
 public record CambiarPasswordDTO(
 
-        String email,
+        String correo,
         String codigoVerificacion,
         String passwordNueva
 ) {

@@ -5,6 +5,7 @@ import co.edu.uniquindio.proyecto.modelo.documentos.Orden;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.MensajeDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.ActivarCuentaDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.InformacionCuentaDTO;
+import co.edu.uniquindio.proyecto.modelo.dto.cupon.InformacionCuponDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.CrearOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.EditarOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.InformacionOrdenDTO;
@@ -91,6 +92,10 @@ public class ClienteControlador {
     @GetMapping("/obtener-preferencias")
     public List<TipoEvento> obtenerPreferencias() throws Exception {
         return cuentaServicio.obtenerPreferencias(); // null ya que no se usa idUsuario en este método
+    }
+    @GetMapping("/obtener-preferenciasUsuario/{idUsuario}")
+    public List<TipoEvento> obtenerPreferencias( @PathVariable String idUsuario) throws Exception {
+        return cuentaServicio.obtenerPreferenciasUsuario(idUsuario); // null ya que no se usa idUsuario en este método
     }
 
     // Agregar preferencias a una cuenta de usuario
@@ -185,6 +190,11 @@ public class ClienteControlador {
     public ResponseEntity<MensajeDTO<Carrito>>  traerCArrito(@PathVariable String id) throws Exception {
         return  ResponseEntity.ok(new MensajeDTO<>(false,carritoServicio.traerCarritoCliente(id)));
     }
+    @GetMapping("/traerCarrito-carritoId/{id}")
+    public ResponseEntity<MensajeDTO<Carrito>>  traerCarritoPorId(@PathVariable String id) throws Exception {
+        return  ResponseEntity.ok(new MensajeDTO<>(false,carritoServicio.traerCarrito(id)));
+    }
+
 
     @PutMapping("/activar-cuenta")
     public ResponseEntity<MensajeDTO<String>> activarCuenta(@RequestBody ActivarCuentaDTO activarCuentaDTO) throws Exception {
@@ -198,6 +208,11 @@ public class ClienteControlador {
         return resultado
                 ? ResponseEntity.ok(new MensajeDTO<>(false, "Cupon redimido exitosamente"))
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MensajeDTO<>(true, "El cupon no pudo ser redimido"));
+    }
+    @GetMapping("/obtener-informacion-cupon/{id}")
+    public ResponseEntity<MensajeDTO<InformacionCuponDTO>> obtenerInformacionCupon(@PathVariable String id) throws Exception {
+        InformacionCuponDTO cuponInfo = cuponServicio.obtenerCuponCodigo(id);
+        return ResponseEntity.ok(new MensajeDTO<>(false, cuponInfo));
     }
 
 }

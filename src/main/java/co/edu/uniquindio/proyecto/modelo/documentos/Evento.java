@@ -35,6 +35,7 @@ public class Evento {
 
     public Localidad obtenerLocalidad(String nombreLocalidad) throws Exception {
         // Busca la localidad dentro de la lista de localidades
+        //System.out.println(nombre);
         return localidades.stream()
                 .filter(localidad -> localidad.getNombre().equalsIgnoreCase(nombreLocalidad))
                 .findFirst()

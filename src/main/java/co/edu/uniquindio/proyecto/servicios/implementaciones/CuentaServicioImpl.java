@@ -152,7 +152,7 @@ public class CuentaServicioImpl implements CuentaServicio {
     @Override
     public String cambiarPassword(CambiarPasswordDTO cambiarPasswordDTO) throws Exception {
 
-        Cuenta cuentaOptional = obtenerEmail(cambiarPasswordDTO.email());
+        Cuenta cuentaOptional = obtenerEmail(cambiarPasswordDTO.correo());
 
         CodigoValidacion codigoValidacion = cuentaOptional.getCodigoValidacionPassword();
 
@@ -164,7 +164,7 @@ public class CuentaServicioImpl implements CuentaServicio {
                 throw new Exception("El código ya expiró.");
             }
         }else{
-            throw new Exception("El código ingresado no coincide con el enviado al email.");
+            throw new Exception("El código ingresado no coincide con el enviado al correo.");
         }
 
         return "Su contraseña ha sido cambiada.";
@@ -337,20 +337,20 @@ public class CuentaServicioImpl implements CuentaServicio {
     @Override
     public Cuenta obtenerPorEmail(String email) throws Exception {
 
-       // System.out.println(email);
+       // System.out.println(correo);
 
         Optional<Cuenta> cuentaOptional = cuentaRepo.findByEmail(email);
 
        // System.out.println(cuentaOptional.isEmpty());
 
         if(cuentaOptional.isEmpty()){
-            throw new Exception("No existe una cuenta registrada con el email " + email + ".");
+            throw new Exception("No existe una cuenta registrada con el correo " + email + ".");
         }
 
         Cuenta cuenta = cuentaOptional.get();
 
         if(cuenta.getEstado() == EstadoCuenta.ELIMINADO){
-            throw new Exception("La cuenta registrada con el email " + email + " esta ELIMINADA.");
+            throw new Exception("La cuenta registrada con el correo " + email + " esta ELIMINADA.");
         }
 
         return cuenta;
@@ -387,7 +387,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         Cuenta cuenta = cuentaOptional.get();
 
         if(cuenta.getEstado().equals(EstadoCuenta.ELIMINADO)){
-            throw new Exception("La cuenta registrada con el email " + correo + " esta ELIMINADA.");
+            throw new Exception("La cuenta registrada con el correo " + correo + " esta ELIMINADA.");
         }
 
         return cuenta;
@@ -404,7 +404,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         Cuenta cuenta = cuentaOptional.get();
 
         if(cuenta.getEstado().equals(EstadoCuenta.ELIMINADO)){
-            throw new Exception("La cuenta registrada con el email " + id + " esta ELIMINADA.");
+            throw new Exception("La cuenta registrada con el correo " + id + " esta ELIMINADA.");
         }
 
         return cuenta;

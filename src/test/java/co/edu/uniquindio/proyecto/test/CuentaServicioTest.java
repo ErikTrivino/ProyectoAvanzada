@@ -29,7 +29,7 @@ public class CuentaServicioTest {
                 "Rosario Meléndez",
                 "3124532875",
                 "Carrera 21 #13-64",
-                "rosario27@email.com",
+                "rosario27@correo.com",
                 "password"
         );
 //        CrearCuentaDTO crearCuentaDTO = new CrearCuentaDTO(

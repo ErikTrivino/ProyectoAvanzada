@@ -130,6 +130,21 @@ public class CuponServicioImpl implements CuponServicio {
         return cuponRepo.findAll();
     }
 
+    @Override
+    public InformacionCuponDTO obtenerCuponCodigo(String id) throws Exception {
+        Cupon cupon = obtenerPorCodigo(id);
+
+        return new InformacionCuponDTO(
+                cupon.getId(),
+                cupon.getNombre(),
+                cupon.getDescuento(),
+                cupon.getFechaVencimiento(),
+                cupon.getCodigo(),
+                cupon.getEstado(),
+                cupon.getTipo()
+        );
+    }
+
     // Métodos privados de utilidad
 
     private boolean existeCodigo(String codigo) {
