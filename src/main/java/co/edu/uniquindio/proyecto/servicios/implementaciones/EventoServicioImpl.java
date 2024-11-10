@@ -73,7 +73,7 @@ public class EventoServicioImpl implements EventoServicio {
         }
 
         eventoModificado.setImagenPortada(editarEventoDTO.imagenPortada());
-        eventoModificado.setEstado(editarEventoDTO.estado());
+       // eventoModificado.setEstado(editarEventoDTO.estado());
         eventoModificado.setDescripcion(editarEventoDTO.descripcion());
         eventoModificado.setImagenLocalidades(editarEventoDTO.imagenLocalidades());
         eventoModificado.setFechaEvento(editarEventoDTO.fechaEvento());

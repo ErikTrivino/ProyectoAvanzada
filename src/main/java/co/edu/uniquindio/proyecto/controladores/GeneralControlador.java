@@ -88,7 +88,7 @@ public class GeneralControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta editada exitosamente"));
     }
 
-    @DeleteMapping("/eliminar-cuenta/{id}")
+    @PutMapping("/eliminar-cuenta/{id}")
     public ResponseEntity<MensajeDTO<String>> eliminarCuenta(@PathVariable String id) throws Exception{
         cuentaServicio.eliminarCuenta(id);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta eliminada exitosamente"));
