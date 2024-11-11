@@ -200,6 +200,10 @@ public class CuentaServicioImpl implements CuentaServicio {
             throw new Exception("El token de activación es inválido.");
         }
 
+        if (cuentaOpt.get().getEstado() == EstadoCuenta.ACTIVO){
+            throw new Exception("La cuenta ya está activa.");
+        }
+
         Cuenta cuenta = cuentaOpt.get();
         // Verificar si el tiempo desde la creación del token ha superado los 15 minutos
         LocalDateTime fechaCreacionToken = cuenta.getCodigoValidacionRegistro().getFechaCreacion();
