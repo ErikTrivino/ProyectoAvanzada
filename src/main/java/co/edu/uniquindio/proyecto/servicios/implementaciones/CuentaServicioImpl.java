@@ -664,7 +664,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         List<ItemEventoDTO> items = new ArrayList<>();
         for (Evento evento: eventos
              ) {
-            ItemEventoDTO itemEventoDTO = new ItemEventoDTO(evento.getImagenPortada(), evento.getNombre(), evento.getFechaEvento(), evento.getCiudad());
+            ItemEventoDTO itemEventoDTO = new ItemEventoDTO(evento.getId(), evento.getImagenPortada(), evento.getNombre(), evento.getFechaEvento(), evento.getCiudad());
             items.add(itemEventoDTO);
         }
         // Devolver las preferencias del usuario
