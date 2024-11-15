@@ -79,6 +79,34 @@ public class CarritoServicioImpl implements CarritoServicio {
     }
 
     @Override
+    public void agregarItemUnico(String idCuenta, DetalleCarrito item) throws Exception {
+        //System.out.println(idCarrito);
+        Optional<Carrito> carrito = carritoRepo.buscarCarritoPorIdUsuario(idCuenta);
+
+
+
+        if(carrito.isPresent()){
+            Carrito carritoActual = carrito.get();
+
+            // Verificar si el item ya está en el carrito
+            Optional<DetalleCarrito> itemExistente = carritoActual.getItems().stream()
+                    .filter(i -> i.getIdEvento().equals(item.getIdEvento()))
+                    .findFirst();
+
+            if (itemExistente.isPresent()) {
+                // Si el item ya existe, incrementar la cantidad
+                DetalleCarrito detalleExistente = itemExistente.get();
+                detalleExistente.setCantidad(detalleExistente.getCantidad() + item.getCantidad());
+            } else {
+                // Si el item no existe, agregarlo al carrito
+                carritoActual.getItems().add(item);
+            }
+            // Guardar el carrito actualizado en la base de datos
+            carritoRepo.save(carrito.get());
+        }
+    }
+
+    @Override
     public void editarItem(String idCarrito, DetalleCarrito item) throws Exception {
         Optional<Carrito> carrito = carritoRepo.findById(idCarrito);
 

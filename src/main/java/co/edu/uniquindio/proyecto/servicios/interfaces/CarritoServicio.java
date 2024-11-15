@@ -13,6 +13,7 @@ public interface CarritoServicio {
     String eliminarItem(String idCarrito, String idEvento) throws Exception;
 
     void agregarItem(String idCarrito, DetalleCarrito item) throws Exception;
+    void agregarItemUnico(String idCuenta, DetalleCarrito item) throws Exception;
     void editarItem(String idCarrito , DetalleCarrito item) throws  Exception;
 
    Carrito traerCarrito(String idCarrito) throws Exception;

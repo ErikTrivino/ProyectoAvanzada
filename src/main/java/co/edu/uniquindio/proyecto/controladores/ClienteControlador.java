@@ -182,6 +182,15 @@ public class ClienteControlador {
         carritoServicio.agregarItem(id, item);
         return ResponseEntity.ok(new MensajeDTO<>(false,"Item agregado correctamente"));
     }
+
+
+    @PostMapping("/agregarItem-carrito-unico/{id}")
+    public ResponseEntity<MensajeDTO<String>> agregarItemUnico(@PathVariable String id,@RequestBody DetalleCarrito item) throws Exception {
+        carritoServicio.agregarItemUnico(id, item);
+        return ResponseEntity.ok(new MensajeDTO<>(false,"Item agregado correctamente"));
+    }
+
+
     @PostMapping("/editarItem-carrito/{id}")
     public ResponseEntity<MensajeDTO<String>> editarItem(@PathVariable String id,@RequestBody DetalleCarrito item) throws Exception {
         carritoServicio.editarItem(id, item);
