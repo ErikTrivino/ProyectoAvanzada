@@ -4,7 +4,6 @@ import co.edu.uniquindio.proyecto.modelo.documentos.Evento;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.*;
 import co.edu.uniquindio.proyecto.modelo.enums.TipoEvento;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventoServicio {
@@ -28,4 +27,6 @@ public interface EventoServicio {
     List<TipoEvento> obtenerTipoEventos();
 
     List<InformacionEventoDTO> listarEventosAdmin() throws  Exception;
+
+    List<Evento> traerEventosPorPreferenciaUsuario(List<TipoEvento> tipos) throws  Exception;
 }

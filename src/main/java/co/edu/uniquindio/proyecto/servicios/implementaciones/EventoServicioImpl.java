@@ -219,6 +219,11 @@ public class EventoServicioImpl implements EventoServicio {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Evento> traerEventosPorPreferenciaUsuario(List<TipoEvento> tipos) throws Exception {
+        return eventoRepo.filtrarEventosPorTipos(tipos);
+    }
+
     //Método para validar si el evento ya existe y no se duplique un mismo evento cuando se esta creando
     private boolean existeEvento(LocalDate fechaEvento, String nombre, String ciudad) {
 

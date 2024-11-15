@@ -1,5 +1,6 @@
 package co.edu.uniquindio.proyecto.servicios.interfaces;
 
+import co.edu.uniquindio.proyecto.modelo.dto.evento.ItemEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.enums.TipoEvento;
 import co.edu.uniquindio.proyecto.modelo.vo.Boleta;
 import co.edu.uniquindio.proyecto.modelo.documentos.Cuenta;
@@ -28,6 +29,7 @@ public interface CuentaServicio {
 
 
     ///NUEVA FUNCIONALIDAD
+    List<Boleta> buscarBoletaPorNombreEvento(String nombreEvento) throws Exception;
     List<Boleta> buscarBoletasPorPropietario(String idPropietario) throws Exception;
     Boleta obtenerDetalleBoleta(String idBoleta, String idPropietario) throws Exception;
     List<Boleta> listarBoletasEnviadas(String idPropietario) throws Exception;
@@ -41,7 +43,7 @@ public interface CuentaServicio {
 
     void agregarPreferenciasUsuario(String idUsuario, List<TipoEvento> tipoPreferencias) throws  Exception;
 
-    List<TipoEvento> obtenerPreferenciasUsuario(String idUsuario) throws Exception;
+    List<ItemEventoDTO> obtenerPreferenciasUsuario(String idUsuario) throws Exception;
 
     List<ItemCuentaDTO> listarCuentas() throws Exception;
 

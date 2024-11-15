@@ -2,6 +2,8 @@ package co.edu.uniquindio.proyecto.servicios.implementaciones;
 
 import co.edu.uniquindio.proyecto.config.JWTUtils;
 import co.edu.uniquindio.proyecto.modelo.documentos.Cupon;
+import co.edu.uniquindio.proyecto.modelo.documentos.Evento;
+import co.edu.uniquindio.proyecto.modelo.dto.evento.ItemEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.enums.*;
 import co.edu.uniquindio.proyecto.modelo.vo.Boleta;
 import co.edu.uniquindio.proyecto.modelo.documentos.Cuenta;
@@ -13,6 +15,7 @@ import co.edu.uniquindio.proyecto.modelo.vo.CodigoValidacion;
 import co.edu.uniquindio.proyecto.repositorios.CuentaRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CuentaServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicio;
+import co.edu.uniquindio.proyecto.servicios.interfaces.EventoServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,8 @@ public class CuentaServicioImpl implements CuentaServicio {
     private final CuentaRepo cuentaRepo;
     private final JWTUtils jwtUtils;
     private final EmailServicio emailServicio;
+
+    private final EventoServicio eventoServicio;
     //private final FutureOrPresentValidatorForLocalDateTime futureOrPresentValidatorForLocalDateTime;
 
 
@@ -308,6 +313,17 @@ public class CuentaServicioImpl implements CuentaServicio {
 
         return "Cuenta activada exitosamente.";
     }
+
+    @Override
+    public List<Boleta> buscarBoletaPorNombreEvento(String nombreEvento) throws Exception {
+        List<Cuenta> cuentas = cuentaRepo.buscarBoletaPorNombreEvento(nombreEvento);
+
+        return cuentas.stream()
+                .flatMap(cuenta -> cuenta.getBoletas().stream())
+                .filter(boleta -> nombreEvento.equals(boleta.getNombreEvento()))
+                .collect(Collectors.toList());
+    }
+
     public static int generarNumeroAleatorio() {
         Random random = new Random();
         return random.nextInt(10000); // Genera un número entre 0 y 9999
@@ -535,20 +551,33 @@ public class CuentaServicioImpl implements CuentaServicio {
     public void transferirBoleta(String idBoleta, String idPropietario, String idNuevoPropietario) throws Exception {
 
         Optional<Cuenta> cuenta = cuentaRepo.findById(idPropietario);
-        Optional<Cuenta> cuenta2 = cuentaRepo.findById(idNuevoPropietario);
+        //DESDE EL FRONT LLEGA EL CORREO
+        Optional<Cuenta> cuenta2 = cuentaRepo.findByEmail(idNuevoPropietario);
+
+
         if(cuenta.isPresent() && cuenta2.isPresent()){
             Boleta boletaTra = cuenta.get().getBoletas().stream()
                     .filter(boleta -> boleta.getIdBoleta().equals(idBoleta))
                     .findFirst()
                     .orElse(null);
             if(boletaTra != null){
-                boletaTra.setEstado(EstadoBoleta.ENVIADA);
-                cuentaRepo.save(cuenta.get());
+                if(boletaTra.getEstado() == EstadoBoleta.ENVIADA){
+                    throw new Exception("La boleta a tranferir ya ha sido enviada");
+                }else {
+                    if(boletaTra.getEstado() == EstadoBoleta.PENDIENTE){
+                        throw new Exception("La boleta a tranferir ya tiene como etado pendiente");
+                    }else{
+                        boletaTra.setEstado(EstadoBoleta.ENVIADA);
+                        cuentaRepo.save(cuenta.get());
 
-                boletaTra.setEstado(EstadoBoleta.PENDIENTE);
+                        boletaTra.setEstado(EstadoBoleta.PENDIENTE);
 
-                cuenta2.get().getBoletas().add(boletaTra);
-                cuentaRepo.save(cuenta2.get());
+                        cuenta2.get().getBoletas().add(boletaTra);
+                        cuentaRepo.save(cuenta2.get());
+                    }
+
+                }
+
             }
         }
 
@@ -619,17 +648,27 @@ public class CuentaServicioImpl implements CuentaServicio {
             throw new Exception("No se encontro la cuenta");
         }
 
+
+        cuenta.get().getPreferencias().addAll(new ArrayList<>());
         cuenta.get().getPreferencias().addAll(tipoPreferencias);
         cuentaRepo.save(cuenta.get());
     }
     @Override
-    public List<TipoEvento> obtenerPreferenciasUsuario(String idUsuario) throws Exception {
+    public List<ItemEventoDTO> obtenerPreferenciasUsuario(String idUsuario) throws Exception {
         // Verificar si el usuario existe en la base de datos
         Cuenta usuario = cuentaRepo.findById(idUsuario)
                 .orElseThrow(() -> new Exception("Usuario no encontrado"));
 
+        List<Evento> eventos = eventoServicio.traerEventosPorPreferenciaUsuario(usuario.getPreferencias());
+
+        List<ItemEventoDTO> items = new ArrayList<>();
+        for (Evento evento: eventos
+             ) {
+            ItemEventoDTO itemEventoDTO = new ItemEventoDTO(evento.getImagenPortada(), evento.getNombre(), evento.getFechaEvento(), evento.getCiudad());
+            items.add(itemEventoDTO);
+        }
         // Devolver las preferencias del usuario
-        return usuario.getPreferencias();
+        return items;
     }
 
 

@@ -34,6 +34,11 @@ public class GeneralControlador {
 
 
 
+    @GetMapping("/obtener-preferenciasUsuario/{idUsuario}")
+    public List<ItemEventoDTO> obtenerPreferenciasUsario(@PathVariable String idUsuario) throws Exception {
+        return cuentaServicio.obtenerPreferenciasUsuario(idUsuario); // null ya que no se usa idUsuario en este método
+    }
+
     @PostMapping("/notificacion-pago")
     public void recibirNotificacionMercadoPago(@RequestBody Map<String, Object> requestBody) {
         ordenServicio.recibirNotificacionMercadoPago(requestBody);

@@ -6,6 +6,7 @@ import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.MensajeDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.ActivarCuentaDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.InformacionCuentaDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cupon.InformacionCuponDTO;
+import co.edu.uniquindio.proyecto.modelo.dto.evento.ItemEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.CrearOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.EditarOrdenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.InformacionOrdenDTO;
@@ -93,29 +94,32 @@ public class ClienteControlador {
         return cuentaServicio.obtenerPreferencias(); // null ya que no se usa idUsuario en este método
     }
     @GetMapping("/obtener-preferenciasUsuario/{idUsuario}")
-    public List<TipoEvento> obtenerPreferenciasUsario(@PathVariable String idUsuario) throws Exception {
+    public List<ItemEventoDTO> obtenerPreferenciasUsario(@PathVariable String idUsuario) throws Exception {
         return cuentaServicio.obtenerPreferenciasUsuario(idUsuario); // null ya que no se usa idUsuario en este método
     }
 
     // Agregar preferencias a una cuenta de usuario
     @PostMapping("/agregarPreferenciasUsuario-preferencias/{idUsuario}")
-    public String agregarPreferenciasUsuario(
+    public ResponseEntity<MensajeDTO<String>> agregarPreferenciasUsuario(
             @PathVariable String idUsuario,
             @RequestBody List<TipoEvento> tipoPreferencias) throws Exception {
         cuentaServicio.agregarPreferenciasUsuario(idUsuario, tipoPreferencias);
-        return "Preferencias agregadas al usuario con éxito.";
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Preferencias agregadas al usuario con éxito."));
+
     }
     //BOLETA
 
     // RF-001: Buscar boletas por nombre o identificación
-    @GetMapping("/buscar-boleta")
+    //Fuciona
+    @GetMapping("/buscar-boletas-nombreEvento")
     public ResponseEntity<List<Boleta>> buscarBoletasPorNombreOIdentificacion(
             @RequestParam("nombre") String nombreOId) throws Exception {
-        List<Boleta> boletas = cuentaServicio.buscarBoletasPorPropietario(nombreOId);
+        List<Boleta> boletas = cuentaServicio.buscarBoletaPorNombreEvento(nombreOId);
         return ResponseEntity.ok(boletas);
     }
 
     // RF-002: Mostrar todas las boletas en propiedad del usuario
+    //Fuciona
     @GetMapping("/listarBoletasPropietario-boleta/{idPropietario}")
     public ResponseEntity<List<Boleta>> listarBoletasPorPropietario(
             @PathVariable String idPropietario) throws Exception {
@@ -126,6 +130,7 @@ public class ClienteControlador {
     }
 
     // RF-003: Ver detalle de una boleta
+    //Fuciona
     @GetMapping("/detalle-boleta/{idBoleta}/{idPropietario}")
     public ResponseEntity<Boleta> obtenerDetalleBoleta(
             @PathVariable String idBoleta,
@@ -150,22 +155,25 @@ public class ClienteControlador {
     }
 
     // RF-009: Transferir boleta
+    //Fuciona
     @PostMapping("/transferir-boleta/{idBoleta}/{idPropietario}/{idNuevoPropietario}")
-    public ResponseEntity<String> transferirBoleta(
+    public ResponseEntity<MensajeDTO<String>> transferirBoleta(
             @PathVariable String idBoleta,
             @PathVariable String idPropietario,
             @PathVariable String idNuevoPropietario) throws Exception {
         cuentaServicio.transferirBoleta(idBoleta, idPropietario, idNuevoPropietario);
-        return ResponseEntity.ok("Boleta transferida exitosamente.");
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Boleta transferida exitosamente."));
+
     }
 
     // RF-008: Aceptar boleta
     @PostMapping("/aceptar-boleta/{idBoleta}/{idNuevoPropietario}")
-    public ResponseEntity<String> aceptarBoleta(
+    public ResponseEntity<MensajeDTO<String>> aceptarBoleta(
             @PathVariable String idBoleta,
             @PathVariable String idNuevoPropietario) throws Exception {
         cuentaServicio.aceptarBoleta(idBoleta, idNuevoPropietario);
-        return ResponseEntity.ok("Boleta aceptada.");
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Boleta aceptada."));
+
     }
 
     //Carrito

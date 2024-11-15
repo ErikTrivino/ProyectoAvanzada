@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -26,6 +27,9 @@ public interface CuentaRepo extends MongoRepository<Cuenta, String> {
 
     @Query("{ 'codigoValidacionRegistro.codigo': ?0 }")
     Optional<Cuenta> buscarPorCodigoValidacion(String token);
+
+    @Query("{ 'boletas.nombreEvento' : ?0 }")
+    List<Cuenta> buscarBoletaPorNombreEvento(String nombreEvento);
 
 
 }
