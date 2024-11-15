@@ -122,6 +122,7 @@ public class EventoServicioImpl implements EventoServicio {
 
         return eventos.stream()
                 .map(evento -> new ItemEventoDTO(
+                        evento.getId(),
 
                         evento.getImagenPortada(),
                         evento.getNombre(),
@@ -132,10 +133,14 @@ public class EventoServicioImpl implements EventoServicio {
     }
 
     @Override
+
     public List<ItemEventoDTO> listarEventosActivos() throws Exception {
         List<Evento> eventosActivos = eventoRepo.listarEventosActivos();
         return eventosActivos.stream()
                 .map(evento -> new ItemEventoDTO(
+
+                        evento.getId(),
+
                         evento.getImagenPortada(),
                         evento.getNombre(),
                         evento.getFechaEvento(),
@@ -151,6 +156,9 @@ public class EventoServicioImpl implements EventoServicio {
         List<Evento> eventosFuturos = eventoRepo.filtrarEventosFuturos(fechaInicio, fechaFin);
         return eventosFuturos.stream()
                 .map(evento -> new ItemEventoDTO(
+
+                        evento.getId(),
+
                         evento.getImagenPortada(),
                         evento.getNombre(),
                         evento.getFechaEvento(),
@@ -160,12 +168,14 @@ public class EventoServicioImpl implements EventoServicio {
     }
 
     @Override
+
     public List<ItemEventoDTO> filtrarEventos(FiltroEventoDTO filtroEventoDTO) throws Exception {
 
         List<Evento> eventos = eventoRepo.filtrarEventos(filtroEventoDTO.nombre(), filtroEventoDTO.tipo(), filtroEventoDTO.ciudad());
 
         return eventos.stream()
                 .map(evento -> new ItemEventoDTO(
+                        evento.getId(),
                         evento.getImagenPortada(),
                         evento.getNombre(),
                         evento.getFechaEvento(),
