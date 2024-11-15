@@ -109,6 +109,7 @@ public class EventoServicioImpl implements EventoServicio {
 
         return eventos.stream()
                 .map(evento -> new ItemEventoDTO(
+                        evento.getId(),
 
                         evento.getImagenPortada(),
                         evento.getNombre(),
@@ -119,12 +120,46 @@ public class EventoServicioImpl implements EventoServicio {
     }
 
     @Override
+<<<<<<< Updated upstream
+=======
+    public List<ItemEventoDTO> listarEventosActivos() throws Exception {
+        List<Evento> eventosActivos = eventoRepo.listarEventosActivos();
+        return eventosActivos.stream()
+                .map(evento -> new ItemEventoDTO(
+                        evento.getId(),
+                        evento.getImagenPortada(),
+                        evento.getNombre(),
+                        evento.getFechaEvento(),
+                        evento.getCiudad()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ItemEventoDTO> filtrarEventosFuturos() throws Exception {
+        LocalDateTime fechaInicio = LocalDateTime.now();
+        LocalDateTime fechaFin = fechaInicio.plusMonths(2);
+        List<Evento> eventosFuturos = eventoRepo.filtrarEventosFuturos(fechaInicio, fechaFin);
+        return eventosFuturos.stream()
+                .map(evento -> new ItemEventoDTO(
+                        evento.getId(),
+                        evento.getImagenPortada(),
+                        evento.getNombre(),
+                        evento.getFechaEvento(),
+                        evento.getCiudad()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+>>>>>>> Stashed changes
     public List<ItemEventoDTO> filtrarEventos(FiltroEventoDTO filtroEventoDTO) throws Exception {
 
         List<Evento> eventos = eventoRepo.filtrarEventos(filtroEventoDTO.nombre(), filtroEventoDTO.tipo(), filtroEventoDTO.ciudad());
 
         return eventos.stream()
                 .map(evento -> new ItemEventoDTO(
+                        evento.getId(),
                         evento.getImagenPortada(),
                         evento.getNombre(),
                         evento.getFechaEvento(),
