@@ -80,7 +80,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         Carrito carrito = new Carrito();
         carrito.setFecha(LocalDateTime.now());
         carrito.setItems(new ArrayList<>());
-        carrito.setId(nuevaCuenta.getId());
+        carrito.setIdUsuario(nuevaCuenta.getId());
         carrito.setPrecioTotal(0);
         carritoRepo.save(carrito);
         cuentaRepo.save(nuevaCuenta);
