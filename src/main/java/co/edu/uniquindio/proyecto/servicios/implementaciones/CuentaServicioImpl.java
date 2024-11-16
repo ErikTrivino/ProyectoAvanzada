@@ -312,7 +312,7 @@ public class CuentaServicioImpl implements CuentaServicio {
                     "</body>\n" +
                     "</html>\n";
 
-            emailServicio.enviarCorreo( new EmailDTO("CUPON POR ACTIVACION CUENTA PRIMERA VEZ", cuerpo, cuentaOpt.get().getEmail()) );
+            emailServicio.enviarCorreoHtml( new EmailDTO("CUPON POR ACTIVACION CUENTA PRIMERA VEZ", cuerpo, cuentaOpt.get().getEmail()) );
         }
 
         cuentaRepo.save(cuenta); // Guardar el cambio en la base de datos

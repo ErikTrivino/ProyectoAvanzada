@@ -48,7 +48,9 @@ public class EmailServicioImpl implements EmailServicio {
                 .to(emailDTO.destinatario())
                 .withSubject(emailDTO.asunto())
                 .withPlainText(emailDTO.cuerpo())
+
                 .buildEmail();
+
 
         //unieventosfae@gmail.com
         //fae12345
@@ -65,6 +67,34 @@ public class EmailServicioImpl implements EmailServicio {
 
     }
 
+    @Override
+    @Async
+    public void enviarCorreoHtml(EmailDTO emailDTO) throws Exception {
+
+
+        Email email = EmailBuilder.startingBlank()
+                .from("unieventosfae@gmail.com")
+                .to(emailDTO.destinatario())
+                .withSubject(emailDTO.asunto())
+                .appendTextHTML(emailDTO.cuerpo())
+
+                .buildEmail();
+
+
+        //unieventosfae@gmail.com
+        //fae12345
+        //clave de aplicación: yygy ngcd lulw oxjk
+        try (Mailer mailer = MailerBuilder
+                .withSMTPServer("smtp.gmail.com", 587, "unieventosfae@gmail.com", "yygy ngcd lulw oxjk")
+                .withTransportStrategy(TransportStrategy.SMTP_TLS)
+                .withDebugLogging(true)
+                .buildMailer()) {
+
+            mailer.sendMail(email);
+        }
+
+
+    }
     @Override
     @Async
     public void enviarCorreoConQr(EmailDTO emailDTO, Orden orden) throws Exception {
