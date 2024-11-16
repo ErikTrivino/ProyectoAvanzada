@@ -19,7 +19,7 @@ public class FirebaseConfig {
     public FirebaseApp intializeFirebase() throws IOException {
         //FileInputStream serviceAccount = new FileInputStream("src/main/resources/unieventos-fd028-firebase-adminsdk-abiff-edb3c2e0da.json );
 
-        InputStream serviceAccount = new ClassPathResource("src/main/resources/unieventos-fd028-firebase-adminsdk-abiff-edb3c2e0da.json").getInputStream();
+        InputStream serviceAccount = new ClassPathResource("unieventos-fd028-firebase-adminsdk-abiff-edb3c2e0da.json").getInputStream();
 
 
 
