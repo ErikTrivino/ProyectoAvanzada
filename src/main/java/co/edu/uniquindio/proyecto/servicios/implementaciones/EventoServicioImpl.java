@@ -133,6 +133,11 @@ public class EventoServicioImpl implements EventoServicio {
     }
 
     @Override
+    public List<InformacionEventoDTO> listarTodosEvento() throws Exception {
+        return null;
+    }
+
+    @Override
 
     public List<ItemEventoDTO> listarEventosActivos() throws Exception {
         List<Evento> eventosActivos = eventoRepo.listarEventosActivos();

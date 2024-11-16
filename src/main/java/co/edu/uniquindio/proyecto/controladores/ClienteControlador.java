@@ -51,8 +51,8 @@ public class ClienteControlador {
 
     @PostMapping("/crear-orden")
     public ResponseEntity<MensajeDTO<String>> crearOrden(@Valid @RequestBody CrearOrdenDTO orden) throws Exception {
-        ordenServicio.crearOrden(orden);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Orden creada exitosamente"));
+
+        return ResponseEntity.ok(new MensajeDTO<>(false, ordenServicio.crearOrden(orden)));
 
     }
     @PutMapping("/actualizar-orden")

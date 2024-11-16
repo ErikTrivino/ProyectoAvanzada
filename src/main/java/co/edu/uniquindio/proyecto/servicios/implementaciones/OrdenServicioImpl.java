@@ -27,6 +27,7 @@ import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.resources.payment.Payment;
 import com.mercadopago.resources.preference.Preference;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,6 +75,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
         // Crear y guardar la orden si todas las validaciones pasan
         Orden nuevaOrden = new Orden();
+        //nuevaOrden.setId(new ObjectId("12345678"));
         nuevaOrden.setIdCliente(crearOrdenDTO.idCliente());
         nuevaOrden.setFecha(fechaActual);
         nuevaOrden.setCodigoPasarela(crearOrdenDTO.codigoPasarela());
@@ -91,6 +93,8 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
         // Guardar la orden en la base de datos
         ordenRepo.save(nuevaOrden);
+        // Guardar la orden en la base de datos
+        Orden ordenGuardada = ordenRepo.save(nuevaOrden);
         // Generar boletas a partir de los detalles de la orden
         List<Boleta> boletasGeneradas = new ArrayList<>();
         for (DetalleOrden detalle : crearOrdenDTO.items()) {
@@ -133,7 +137,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
         // Enviar el correo con el código QR adjunto
         emailServicio.enviarCorreoConQr(emailDTO, nuevaOrden);
 
-        return "La orden ha sido creada con éxito y se ha enviado un correo con los detalles de la compra.";
+        return "La orden ha sido creada con éxito y se ha enviado un correo con los detalles de la compra." + "-" + ordenGuardada.getId();
     }
 
 
@@ -372,6 +376,7 @@ public class OrdenServicioImpl  implements OrdenServicio {
         ordenGuardada.setCodigoPasarela( preference.getId() );
       //  System.out.println(ordenGuardada.getPago().toString());
         ordenRepo.save(ordenGuardada);
+        //System.out.println(1);
 
 
         return preference;

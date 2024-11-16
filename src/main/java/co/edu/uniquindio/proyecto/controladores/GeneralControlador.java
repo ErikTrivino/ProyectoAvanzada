@@ -54,6 +54,12 @@ public class GeneralControlador {
         List<ItemEventoDTO> lista = eventoServicio.listarEventos();
         return ResponseEntity.ok(new MensajeDTO<>(false, lista));
     }
+    @GetMapping("/listar-all-evento")
+    public ResponseEntity<MensajeDTO<List<InformacionEventoDTO>>> listarTodosEventos() throws Exception {
+        List<InformacionEventoDTO> lista = eventoServicio.listarEventosAdmin();
+        return ResponseEntity.ok(new MensajeDTO<>(false, lista));
+    }
+
     @GetMapping("/listar-tipo-eventos")
     public ResponseEntity<MensajeDTO<List<TipoEvento>>> listarTipoEventos() throws Exception {
         List<TipoEvento> lista = eventoServicio.obtenerTipoEventos();

@@ -649,7 +649,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         }
 
 
-        cuenta.get().getPreferencias().addAll(new ArrayList<>());
+        cuenta.get().setPreferencias(new ArrayList<>());
         cuenta.get().getPreferencias().addAll(tipoPreferencias);
         cuentaRepo.save(cuenta.get());
     }
