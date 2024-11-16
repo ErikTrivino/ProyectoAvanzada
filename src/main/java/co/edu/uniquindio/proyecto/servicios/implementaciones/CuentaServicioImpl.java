@@ -1,18 +1,17 @@
 package co.edu.uniquindio.proyecto.servicios.implementaciones;
 
 import co.edu.uniquindio.proyecto.config.JWTUtils;
-import co.edu.uniquindio.proyecto.modelo.documentos.Cupon;
-import co.edu.uniquindio.proyecto.modelo.documentos.Evento;
+import co.edu.uniquindio.proyecto.modelo.documentos.*;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.ItemEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.enums.*;
 import co.edu.uniquindio.proyecto.modelo.vo.Boleta;
-import co.edu.uniquindio.proyecto.modelo.documentos.Cuenta;
-import co.edu.uniquindio.proyecto.modelo.documentos.Usuario;
 import co.edu.uniquindio.proyecto.modelo.dto.autenticacion.TokenDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.cuenta.*;
 import co.edu.uniquindio.proyecto.modelo.dto.email.EmailDTO;
 import co.edu.uniquindio.proyecto.modelo.vo.CodigoValidacion;
+import co.edu.uniquindio.proyecto.repositorios.CarritoRepo;
 import co.edu.uniquindio.proyecto.repositorios.CuentaRepo;
+import co.edu.uniquindio.proyecto.servicios.interfaces.CarritoServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CuentaServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EventoServicio;
@@ -36,6 +35,7 @@ public class CuentaServicioImpl implements CuentaServicio {
     private final EmailServicio emailServicio;
 
     private final EventoServicio eventoServicio;
+    private final CarritoRepo carritoRepo;
     //private final FutureOrPresentValidatorForLocalDateTime futureOrPresentValidatorForLocalDateTime;
 
 
@@ -77,6 +77,12 @@ public class CuentaServicioImpl implements CuentaServicio {
         nuevaCuenta.setBoletas(new ArrayList<>());
         nuevaCuenta.setPreferencias(new ArrayList<>());
 
+        Carrito carrito = new Carrito();
+        carrito.setFecha(LocalDateTime.now());
+        carrito.setItems(new ArrayList<>());
+        carrito.setId(nuevaCuenta.getId());
+        carrito.setPrecioTotal(0);
+        carritoRepo.save(carrito);
         cuentaRepo.save(nuevaCuenta);
         emailServicio.enviarCorreo( new EmailDTO("CODIGO DE ACTIVACIÓN CUENTA", nuevaCuenta.getCodigoValidacionRegistro().getCodigo(), nuevaCuenta.getEmail()) );
         return "Su cuenta se ha generado con éxito.";
