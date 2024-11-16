@@ -231,4 +231,10 @@ public class ClienteControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, cuponInfo));
     }
 
+    @GetMapping("/obtenerHistorialOrdenes/{idCliente}")
+    public ResponseEntity<MensajeDTO<List<InformacionOrdenDTO>>> obtenerHistorialOrdenes(@PathVariable String idCliente) throws Exception{
+        List<InformacionOrdenDTO> historial = ordenServicio.obtenerHistorialOrdenes(idCliente);
+        return ResponseEntity.ok(new MensajeDTO<>(false, historial));
+    }
+
 }
