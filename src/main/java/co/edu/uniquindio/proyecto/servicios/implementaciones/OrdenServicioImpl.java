@@ -354,9 +354,9 @@ public class OrdenServicioImpl  implements OrdenServicio {
 
         // Configurar las urls de retorno de la pasarela (Frontend)
         PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                .success("URL PAGO EXITOSO")
-                .failure("URL PAGO FALLIDO")
-                .pending("URL PAGO PENDIENTE")
+                .success("https://front-unieventos-uq.web.app/pago-exitoso")
+                .failure("https://front-unieventos-uq.web.app/pago-fallido")
+                .pending("https://front-unieventos-uq.web.app/pago-pendiente")
                 .build();
 
 
