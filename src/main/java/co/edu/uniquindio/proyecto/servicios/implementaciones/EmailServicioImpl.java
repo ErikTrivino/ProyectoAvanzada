@@ -105,6 +105,7 @@ public class EmailServicioImpl implements EmailServicio {
         ByteArrayOutputStream qrStream = new ByteArrayOutputStream();
         generarImagenQr(contenidoQr, qrStream);
 
+        System.out.println(emailDTO.destinatario());
         // Crear el correo con el adjunto del QR
         Email email = EmailBuilder.startingBlank()
                 .from("unieventosfae@gmail.com")

@@ -129,9 +129,11 @@ public class OrdenServicioImpl  implements OrdenServicio {
         // Enviar correo de confirmación
         String correoPrueba = "unieventosfae@gmail.com";
         EmailDTO emailDTO = new EmailDTO(
-                cuenta.correo(),
-                "Detalles de tu compra en UniEventos", // Asunto del correo
-                "Gracias por tu compra. Adjuntamos el código QR de tu orden y los detalles de la misma." // Cuerpo del correo
+                "Detalles de tu compra en UniEventos",
+
+                 // Asunto del correo
+                "Gracias por tu compra. Adjuntamos el código QR de tu orden y los detalles de la misma.", // Cuerpo del correo
+                cuenta.correo()
         );
 
         // Enviar el correo con el código QR adjunto
