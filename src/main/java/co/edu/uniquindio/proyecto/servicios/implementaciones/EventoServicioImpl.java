@@ -200,9 +200,9 @@ public class EventoServicioImpl implements EventoServicio {
         Evento evento = eventoOptional.get();
 
         // Validar el estado del evento
-        if (evento.getEstado() != EstadoEvento.ACTIVO) {  // Asume que el estado que buscas es "ACTIVO"
+        /*if (evento.getEstado() != EstadoEvento.ACTIVO) {  // Asume que el estado que buscas es "ACTIVO"
             throw new Exception("El evento con id " + id + " no está activo. Estado actual: " + evento.getEstado());
-        }
+        }*/
 
         return evento;
 
