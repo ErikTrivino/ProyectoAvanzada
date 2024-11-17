@@ -11,6 +11,7 @@ import co.edu.uniquindio.proyecto.modelo.dto.email.EmailDTO;
 import co.edu.uniquindio.proyecto.modelo.vo.CodigoValidacion;
 import co.edu.uniquindio.proyecto.repositorios.CarritoRepo;
 import co.edu.uniquindio.proyecto.repositorios.CuentaRepo;
+import co.edu.uniquindio.proyecto.repositorios.CuponRepo;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CarritoServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.CuentaServicio;
 import co.edu.uniquindio.proyecto.servicios.interfaces.EmailServicio;
@@ -36,6 +37,7 @@ public class CuentaServicioImpl implements CuentaServicio {
 
     private final EventoServicio eventoServicio;
     private final CarritoRepo carritoRepo;
+    private final CuponRepo cuponRepo;
     //private final FutureOrPresentValidatorForLocalDateTime futureOrPresentValidatorForLocalDateTime;
 
 
@@ -233,6 +235,8 @@ public class CuentaServicioImpl implements CuentaServicio {
             cupon.setNombre("Cupon de activacion primera vez");
             cupon.setFechaVencimiento(LocalDate.now().minusMonths(1));
             cupon.setEstado(EstadoCupon.ACTIVO);
+            cuponRepo.save(cupon);
+
             String cuerpo = "<!DOCTYPE html>\n" +
                     "<html lang=\"es\">\n" +
                     "<head>\n" +
