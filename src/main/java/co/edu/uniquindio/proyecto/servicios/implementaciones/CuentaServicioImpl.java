@@ -79,13 +79,14 @@ public class CuentaServicioImpl implements CuentaServicio {
         nuevaCuenta.setBoletas(new ArrayList<>());
         nuevaCuenta.setPreferencias(new ArrayList<>());
 
+        Cuenta cuentaGuardada = cuentaRepo.save(nuevaCuenta);
         Carrito carrito = new Carrito();
         carrito.setFecha(LocalDateTime.now());
         carrito.setItems(new ArrayList<>());
-        carrito.setIdUsuario(nuevaCuenta.getId());
+        carrito.setIdUsuario(cuentaGuardada.getId());
         carrito.setPrecioTotal(0);
         carritoRepo.save(carrito);
-        cuentaRepo.save(nuevaCuenta);
+        
         emailServicio.enviarCorreo( new EmailDTO("CODIGO DE ACTIVACIÓN CUENTA", nuevaCuenta.getCodigoValidacionRegistro().getCodigo(), nuevaCuenta.getEmail()) );
         return "Su cuenta se ha generado con éxito.";
     }
