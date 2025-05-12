@@ -47,8 +47,8 @@ public class EventoServicioImpl implements EventoServicio {
 
         Evento nuevoEvento = new Evento();
 
-        nuevoEvento.setImagenPortada(crearEventoDTO.imagenImportada());
-        nuevoEvento.setImagenLocalidades(crearEventoDTO.imagenLocalidades());
+        nuevoEvento.setImagenPortada(crearEventoDTO.imagenImportada().url());
+        nuevoEvento.setImagenLocalidades(crearEventoDTO.imagenLocalidades().url());
 
         nuevoEvento.setFechaEvento(crearEventoDTO.fechaEvento());
         nuevoEvento.setNombre(crearEventoDTO.nombre());

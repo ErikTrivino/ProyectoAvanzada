@@ -1,5 +1,6 @@
 package co.edu.uniquindio.proyecto.modelo.dto.evento;
 
+import co.edu.uniquindio.proyecto.modelo.dto.imagenDTO;
 import co.edu.uniquindio.proyecto.modelo.enums.EstadoEvento;
 import co.edu.uniquindio.proyecto.modelo.enums.TipoEvento;
 import co.edu.uniquindio.proyecto.modelo.vo.Localidad;
@@ -14,14 +15,15 @@ import java.util.List;
 
 public record CrearEventoDTO(
 
-         @NotBlank String imagenImportada,
+         @NotNull imagenDTO imagenImportada,
          @NotBlank @Length (min = 5, max = 100) String nombre,
          @NotBlank @Length (max = 500) String descripcion,
-         @NotBlank String imagenLocalidades,
+         @NotNull imagenDTO imagenLocalidades,
          @NotNull TipoEvento tipo,
          @NotNull LocalDate fechaEvento,
          @NotBlank @Length (max = 20) String ciudad,
          @NotEmpty List<LocalidadDTO> localidades
+
 
 ) {
 }
