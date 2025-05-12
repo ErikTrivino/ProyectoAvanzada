@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/imagenes")
@@ -17,9 +19,9 @@ public class ImagenesControlador {
     private final ImagenesServicio imagenesServicio;
 
     @PostMapping("/subir")
-    public ResponseEntity<MensajeDTO<String>> subir(@RequestParam("imagen") MultipartFile imagen) throws Exception{
-        String respuesta = imagenesServicio.subirImagen(imagen);
-        return ResponseEntity.ok().body(new MensajeDTO<>(false, respuesta));
+    public ResponseEntity<MensajeDTO<Map>> subir(@RequestParam("imagen") MultipartFile imagen) throws Exception{
+        Map respuesta = imagenesServicio.subirImagen(imagen);
+        return ResponseEntity.ok().body(new MensajeDTO<Map>(false, respuesta));
     }
 
     @DeleteMapping("/eliminar")

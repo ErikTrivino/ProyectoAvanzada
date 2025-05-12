@@ -10,7 +10,6 @@ import co.edu.uniquindio.proyecto.modelo.dto.cupon.InformacionCuponDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.CrearEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.EditarEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.evento.InformacionEventoDTO;
-import co.edu.uniquindio.proyecto.modelo.dto.evento.ItemEventoDTO;
 import co.edu.uniquindio.proyecto.modelo.dto.orden.InformacionOrdenDTO;
 import co.edu.uniquindio.proyecto.servicios.implementaciones.CuponServicioImpl;
 import co.edu.uniquindio.proyecto.servicios.implementaciones.OrdenServicioImpl;
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -82,9 +82,9 @@ public class AdmistradorControlador {
     }
 
     @PostMapping("/subir")
-    public ResponseEntity<MensajeDTO<String>> subir(@RequestParam("imagen") MultipartFile imagen) throws Exception{
-        String respuesta = imagenesServicio.subirImagen(imagen);
-        return ResponseEntity.ok().body(new MensajeDTO<>(false, respuesta));
+    public ResponseEntity<MensajeDTO<Map>> subir(@RequestParam("imagen") MultipartFile imagen) throws Exception{
+        Map respuesta = imagenesServicio.subirImagen(imagen);
+        return ResponseEntity.ok().body(new MensajeDTO<Map>(false, respuesta));
     }
 
     @DeleteMapping("/eliminar")

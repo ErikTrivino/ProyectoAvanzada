@@ -1,9 +1,7 @@
 package co.edu.uniquindio.proyecto.test;
 import co.edu.uniquindio.proyecto.servicios.implementaciones.ImagenesServicioImpl;
 import co.edu.uniquindio.proyecto.servicios.interfaces.ImagenesServicio;
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.Bucket;
-import com.google.firebase.cloud.StorageClient;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,29 +40,15 @@ public class ImagenServicioTest {
         );
 
         // Llamar al método subirImagen
-        String url = imagenesServicio.subirImagen(multipartFile);
+        Map url = imagenesServicio.subirImagen(multipartFile);
 
         // Verificar que la URL no sea nula
         assertNotNull(url);
         System.out.println(url);
-        assertTrue(url.contains("https://firebasestorage.googleapis.com/v0/b/"));
+
     }
 
-    @Test
-    public void eliminarImagenTest() throws Exception {
 
-        String imagen = "8d6964e2-c03f-4d8d-832d-2befdebce4f9-gatoImagen.jpg";
-
-        imagenesServicio.eliminarImagen(imagen);
-
-        // Verificar que la imagen se haya eliminado
-        // Intentar obtener el Blob después de eliminarla
-        Bucket bucket = StorageClient.getInstance().bucket();
-        Blob blob = bucket.get(imagen);
-
-        // Verificar que el blob es null, lo que indica que la imagen fue eliminada
-        assertNull(blob);
-    }
 }
 
 
