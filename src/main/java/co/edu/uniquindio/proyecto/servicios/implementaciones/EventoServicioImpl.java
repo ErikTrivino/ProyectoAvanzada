@@ -72,10 +72,10 @@ public class EventoServicioImpl implements EventoServicio {
             throw new Exception("La nueva fecha ingresada para el evento debe ser mayor a la fecha actual");
         }
 
-        eventoModificado.setImagenPortada(editarEventoDTO.imagenPortada());
+        eventoModificado.setImagenPortada(editarEventoDTO.imagenPortada().url());
        // eventoModificado.setEstado(editarEventoDTO.estado());
         eventoModificado.setDescripcion(editarEventoDTO.descripcion());
-        eventoModificado.setImagenLocalidades(editarEventoDTO.imagenLocalidades());
+        eventoModificado.setImagenLocalidades(editarEventoDTO.imagenLocalidades().url());
         eventoModificado.setFechaEvento(editarEventoDTO.fechaEvento());
 
         eventoRepo.save(eventoModificado);

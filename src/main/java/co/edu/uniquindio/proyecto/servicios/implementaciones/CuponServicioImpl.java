@@ -53,8 +53,8 @@ public class CuponServicioImpl implements CuponServicio {
     @Override
     public Cupon actualizarCupon(EditarCuponDTO cuponDTO) throws Exception {
         Cupon cuponExistente = obtenerCuponPorId(cuponDTO.id());
-
         cuponExistente.setNombre(cuponDTO.nombre());
+        cuponExistente.setCodigo(cuponDTO.codigo());
         cuponExistente.setDescuento(cuponDTO.descuento());
         cuponExistente.setFechaVencimiento(cuponDTO.fechaVencimiento());
         cuponExistente.setEstado(cuponDTO.estado());

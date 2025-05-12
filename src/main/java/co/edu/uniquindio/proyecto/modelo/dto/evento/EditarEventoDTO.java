@@ -1,5 +1,6 @@
 package co.edu.uniquindio.proyecto.modelo.dto.evento;
 
+import co.edu.uniquindio.proyecto.modelo.dto.imagenDTO;
 import co.edu.uniquindio.proyecto.modelo.enums.EstadoEvento;
 import co.edu.uniquindio.proyecto.modelo.enums.TipoEvento;
 import co.edu.uniquindio.proyecto.modelo.vo.Localidad;
@@ -18,8 +19,8 @@ public record EditarEventoDTO(
         String ciudad,
         @NotNull LocalDate fechaEvento,
 
-        @NotBlank String imagenPortada,
-         @NotBlank String imagenLocalidades
+        @NotNull imagenDTO imagenPortada,
+        @NotNull imagenDTO imagenLocalidades
 
 
 ) {
