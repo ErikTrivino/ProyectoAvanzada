@@ -131,7 +131,7 @@ public class CuentaServicioTest {
     public void enviarCodigoRecuperacionPasswordTest() throws Exception {
 
         // Se define el correo de la cuenta del usuario a recuperar, este correo está en el dataset.js
-        String correo = "unieventosfae@gmail.com";
+        String correo = "example@gmail.com";
 
         // Se verifica que el método no lanza ninguna excepción
         assertDoesNotThrow(() -> cuentaServicio.enviarCodigoRecuperacionPassword(correo));
@@ -151,7 +151,7 @@ public class CuentaServicioTest {
     @Test
     public void cambiarPasswordTest() throws Exception {
         // Preparar el DTO con un código de verificación válido
-        String email = "unieventosfae@gmail.com";
+        String email = "example@gmail.com";
         String codigoVerificacion = "2UQ7HM"; // Este debería ser el código previamente generado y guardado
         String nuevaPassword = "newPassword";
 
@@ -169,7 +169,7 @@ public class CuentaServicioTest {
         // Preparar el entorno
         String tokenValido = "YVV4C7";
         String tokenInvalido = "invalidToken123";
-        String correo = "unieventosfae@gmail.com";
+        String correo = "example@gmail.com";
 
         // Crear y guardar una cuenta con el token de validación
         LocalDateTime fechaCreacion = LocalDateTime.now();
@@ -203,7 +203,7 @@ public class CuentaServicioTest {
     @Test
     public void iniciarSesionTest() throws Exception {
         // Preparar el entorno
-        String email = "unieventosfae@gmail.com";
+        String email = "example@gmail.com";
         String passwordOriginal = "newPassword";
 
         // Caso 1: Credenciales correctas
@@ -234,7 +234,7 @@ public class CuentaServicioTest {
     public void enviarCodigoActivacionCuentaTest() throws Exception {
 
         // Se define el correo de la cuenta del usuario a recuperar, este correo está en el dataset.js
-        String correo = "unieventosfae@gmail.com";
+        String correo = "example@gmail.com";
 
         // Se verifica que el método no lanza ninguna excepción
         assertDoesNotThrow(() -> cuentaServicio.enviarCodigoActivacionCuenta(correo));
