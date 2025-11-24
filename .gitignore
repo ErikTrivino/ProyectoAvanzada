@@ -34,7 +34,7 @@ bin/
 
 ### VS Code ###
 .vscode/
-
+system.properties
 ### Mac OS ###
 .DS_Store
 src/main/java/co/edu/uniquindio/proyecto/test/CarritoServicioTest.java
